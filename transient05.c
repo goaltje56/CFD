@@ -517,9 +517,8 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			Su[I][j] *= AREAw*AREAs;
 			
 			
-			/* Bluff Body */
-			
-			if ((I > NPI/2-3 && I < NPI/2+3 ) && (J > NPJ/2-5 && J < NPJ/2+5))     
+			/* Bluff Body */			
+			if ((I > NPI/2-2 && I < NPI/2+2 ) && (J > NPJ/2-5 && J < NPJ/2+5))     
 				if(yplus[I][J] < 11.63)
 					SP[i][J]= -LARGE;
 				else
@@ -630,15 +629,7 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 
 			Su[I][j] *= AREAw*AREAs;
 			
-			if (I > NPI/2-3 && I < NPI/2+3 )      
-				if (J > NPJ/2-5 && J < NPJ/2+5)
-				if(yplus[I][j] < 11.63)
-					Su[I][j]= 0.;
-				else
-					Su[I][j]=(mueff[I][J]*dvdy[I][J] - mueff[I][J-1]*dvdy[I][J-1])/(y[J] - y[J-1]) + 
-			           (mue*dudy[i+1][j] - muw*dudy[i][j])/(x_u[i+1] - x_u[i]) - 
-                       2./3. * (rho[I][J]*k[I][J] - rho[I][J-1]*k[I][J-1])/(y[J] - y[J-1]); 
-					
+	
 			/* The coefficients (hybrid differencing scheme) */
 
 			aW[I][j] = max3( Fw, Dw + 0.5*Fw, 0.);
@@ -648,14 +639,11 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			aPold    = 0.5*(rho[I][J-1] + rho[I][J])*AREAe*AREAn/Dt;
 
 
-			if (I == NPI/2-3 && J > NPJ/2-5 && J < NPJ/2+5) 
+			if (I == NPI/2-2 && J > NPJ/2-5 && J < NPJ/2+5) 
 				aW[I][j] = 0;
-			if (I == NPI/2+3 && J > NPJ/2-5 && J < NPJ/2+5)       
+			if (I == NPI/2+2 && J > NPJ/2-5 && J < NPJ/2+5)       
 				aE[I][j] = 0;		
-			if (I > NPI/2-3 && I < NPI/2+3 && J == NPJ/2-5 )     
-				aS[I][j] = 0;
-			if (I > NPI/2-3 && I < NPI/2+3 && J == NPJ/2+5 )     
-				aN[I][j] = 0;					
+				
 							
 			/* eq. 8.31 without time dependent terms (see also eq. 5.14): */
 
