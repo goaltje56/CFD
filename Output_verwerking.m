@@ -3,7 +3,7 @@ close all
 clear all
 
 output = load('output.dat');
-nx = 40;
+nx = 20;
 ny = 40;
 %% columns
 x       = output([ny+1:end],1);
@@ -46,10 +46,10 @@ velmag = sqrt(umat.^2 + vmat.^2);
 
 figure(1)
 subplot(2,1,1)
-contourf(xmat,ymat,vmat,30 )
+contourf(xmat,ymat,pmat,30 )
 shading interp
 colorbar
 subplot(2,1,2)
-contourf(xmat,ymat,umat,30 )
+contourf(xmat,ymat,velmag,30 )
 shading interp
 colorbar

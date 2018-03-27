@@ -533,11 +533,26 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 
 			if (J==1) aS[i][J]=0.;
 			else      aS[i][J] = max3( Fs, Ds + 0.5*Fs, 0.);
-
+			/* Bluff Body */	
+					
+			if ((I > NPI/2-2 && I < NPI/2+2 ) && (J > NPJ/2-5 && J < NPJ/2+5))     
+					aS[i][J]=0.;
+				else
+					aS[i][J] = max3( Fs, Ds + 0.5*Fs, 0.);
+					
+			/* Bluff Body */
 
 			if (J==NPJ) aN[i][J] =0.;
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
-            
+			
+			/* Bluff Body */	
+					
+			if ((I > NPI/2-2 && I < NPI/2+2 ) && (J > NPJ/2-5 && J < NPJ/2+5))     
+					aN[i][J] =0.;
+				else
+					aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
+			/* Bluff Body */
+			            
 			aPold    = 0.5*(rho[I-1][J] + rho[I][J])*AREAe*AREAn/Dt;
 
 			/* eq. 8.31 without time dependent terms (see also eq. 5.14): */
