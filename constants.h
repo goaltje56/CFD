@@ -26,3 +26,8 @@
 #define kappa      0.4187
 #define ERough     9.793
 #define Ti         0.04
+
+#define A			8
+#define B			12
+#define C			15
+#define D			25
