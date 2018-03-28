@@ -61,9 +61,9 @@ int main(int argc, char *argv[])
 			for (iter_eps = 0; iter_eps < EPS_ITER; iter_eps++)
 				solve(eps, b, aE, aW, aN, aS, aP);
 
-//			Tcoeff(aE, aW, aN, aS, aP, b);
-//			for (iter_T = 0; iter_T < T_ITER; iter_T++)
-//				solve(T, b, aE, aW, aN, aS, aP);
+			Tcoeff(aE, aW, aN, aS, aP, b);
+			for (iter_T = 0; iter_T < T_ITER; iter_T++)
+				solve(T, b, aE, aW, aN, aS, aP);
 
 			viscosity();
 
@@ -177,6 +177,11 @@ void init(void)
 			yplus2 [I][J] = sqrt(rho[I][J] * u[I][J] / mu[I][J]) * (y[NPJ+1] - y[NPJ]);   /* yplus2 */
 			yplus  [I][J] = 1.;                                            /* yplus*/
 			tw     [I][J] = 5.;                                                /* tw */
+			vplus  [I][J] = 1.;                                            /* vplus */
+			xplus1 [I][J] = sqrt(rho[I][J] * u[I][J] / mu[I][J]) * (y[1] - y[0]);   /* xplus1 */
+			xplus2 [I][J] = sqrt(rho[I][J] * u[I][J] / mu[I][J]) * (y[NPJ+1] - y[NPJ]);   /* xplus2 */
+			xplus  [I][J] = 1.;                                            /* xplus*/
+			twx    [I][J] = 5.;                                                /* twx */
 			rho    [I][J] = 1.0;      /* Density */
 			mu     [I][J] = 2.E-5;    /* Viscosity */
 			Cp     [I][J] = 1013.;     /* J/(K*kg) Heat capacity - assumed constant for this problem */
@@ -193,10 +198,10 @@ void init(void)
 
 	/* Setting the relaxation parameters */
 
-	relax_u   = 0.8;             /* See eq. 6.36 */
+	relax_u   = 0.5;             /* See eq. 6.36 */
 	relax_v   = relax_u;       /* See eq. 6.37 */
-	relax_pc  = 1.1 - relax_u; /* See eq. 6.33 */
-	relax_T   = 1.0;  /* Relaxation factor for temperature */
+	relax_pc  = 0.5;//1.1 - relax_u; /* See eq. 6.33 */
+	relax_T   = 0.5;  /* Relaxation factor for temperature */
 
 } /* init */
 
@@ -514,19 +519,6 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else
 				SP[i][J] = 0.;
 			
-			/*bluff body*/	
-			if(I == A && J<D && J>C)
-				SP[i][J]= -LARGE;
-			if(I == B && J<D && J>C)
-				SP[i][J]= -LARGE;
-			if(I > A && I<B && J==C)								
-				aN[I][j] = 0;
-				SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-			if(I > A && I<B && J==D)								
-				aS[I][j] = 0;
-				SP[I][j] = -rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-
-            /* bluff body */
             
 			Su[i][J] = (mueff[I][J]*dudx[I][J] - mueff[I-1][J]*dudx[I-1][J]) / (x[I] - x[I-1]) + 
 			           (mun        *dvdx[i][j+1] - mus        *dvdx[i][j]) / (y_v[j+1] - y_v[j]) -
@@ -543,6 +535,30 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
             
 			if (J==NPJ) aN[i][J] =0.;
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
+            
+            			/*bluff body*/	
+			if(I == A && J<D && J>C)
+				SP[i][J]= -LARGE;
+			if(I == B && J<D && J>C)
+				SP[i][J]= -LARGE;
+			if(I > A && I<B && J==C){
+				aN[I][j] = 0;
+				if(yplus[I][J] < 11.63)
+					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
+				else
+					SP[i][J]= - rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
+//				SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
+			}								
+			if(I > A && I<B && J==D){
+				aS[I][j] = 0;
+				if(yplus[I][J] < 11.63)
+					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
+				else
+					SP[i][J]= - rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
+//				SP[I][j] = -rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
+			}
+
+            /* bluff body */
             
 			aPold    = 0.5*(rho[I-1][J] + rho[I][J])*AREAe*AREAn/Dt;
 
@@ -644,12 +660,20 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			aPold    = 0.5*(rho[I][J-1] + rho[I][J])*AREAe*AREAn/Dt;
 
 			/*bluff body*/	
-			if(I == A && J<D && J>C)
+			if(I == A && J<D && J>C){
 				aE[I][j] = 0;
-				SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-			if(I == B && J<D && J>C)
+				if(xplus[I][J] < 11.63)
+					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
+				else
+					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
+			}
+			if(I == B && J<D && J>C){
 				aW[I][j] = 0;
-				SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
+				if(xplus[I][J]<11.63)
+					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
+				else
+					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
+			}
 			if(I > A && I<B && J==C)
 				SP[I][j]= -LARGE;
 			if(I > A && I<B && J==D)								
@@ -980,18 +1004,22 @@ void epscoeff(double **aE, double **aW, double **aN, double **aS, double **aP, d
 			aPold    = rho[I][J]*AREAe*AREAn/Dt;
 			
 			/*bluff body*/	
-			if(I == A && J<D && J>C)
+			if(I == A && J<D && J>C){
+				SP[I][J] = -LARGE;
+				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
+			}
+			if(I == B && J<D && J>C){
+				SP[I][J] = -LARGE;
+				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
+			}
+			if(I > A && I<B && J==C){
 				SP[I][J] = -LARGE;
 				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
-			if(I == B && J<D && J>C)
+			}
+			if(I > A && I<B && J==D){
 				SP[I][J] = -LARGE;
 				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
-			if(I > A && I<B && J==C)
-				SP[I][J] = -LARGE;
-				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
-			if(I > A && I<B && J==D)								
-				SP[I][J] = -LARGE;
-				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
+			}
 			/* bluff body */
 
 			/* eq. 8.31 with time dependent terms (see also eq. 5.14): */
@@ -1001,6 +1029,12 @@ void epscoeff(double **aE, double **aW, double **aN, double **aS, double **aP, d
 			/* Setting the source term equal to b */
 
 			b[I][J] = Su[I][J] + aPold*eps_old[I][J];
+
+			/* Introducing relaxation by eq. 6.37 . and putting also the last */
+			/* term on the right side into the source term b[i][J] */
+
+			aP[I][J] /= relax_T;
+			b [I][J] += (1 - relax_T)*aP[I][J]*eps[I][J];
 
 			/* now the TDMA algorithm can be called to solve the equation. */
 			/* This is done in the next step of the main program. */
@@ -1079,31 +1113,35 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 
 			aW[I][J] = max3( Fw, Dw + 0.5*Fw, 0.);
 			aE[I][J] = max3(-Fe, De - 0.5*Fe, 0.);
-			
-			/*bluff body*/	
-			if(I == A && J<D && J>C)
-				aE[I][j] = 0;
-				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
-				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
-			if(I == B && J<D && J>C)
-				aW[I][j] = 0;
-				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
-				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
-			if(I > A && I<B && J==C)
-				aN[I][j] = 0;
-				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
-				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
-			if(I > A && I<B && J==D)								
-				aS[I][j] = 0;
-				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
-				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
-			/* bluff body */
             
             if (J == 1) aS[i][J] = 0;
 			else        aS[i][J] = max3( Fs, Ds + 0.5*Fs, 0.);
             
 			if (J == NPJ) aN[i][J] = 0;
 			else          aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
+			
+//						/*bluff body*/	
+			if(I == A && J<D && J>C){
+				aE[I][j] = 0;
+				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
+				Su[I][J] = twx[I][J] * 0.5 * (v[I][j] + v[I][j+1])/(0.5*AREAs) * AREAw * AREAs;
+			}
+			if(I == B && J<D && J>C){
+				aW[I][j] = 0;
+				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
+				Su[I][J] = twx[I][J] * 0.5 * (v[I][j] + v[I][j+1])/(0.5*AREAs) * AREAw * AREAs;
+			}
+			if(I > A && I<B && J==C){
+				aN[i][J] = 0;
+				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
+				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
+			}
+			if(I > A && I<B && J==D){
+				aS[i][J] = 0;
+				SP[I][J]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
+				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
+			}
+			/* bluff body */
             
             aPold    = rho[I][J]*AREAe*AREAn/Dt;
 
@@ -1115,12 +1153,17 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 
 			b[I][J] = Su[I][J] + aPold*k_old[I][J];
 
+			/* Introducing relaxation by eq. 6.37 . and putting also the last */
+			/* term on the right side into the source term b[i][J] */
+
+			aP[I][J] /= relax_T;
+			b [I][J] += (1 - relax_T)*aP[I][J]*k[I][J];
+
 			/* now the TDMA algorithm can be called to solve the equation. */
 			/* This is done in the next step of the main program. */
 
-			} /* for J */
-		} /* for I */
-	
+		} /* for J */
+	} /* for I */
 } /*kcoeff*/
 
 /* ################################################################# */
@@ -1133,37 +1176,72 @@ void calculateuplus(void)
 
 	viscosity();
 
+//	for (I = 0; I <= NPI; I++){
+//	    i=I;
+//			if (yplus1[I][1] < 11.63) {
+//                  tw[I][1]      = mu[I][1]*0.5*(u[i][1]+u[i+1][1])/(y[1] -y[0]);
+//                  yplus1[I][1]  = sqrt(rho[I][1] * fabs(tw[I][1])) * (y[1] - y[0]) / mu[I][1];
+//                  yplus[I][1]   = yplus1[I][1];
+//                  uplus[I][1]   = yplus[I][1];
+//            }/* if */
+//            else {
+//                  tw[I][1]      = rho[I][1]*pow(Cmu,0.25)*sqrt(k[I][1])*0.5*(u[i][1]+u[i+1][1])/uplus[I][1];
+//                  yplus1[I][1]  = sqrt(rho[I][1] * fabs(tw[I][1])) * (y[1] - y[0]) / mu[I][1];
+//                  yplus [I][1]  = yplus1[I][1];
+//                  uplus [I][1]  = log(ERough*yplus[I][1])/kappa;
+//            }/* else */
+//            
+//            if (yplus2[I][NPJ] < 11.63) {
+//                  tw[I][NPJ]      = mu[I][NPJ]*0.5*(u[i][NPJ]+u[i+1][NPJ])/(y[NPJ+1] - y[NPJ]);
+//                  yplus2[I][NPJ]  = sqrt(rho[I][NPJ] * fabs(tw[I][NPJ])) * (y[NPJ+1] - y[NPJ]) / mu[I][NPJ];
+//                  yplus[I][NPJ]   = yplus2[I][NPJ];
+//                  uplus[I][NPJ]   = yplus[I][NPJ];
+//            }/* if */
+//            else {
+//                  tw[I][NPJ]      = rho[I][NPJ]*pow(Cmu,0.25)*sqrt(k[I][NPJ])*0.5*(u[i][NPJ]+u[i+1][NPJ])/uplus[I][NPJ];
+//                  yplus2[I][NPJ]  = sqrt(rho[I][NPJ] * fabs(tw[I][NPJ])) * (y[NPJ+1] - y[NPJ]) / mu[I][NPJ];
+//                  yplus [I][NPJ]  = yplus2[I][NPJ];
+//                  uplus [I][NPJ]  = log(ERough*yplus[I][NPJ])/kappa;
+//            }/* else */
+//                  
+//           } /* for */
+
+////////////
 	for (I = 0; I <= NPI; I++){
 	    i=I;
-			if (yplus1[I][1] < 11.63) {
-                  tw[I][1]      = mu[I][1]*0.5*(u[i][1]+u[i+1][1])/(y[1] -y[0]);
-                  yplus1[I][1]  = sqrt(rho[I][1] * fabs(tw[I][1])) * (y[1] - y[0]) / mu[I][1];
-                  yplus[I][1]   = yplus1[I][1];
-                  uplus[I][1]   = yplus[I][1];
+		for (J = 1; J <= NPJ + 1; J++) {
+			j=J;
+			if (yplus1[I][J] < 11.63) {
+                  tw[I][J]      = mu[I][J]*0.5*(u[i][J]+u[i+1][j])/(y[J] -y_v[j]);
+                  yplus1[I][J]  = sqrt(rho[I][J] * fabs(tw[I][J])) * (y[J] - y_v[J]) / mu[I][J];
+                  yplus[I][J]   = yplus1[I][J];
+                  uplus[I][J]   = yplus[I][J];
             }/* if */
             else {
-                  tw[I][1]      = rho[I][1]*pow(Cmu,0.25)*sqrt(k[I][1])*0.5*(u[i][1]+u[i+1][1])/uplus[I][1];
-                  yplus1[I][1]  = sqrt(rho[I][1] * fabs(tw[I][1])) * (y[1] - y[0]) / mu[I][1];
-                  yplus [I][1]  = yplus1[I][1];
-                  uplus [I][1]  = log(ERough*yplus[I][1])/kappa;
+                  tw[I][J]      = rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*0.5*(u[i][J]+u[i+1][J])/uplus[I][J];
+                  yplus1[I][J]  = sqrt(rho[I][J] * fabs(tw[I][J])) * (y[J] - y_v[j]) / mu[I][J];
+                  yplus [I][J]  = yplus1[I][J];
+                  uplus [I][J]  = log(ERough*yplus[I][J])/kappa;
             }/* else */
             
-            if (yplus2[I][NPJ] < 11.63) {
-                  tw[I][NPJ]      = mu[I][NPJ]*0.5*(u[i][NPJ]+u[i+1][NPJ])/(y[NPJ+1] - y[NPJ]);
-                  yplus2[I][NPJ]  = sqrt(rho[I][NPJ] * fabs(tw[I][NPJ])) * (y[NPJ+1] - y[NPJ]) / mu[I][NPJ];
-                  yplus[I][NPJ]   = yplus2[I][NPJ];
-                  uplus[I][NPJ]   = yplus[I][NPJ];
+			if (xplus1[I][J] < 11.63) {
+                  twx[I][J]      = mu[I][J]*0.5*(v[I][j]+v[I][j+1])/(x[I] -x_u[i]);
+                  xplus1[I][J]  = sqrt(rho[I][J] * fabs(twx[I][J])) * (x[I] - x_u[i]) / mu[I][J];
+                  xplus[I][J]   = xplus1[I][J];
+                  vplus[I][J]   = xplus[I][J];
             }/* if */
             else {
-                  tw[I][NPJ]      = rho[I][NPJ]*pow(Cmu,0.25)*sqrt(k[I][NPJ])*0.5*(u[i][NPJ]+u[i+1][NPJ])/uplus[I][NPJ];
-                  yplus2[I][NPJ]  = sqrt(rho[I][NPJ] * fabs(tw[I][NPJ])) * (y[NPJ+1] - y[NPJ]) / mu[I][NPJ];
-                  yplus [I][NPJ]  = yplus2[I][NPJ];
-                  uplus [I][NPJ]  = log(ERough*yplus[I][NPJ])/kappa;
+            	//////// nog zelf doen :-)
+                  twx[I][J]      = rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*0.5*(v[I][j]+v[I][j+1])/vplus[I][J];
+                  xplus1[I][J]  = sqrt(rho[I][J] * fabs(twx[I][J])) * (x[I] - x_u[i]) / mu[I][J];
+                  xplus [I][J]  = xplus1[I][J];
+                  vplus [I][J]  = log(ERough*xplus[I][J])/kappa;
             }/* else */
                   
-           } /* for */
-} /* cuplus */
+        } /* for */
 
+	} /* cuplus */
+}
 /* ################################################################# */
 void viscosity(void)
 /* ################################################################# */
@@ -1359,6 +1437,12 @@ void memalloc(void)
 	yplus2 = double_2D_matrix(NPI + 2, NPJ + 2);
 	uplus  = double_2D_matrix(NPI + 2, NPJ + 2);
 	tw     = double_2D_matrix(NPI + 2, NPJ + 2);
+	
+	xplus  = double_2D_matrix(NPI + 2, NPJ + 2);
+	xplus1 = double_2D_matrix(NPI + 2, NPJ + 2);
+	xplus2 = double_2D_matrix(NPI + 2, NPJ + 2);
+	vplus  = double_2D_matrix(NPI + 2, NPJ + 2);
+	twx    = double_2D_matrix(NPI + 2, NPJ + 2);
 
 	u_old  = double_2D_matrix(NPI + 2, NPJ + 2);
 	v_old  = double_2D_matrix(NPI + 2, NPJ + 2);

@@ -27,7 +27,13 @@ double **yplus;
 double **yplus1;
 double **yplus2;
 double **tw;
-
+// added by ourselves
+double **vplus;
+double **xplus;
+double **xplus1;
+double **xplus2;
+double **twx;
+//
 double **u_old;
 double **v_old;
 double **pc_old;
