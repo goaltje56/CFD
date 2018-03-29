@@ -178,8 +178,8 @@ void init(void)
 			yplus  [I][J] = 1.;                                            /* yplus*/
 			tw     [I][J] = 5.;                                                /* tw */
 			vplus  [I][J] = 1.;                                            /* vplus */
-			xplus1 [I][J] = sqrt(rho[I][J] * u[I][J] / mu[I][J]) * (y[1] - y[0]);   /* xplus1 */
-			xplus2 [I][J] = sqrt(rho[I][J] * u[I][J] / mu[I][J]) * (y[NPJ+1] - y[NPJ]);   /* xplus2 */
+			xplus1 [I][J] = sqrt(rho[I][J] * v[I][J] / mu[I][J]) * (x[1] - x[0]);   /* xplus1 */
+			xplus2 [I][J] = sqrt(rho[I][J] * v[I][J] / mu[I][J]) * (x[NPI+1] - x[NPI]);   /* xplus2 */
 			xplus  [I][J] = 1.;                                            /* xplus*/
 			twx    [I][J] = 5.;                                                /* twx */
 			rho    [I][J] = 1.0;      /* Density */
@@ -537,10 +537,9 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
             
             			/*bluff body*/	
-			if(I == A && J<=D && J>=C)
+			if(I >=A && I<=B && J<D && J>C)
 				SP[i][J]= -LARGE;
-			if(I == B && J<=D && J>=C)
-				SP[i][J]= -LARGE;
+
 			if(I >= A && I<=B && J==C){
 				aN[I][j] = 0;
 				if(yplus[I][J] < 11.63)
@@ -674,10 +673,8 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 				else
 					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
 			}
-			if(I >= A && I <= B && J==C)
+			if(I > A && I< B  && J <= D && J>=C)
 				SP[I][j]= -LARGE;
-			if(I >= A && I <= B && J==D)								
-				SP[I][j] = - LARGE;
 			/* bluff body */
 				
 			/* eq. 8.31 without time dependent terms (see also eq. 5.14): */
@@ -1121,6 +1118,7 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else          aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			
 //						/*bluff body*/	
+
 			if(I == A && J<D && J>C){
 				aE[I][j] = 0;
 				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
