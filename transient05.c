@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 /* ################################################################# */
 {
 	int    iter_u, iter_v, iter_pc, iter_T, iter_eps, iter_k;
-	double du, dv, time, TOTAL_TIME = 10.;
+	double du, dv, time, TOTAL_TIME = 10;
 	
 	init();
 	bound(); /* apply boundary conditions */
@@ -178,8 +178,8 @@ void init(void)
 			yplus  [I][J] = 1.;                                            /* yplus*/
 			tw     [I][J] = 5.;                                                /* tw */
 			vplus  [I][J] = 1.;                                            /* vplus */
-			xplus1 [I][J] = sqrt(rho[I][J] * u[I][J] / mu[I][J]) * (y[1] - y[0]);   /* xplus1 */
-			xplus2 [I][J] = sqrt(rho[I][J] * u[I][J] / mu[I][J]) * (y[NPJ+1] - y[NPJ]);   /* xplus2 */
+			xplus1 [I][J] = sqrt(rho[I][J] * v[I][J] / mu[I][J]) * (x[1] - x[0]);   /* xplus1 */
+			xplus2 [I][J] = sqrt(rho[I][J] * v[I][J] / mu[I][J]) * (x[NPI+1] - x[NPI]);   /* xplus2 */
 			xplus  [I][J] = 1.;                                            /* xplus*/
 			twx    [I][J] = 5.;                                                /* twx */
 			rho    [I][J] = 1.0;      /* Density */
@@ -537,11 +537,11 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
             
             			/*bluff body*/	
-			if(I == A && J<=D && J>=C)
+			if(I>=A && I<=B && J<D && J>C)
 				SP[i][J]= -LARGE;
-			if(I == B && J<=D && J>=C)
-				SP[i][J]= -LARGE;
-			if(I >= A && I<=B && J==C){
+//			if(I == B && J<D && J>C)
+//				SP[i][J]= -LARGE;
+			if(I > A && I<B && J==C){
 				aN[I][j] = 0;
 				if(yplus[I][J] < 11.63)
 					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
@@ -549,7 +549,7 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 					SP[i][J]= - rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
 //				SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
 			}								
-			if(I >= A && I<=B && J==D){
+			if(I > A && I<B && J==D){
 				aS[I][j] = 0;
 				if(yplus[I][J] < 11.63)
 					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
@@ -660,24 +660,26 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			aPold    = 0.5*(rho[I][J-1] + rho[I][J])*AREAe*AREAn/Dt;
 
 			/*bluff body*/	
-			if(I == A && J<=D && J>=C){
+			if(I == A && J<D && J>C){
 				aE[I][j] = 0;
 				if(xplus[I][J] < 11.63)
 					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
 				else
 					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
 			}
-			if(I == B && J<=D && J>=C){
+			if(I == B && J<D && J>C){
 				aW[I][j] = 0;
 				if(xplus[I][J]<11.63)
 					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
 				else
 					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
 			}
-			if(I >= A && I <= B && J==C)
-				SP[I][j]= -LARGE;
-			if(I >= A && I <= B && J==D)								
-				SP[I][j] = - LARGE;
+//			if(I > A && I<B && J==C)
+//				SP[I][j]= -LARGE;
+//			if(I > A && I<B && J==D)								
+//				SP[I][j] = - LARGE;
+			if(I>A && I<B && J<=D && J>=C)
+				SP[i][J]= -LARGE;
 			/* bluff body */
 				
 			/* eq. 8.31 without time dependent terms (see also eq. 5.14): */
@@ -1140,6 +1142,7 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 				aS[i][J] = 0;
 				SP[I][J]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
 				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
+			
 			}
 			/* bluff body */
             
