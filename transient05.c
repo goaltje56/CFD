@@ -537,11 +537,11 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
             
             			/*bluff body*/	
-			if(I == A && J<D && J>C)
+			if(I == A && J<=D && J>=C)
 				SP[i][J]= -LARGE;
-			if(I == B && J<D && J>C)
+			if(I == B && J<=D && J>=C)
 				SP[i][J]= -LARGE;
-			if(I > A && I<B && J==C){
+			if(I >= A && I<=B && J==C){
 				aN[I][j] = 0;
 				if(yplus[I][J] < 11.63)
 					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
@@ -549,7 +549,7 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 					SP[i][J]= - rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
 //				SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
 			}								
-			if(I > A && I<B && J==D){
+			if(I >= A && I<=B && J==D){
 				aS[I][j] = 0;
 				if(yplus[I][J] < 11.63)
 					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
@@ -660,23 +660,23 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			aPold    = 0.5*(rho[I][J-1] + rho[I][J])*AREAe*AREAn/Dt;
 
 			/*bluff body*/	
-			if(I == A && J<D && J>C){
+			if(I == A && J<=D && J>=C){
 				aE[I][j] = 0;
 				if(xplus[I][J] < 11.63)
 					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
 				else
 					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
 			}
-			if(I == B && J<D && J>C){
+			if(I == B && J<=D && J>=C){
 				aW[I][j] = 0;
 				if(xplus[I][J]<11.63)
 					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
 				else
 					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
 			}
-			if(I > A && I<B && J==C)
+			if(I >= A && I <= B && J==C)
 				SP[I][j]= -LARGE;
-			if(I > A && I<B && J==D)								
+			if(I >= A && I <= B && J==D)								
 				SP[I][j] = - LARGE;
 			/* bluff body */
 				
