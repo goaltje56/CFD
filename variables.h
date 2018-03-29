@@ -23,11 +23,13 @@ double **eps;
 double **gammaeps;
 double **delta;
 double **uplus;
+
 double **yplus;
 double **yplus1;
 double **yplus2;
 double **tw;
 // added by ourselves
+double **uplus2;
 double **vplus;
 double **xplus;
 double **xplus1;

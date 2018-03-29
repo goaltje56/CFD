@@ -537,11 +537,18 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
             
             			/*bluff body*/	
+<<<<<<< HEAD
 			if(I>=A && I<=B && J<D && J>C)
 				SP[i][J]= -LARGE;
 //			if(I == B && J<D && J>C)
 //				SP[i][J]= -LARGE;
 			if(I > A && I<B && J==C){
+=======
+			if(I >=A && I<=B && J<D && J>C)
+				SP[i][J]= -LARGE;
+
+			if(I >= A && I<=B && J==C){
+>>>>>>> 33aef3ca9666f371b54dad88dbea315ffabb876a
 				aN[I][j] = 0;
 				if(yplus[I][J] < 11.63)
 					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
@@ -674,12 +681,17 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 				else
 					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
 			}
+<<<<<<< HEAD
 //			if(I > A && I<B && J==C)
 //				SP[I][j]= -LARGE;
 //			if(I > A && I<B && J==D)								
 //				SP[I][j] = - LARGE;
 			if(I>A && I<B && J<=D && J>=C)
 				SP[i][J]= -LARGE;
+=======
+			if(I > A && I< B  && J <= D && J>=C)
+				SP[I][j]= -LARGE;
+>>>>>>> 33aef3ca9666f371b54dad88dbea315ffabb876a
 			/* bluff body */
 				
 			/* eq. 8.31 without time dependent terms (see also eq. 5.14): */
@@ -1123,6 +1135,7 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else          aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			
 //						/*bluff body*/	
+
 			if(I == A && J<D && J>C){
 				aE[I][j] = 0;
 				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
