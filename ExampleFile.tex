@@ -1,0 +1,143 @@
+\documentclass{CFD2017}
+\usepackage{CFD2017}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%This template is created for complying with the author instructions for the
+%12th International Conference on CFD in Oil & Gas, Metallurgical and Process Industries
+%hosted by SINTEF/NTNU, Trondheim Norway
+%May 30th - June 1st, 2017
+%
+%Questions/comments regarding bugs/errors in the template and associated files are welcome.
+%Only limited support is given with respect to functionality, additional packages, or LaTeX in general.
+%Please refer to e.g. https://www.latex-project.org/help/ for general LaTeX assistance and guidelines.
+%
+%
+%Sverre G. Johnsen (sverre.g.johnsen@sintef.no)
+%SINTEF Materials and Chemistry
+
+
+%Required files:
+%   ExampleFile.tex
+%   ExampleFile.nls
+%   CFD2017.bst
+%   CFD2017.cls
+%   CFD2017.sty
+%   References.bib
+
+%Example-specific files:
+%   figure.eps
+%   Table.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\title{the influence of the species density and turbulence intensity on the separation over a bluff body in a turbulent pipe flow}
+\paperID{CFD 2017}
+\author{Ola}{Nordmann} %{forename}{surname}
+\presenting  %the previous author is presenting the paper (name becomes underlined)
+\address{SINTEF Materials and Chemistry, 7465 Trondheim, NORWAY}%affiliation of the previous author
+\email{ola.nordmann@sintef.no}%e-mail address of the previous author
+\author{Oscar}{Meijer}
+\address{University of Technology, Department of Mechanical Engineering, Eindhoven, NETHERLANDS}
+\email{o.c.meijer@student.tue.nl}
+
+
+
+
+\begin{document}
+\maketitle  %create the title page
+\headers   %create the page headers and footers
+
+
+\abstract{
+  This file is an example \LaTeX file for submission to CFD2017.  A
+  limit of 15 pages applies (submitted file size < 10MB).
+}
+\keywords{
+  CFD, Turbulence, Species, Separation
+}
+\normalfont\normalsize
+
+
+
+%\section{Nomenclature}
+A complete list of symbols used, with dimensions, is required.
+%the nomenclature needs to be entered into the file ExampleFile.nls
+
+\printnomenclature[0.7cm]
+
+\vskip .1em
+
+
+\section{Introduction}
+Industrial applications often make use of homogeneously mixed fluids or gases. PUT LITTLE EXAMPLE HERE.\\
+
+
+
+The aim of this research is to find the influence of species density and turbulence intensity on the separation. A fluid or gas entering the system may include a total of $N$ species. amidst the $N$ species, there may be groups of species with identical density. Computational Fluid Dynamics (CFD) is used to solve the system of equations. For this particular problem, the mass, momentum and energy equations are solved (NOG MEER??). The simulations are performed for fully developed turbulent and incompressible flows. The turbulence is modelled trhough a $\kappa-\epsilon$ model.\\
+\newline
+SOME PIECE ABOUT EXPECTATIONS??\\
+\newline
+The first part of this article is composed of the theory and the numerical solver used to attain the solution. Then CFD model is treated, after which the Geometry and boundary conditions applied to the problem are discussed. Subsequently the mesh convergence and executed simulations are explained. Finally, the results of the simulations are displayed with a discussion and conclusion.
+\newpage
+
+
+
+\section{Physics}
+This chapter covers the theory behind the CFD model. Once the theory is explained, the discretization of the governing equations is treated. Additional to that the used solver is explained.
+
+\subsection{Turbulent flow}
+Here is how to produce a numbered equation under a second level
+heading \cite{James1988}.
+\vspace{2cm}\\
+\emph{Continuity equation}
+\begin{equation}
+  \frac{\partial \rho_G}{\partial t}+\nabla\left(\rho_G\mathbf
+    u\right)=0
+\end{equation}
+
+\subsubsection*{Example of Sub-subheading}
+This is how \cite{Luke1988} produced an unnumbered equation under a
+third level heading.
+\begin{equation}
+  \mathbf J=\sigma(\mathbf E+\mathbf u\times\mathbf B)
+\end{equation}
+
+\newpage
+
+Figure \ref{fig:Geometry} shows the geometry used during the research
+\InsFig{FlowGeometry}{Schematic diagram of geometry.}{Geometry}
+
+
+\section{Results}
+The results of using the \LaTeX template is a great looking paper.
+In Figures \ref{fig:Geometry} and \ref{fig:Geometry} it can be seen how figures are easily included.
+In Table \ref{tab:label} it is seen how we can include a table.
+The table is constructed in the file table.tex, where also the table caption and label are defined.
+
+
+\newpage
+\InsTab{Table}
+
+\section{Conclusion}
+The conclusions are:
+\begin{enumerate}
+  \item Trondheim is a nice city.
+  \item CFD is great fun, and useful too.
+\end{enumerate}
+
+
+%% %---------------------------
+%% %BIBLIOGRAPHY
+%% %---------------------------
+%The bibliography is created using BiBTeX
+\bibliographystyle{CFD2017}
+\bibliography{References}
+
+
+\newpage
+\section{Appendix A}
+Give any additional information here.
+
+\end{document} 
