@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 /* ################################################################# */
 {
 	int    iter_u, iter_v, iter_pc, iter_T, iter_eps, iter_k;
-	double du, dv, time, TOTAL_TIME = 10;
+	double du, dv, time, TOTAL_TIME = 5;
 	
 	init();
 	bound(); /* apply boundary conditions */
@@ -198,10 +198,13 @@ void init(void)
 
 	/* Setting the relaxation parameters */
 
-	relax_u   = 0.5;             /* See eq. 6.36 */
+	relax_u   = 0.1;             /* See eq. 6.36 */
 	relax_v   = relax_u;       /* See eq. 6.37 */
-	relax_pc  = 0.5;//1.1 - relax_u; /* See eq. 6.33 */
+	relax_pc  = 0.2;//1.1 - relax_u; /* See eq. 6.33 */
 	relax_T   = 0.5;  /* Relaxation factor for temperature */
+	relax_eps   = 0.3;  /* Relaxation factor for epsilon */
+	relax_k   = 0.3;  /* Relaxation factor for k */
+
 
 } /* init */
 
@@ -537,18 +540,11 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
             
             			/*bluff body*/	
-<<<<<<< HEAD
 			if(I>=A && I<=B && J<D && J>C)
 				SP[i][J]= -LARGE;
 //			if(I == B && J<D && J>C)
 //				SP[i][J]= -LARGE;
 			if(I > A && I<B && J==C){
-=======
-			if(I >=A && I<=B && J<D && J>C)
-				SP[i][J]= -LARGE;
-
-			if(I >= A && I<=B && J==C){
->>>>>>> 33aef3ca9666f371b54dad88dbea315ffabb876a
 				aN[I][j] = 0;
 				if(yplus[I][J] < 11.63)
 					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
@@ -681,17 +677,12 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 				else
 					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
 			}
-<<<<<<< HEAD
 //			if(I > A && I<B && J==C)
 //				SP[I][j]= -LARGE;
 //			if(I > A && I<B && J==D)								
 //				SP[I][j] = - LARGE;
 			if(I>A && I<B && J<=D && J>=C)
 				SP[i][J]= -LARGE;
-=======
-			if(I > A && I< B  && J <= D && J>=C)
-				SP[I][j]= -LARGE;
->>>>>>> 33aef3ca9666f371b54dad88dbea315ffabb876a
 			/* bluff body */
 				
 			/* eq. 8.31 without time dependent terms (see also eq. 5.14): */
@@ -1047,8 +1038,8 @@ void epscoeff(double **aE, double **aW, double **aN, double **aS, double **aP, d
 			/* Introducing relaxation by eq. 6.37 . and putting also the last */
 			/* term on the right side into the source term b[i][J] */
 
-			aP[I][J] /= relax_T;
-			b [I][J] += (1 - relax_T)*aP[I][J]*eps[I][J];
+			aP[I][J] /= relax_eps;
+			b [I][J] += (1 - relax_eps)*aP[I][J]*eps[I][J];
 
 			/* now the TDMA algorithm can be called to solve the equation. */
 			/* This is done in the next step of the main program. */
@@ -1135,7 +1126,6 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else          aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			
 //						/*bluff body*/	
-
 			if(I == A && J<D && J>C){
 				aE[I][j] = 0;
 				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
@@ -1172,8 +1162,8 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			/* Introducing relaxation by eq. 6.37 . and putting also the last */
 			/* term on the right side into the source term b[i][J] */
 
-			aP[I][J] /= relax_T;
-			b [I][J] += (1 - relax_T)*aP[I][J]*k[I][J];
+			aP[I][J] /= relax_k;
+			b [I][J] += (1 - relax_k)*aP[I][J]*k[I][J];
 
 			/* now the TDMA algorithm can be called to solve the equation. */
 			/* This is done in the next step of the main program. */

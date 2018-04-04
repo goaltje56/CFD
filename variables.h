@@ -23,13 +23,11 @@ double **eps;
 double **gammaeps;
 double **delta;
 double **uplus;
-
 double **yplus;
 double **yplus1;
 double **yplus2;
 double **tw;
 // added by ourselves
-double **uplus2;
 double **vplus;
 double **xplus;
 double **xplus1;
@@ -62,7 +60,7 @@ int    Jend;
 
 int    iter;
 int    iter_u, iter_v, iter_pc, iter_T, iter_k, iter_eps;
-double relax_u, relax_v, relax_pc, relax_T;
+double relax_u, relax_v, relax_pc, relax_T, relax_eps, relax_k;
 
 double SAVG;
 double SMAX;
