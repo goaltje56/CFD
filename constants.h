@@ -28,6 +28,6 @@
 #define Ti         0.04
 
 #define A			8
-#define B			14
+#define B			12
 #define C			15
 #define D			25

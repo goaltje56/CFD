@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 /* ################################################################# */
 {
 	int    iter_u, iter_v, iter_pc, iter_T, iter_eps, iter_k;
-	double du, dv, time, TOTAL_TIME = 10;
+	double du, dv, time, TOTAL_TIME = 5;
 	
 	init();
 	bound(); /* apply boundary conditions */
@@ -166,7 +166,9 @@ void init(void)
 		i = I;
 		for (J = 0; J <= NPJ + 1; J++) {
 			j = J;
-			u      [i][J] = U_IN*1.5*(1.-sqr(2.*(y[J]-YMAX/2.)/YMAX));     /* Velocity in x-direction */
+			u      [i][J] = U_IN*pow((YMAX-y[J]-YMAX/2.)/YMAX));     /* Velocity in x-direction */
+						F_PROFILE(f, t, i) = ufree*pow((YMAX - y) / del, B);
+
 			v      [I][j] = 0.;       /* Velocity in y-direction */
 			p      [I][J] = 0.;       /* Relative pressure */
 			T      [I][J] = 273.;     /* Temperature */
@@ -198,12 +200,12 @@ void init(void)
 
 	/* Setting the relaxation parameters */
 
-	relax_u   = 0.1;             /* See eq. 6.36 */
+	relax_u   = 0.3;             /* See eq. 6.36 */
 	relax_v   = relax_u;       /* See eq. 6.37 */
 	relax_pc  = 0.2;//1.1 - relax_u; /* See eq. 6.33 */
 	relax_T   = 0.5;  /* Relaxation factor for temperature */
 	relax_eps   = 0.3;  /* Relaxation factor for epsilon */
-	relax_k   = 0.3;  /* Relaxation factor for k */
+	relax_k   = 0.3; /* Relaxation factor for k */
 
 
 } /* init */
@@ -681,8 +683,9 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 //				SP[I][j]= -LARGE;
 //			if(I > A && I<B && J==D)								
 //				SP[I][j] = - LARGE;
-			if(I>A && I<B && J<D && J>C)
+			if(I>A && I<B && J<D && J>C){
 				SP[i][J]= -LARGE;
+			}
 			/* bluff body */
 				
 			/* eq. 8.31 without time dependent terms (see also eq. 5.14): */
@@ -1025,6 +1028,10 @@ void epscoeff(double **aE, double **aW, double **aN, double **aS, double **aP, d
 				SP[I][J] = -LARGE;
 				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
 			}
+			
+			if(I>A && I<B && J<D && J>C){
+				SP[i][J]= -LARGE;
+			}
 			/* bluff body */
 
 			/* eq. 8.31 with time dependent terms (see also eq. 5.14): */
@@ -1145,7 +1152,9 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 				aS[i][J] = 0;
 				SP[I][J]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
 				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
-			
+			}
+			if(I>A && I<B && J<D && J>C){
+				SP[i][J]= -LARGE;
 			}
 			/* bluff body */
             
