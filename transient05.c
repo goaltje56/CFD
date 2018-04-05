@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 /* ################################################################# */
 {
 	int    iter_u, iter_v, iter_pc, iter_T, iter_eps, iter_k;
-	double du, dv, time, TOTAL_TIME = 5;
+	double du, dv, time, TOTAL_TIME = 10;
 	
 	init();
 	bound(); /* apply boundary conditions */
