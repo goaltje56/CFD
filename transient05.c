@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 /* ################################################################# */
 {
 	int    iter_u, iter_v, iter_pc, iter_T, iter_eps, iter_k;
-	double du, dv, time, TOTAL_TIME = 10;
+	double du, dv, time, TOTAL_TIME = 5;
 	
 	init();
 	bound(); /* apply boundary conditions */
@@ -166,7 +166,7 @@ void init(void)
 		i = I;
 		for (J = 0; J <= NPJ + 1; J++) {
 			j = J;
-			u      [i][J] = U_IN*1.5*(1.-sqr(2.*(y[J]-YMAX/2.)/YMAX));     /* Velocity in x-direction */
+			u      [i][J] = U_IN*pow((y[J]/YMAX),(1/3)) ;     /* Velocity in x-direction */
 			v      [I][j] = 0.;       /* Velocity in y-direction */
 			p      [I][J] = 0.;       /* Relative pressure */
 			T      [I][J] = 273.;     /* Temperature */
@@ -220,13 +220,15 @@ void bound(void)
 	for (J = 0; J <= NPJ + 1; J++) {
 		/* Temperature at the walls in Kelvin */
 //		u[1][J] = U_IN; /* inlet */
-		u[1][J] = U_IN*1.5*(1.-sqr(2.*(y[J]-YMAX/2.)/YMAX)); /* inlet */
+		u[1][J] = U_IN*pow((y[J]/YMAX),(1/3)) ; /* inlet */
 	} /* for J */
 
 	for (I = 0; I <= NPI + 1; I++) {
 		/* Temperature at the walls in Kelvin */
 		T[I][0] = 273.; /* bottom wall */
 		T[I][NPJ+1] = 273.; /* top wall */
+		u[I][0] = 0.; /* bottom wall */
+		u[I][NPJ+1] = 0.; /* top wall */
 	} /* for J */
 
 	globcont();
@@ -1009,6 +1011,9 @@ void epscoeff(double **aE, double **aW, double **aN, double **aS, double **aP, d
 			aPold    = rho[I][J]*AREAe*AREAn/Dt;
 			
 			/*bluff body*/	
+			if(I>A && I<B && J<D && J>C)
+				SP[i][J]= -LARGE;
+				
 			if(I == A && J<D && J>C){
 				SP[I][J] = -LARGE;
 				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
@@ -1126,6 +1131,9 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else          aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			
 //						/*bluff body*/	
+			if(I>A && I<B && J<D && J>C)
+				SP[i][J]= -LARGE;
+				
 			if(I == A && J<D && J>C){
 				aE[I][j] = 0;
 				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
