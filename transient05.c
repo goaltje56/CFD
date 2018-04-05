@@ -164,11 +164,15 @@ void init(void)
 
 	for (I = 0; I <= NPI + 1; I++) {
 		i = I;
+		
+		for(J = 0; J<= (NPJ/2); J++){		
+			u      [i][J] = U_IN*pow((y[j]/(YMAX/2)),(1/7));     /* Velocity in x-direction */
+			}
+		for(J>(NPJ/2);J<=NPJ;J++){	
+			u 		[i][J] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
+		}	
 		for (J = 0; J <= NPJ + 1; J++) {
 			j = J;
-			u      [i][J] = U_IN*pow((YMAX-y[J]-YMAX/2.)/YMAX));     /* Velocity in x-direction */
-						F_PROFILE(f, t, i) = ufree*pow((YMAX - y) / del, B);
-
 			v      [I][j] = 0.;       /* Velocity in y-direction */
 			p      [I][J] = 0.;       /* Relative pressure */
 			T      [I][J] = 273.;     /* Temperature */
@@ -219,11 +223,18 @@ void bound(void)
 
 	/* Fixed temperature at the upper and lower wall */
 
-	for (J = 0; J <= NPJ + 1; J++) {
-		/* Temperature at the walls in Kelvin */
-//		u[1][J] = U_IN; /* inlet */
-		u[1][J] = U_IN*1.5*(1.-sqr(2.*(y[J]-YMAX/2.)/YMAX)); /* inlet */
-	} /* for J */
+	for(J = 0; J<= (NPJ/2); J++){		
+		u      [1][J] = U_IN*pow((y[j]/(YMAX/2)),(1/7));     /* Velocity in x-direction */
+	}
+	for(J>(NPJ/2);J<=NPJ;J++){	
+		u 		[1][J] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
+	}	
+
+//	for (J = 0; J <= NPJ + 1; J++) {
+//		/* Temperature at the walls in Kelvin */
+////		u[1][J] = U_IN; /* inlet */
+//		u[1][J] = U_IN*1.5*(1.-sqr(2.*(y[J]-YMAX/2.)/YMAX)); /* inlet */
+//	} /* for J */
 
 	for (I = 0; I <= NPI + 1; I++) {
 		/* Temperature at the walls in Kelvin */
