@@ -57,11 +57,31 @@ grid minor
 shading interp
 colorbar
 subplot(2,1,2)
-contourf(xmat,ymat,kmat,30 )
+contourf(xmat,ymat,vmat,30 )
 grid on
 shading interp
 colorbar
 
+R=0;
+R2=0.1;
+r=linspace(0,0.1,1000);
+
+uT=1*(1-r/0.1).^(1/7);
+uT2 = (r/0.1).^(1/7);
+
+figure(2)
+plot(ymat(:,1),umat(:,1))
+hold on
+plot(ymat(:,1),umat(:,end/2))
+plot(ymat(:,1),umat(:,end))
+plot(r+0.1,uT, 'k')
+plot(r,uT2, 'k')
+title('velocity in axial direction [m/s]')
+legend('Entrance vel','midway vel','exit vel','analytical')
+
+figure(3)
+plot(xmat(:,1),velmag(end/2,:))
+title('Centerline velocity magnitude [m/s]')
 % for i=1:nx
 %     for j=1:ny
 % twtest(i,j) = mu(i,j) * 0.5*(u(i,j)+u(i+1,j))...
