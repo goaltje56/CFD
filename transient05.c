@@ -166,10 +166,10 @@ void init(void)
 		i = I;
 		
 		for(J = 0; J<= (NPJ/2); J++){		
-			u      [i][J] = U_IN*pow((y[j]/(YMAX/2)),(1/7));     /* Velocity in x-direction */
+			u      [i][J] = U_IN*pow(y[J]/(YMAX/2),.143);     /* Velocity in x-direction */
 			}
 		for(J>(NPJ/2);J<=NPJ;J++){	
-			u 		[i][J] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
+			u 		[i][J] = U_IN*pow(2-y[J]/(YMAX/2),.143);
 		}	
 		for (J = 0; J <= NPJ + 1; J++) {
 			j = J;
@@ -224,20 +224,25 @@ void bound(void)
 	/* Fixed temperature at the upper and lower wall */
 
 	for(J = 0; J<= (NPJ/2); J++){		
-		u      [1][J] = U_IN*pow((y[j]/(YMAX/2)),(1/7));     /* Velocity in x-direction */
+		u[1][J] = U_IN;
+		u[1][J] = U_IN*pow(y[J]/(YMAX/2),0.143);    /* Velocity in x-direction */
 	}
-	for(J>(NPJ/2);J<=NPJ;J++){	
-		u 		[1][J] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
+	for(J>(NPJ/2);J<=NPJ+1;J++){	
+		u[1][J] = U_IN;
+		u[1][J] = U_IN*pow(2-y[J]/(YMAX/2),0.143); 
+
 	}	
 
 //	for (J = 0; J <= NPJ + 1; J++) {
 //		/* Temperature at the walls in Kelvin */
-////		u[1][J] = U_IN; /* inlet */
+//		u[1][J] = U_IN; /* inlet */
 //		u[1][J] = U_IN*1.5*(1.-sqr(2.*(y[J]-YMAX/2.)/YMAX)); /* inlet */
 //	} /* for J */
 
 	for (I = 0; I <= NPI + 1; I++) {
 		/* Temperature at the walls in Kelvin */
+		u[I][0] = 0.;
+		u[I][NPJ+1] = 0.;
 		T[I][0] = 273.; /* bottom wall */
 		T[I][NPJ+1] = 273.; /* top wall */
 	} /* for J */
@@ -551,28 +556,6 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
             
 			if (J==NPJ) aN[i][J] =0.;
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
-            
-            			/*bluff body*/	
-			if(I>A && I<=B && J<=D && J>C)
-				SP[i][J]= -LARGE;
-//			if(I == B && J<D && J>C)
-//				SP[i][J]= -LARGE;
-			if(I >= A && I<=B && J==C){
-				aN[I][j] = 0;
-				if(yplus[I][J] < 11.63)
-					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
-				else
-					SP[i][J]= - rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-//				SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-			}								
-			if(I >= A && I<=B && J==D){
-				aS[I][j] = 0;
-				if(yplus[I][J] < 11.63)
-					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
-				else
-					SP[i][J]= - rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-//				SP[I][j] = -rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-			}
 
             /* bluff body */
             
@@ -675,29 +658,7 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			aN[I][j] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			aPold    = 0.5*(rho[I][J-1] + rho[I][J])*AREAe*AREAn/Dt;
 
-			/*bluff body*/	
-			if(I == A && J<=D && J>=C){
-				aE[I][j] = 0;
-				if(xplus[I][J] < 11.63)
-					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
-				else
-					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
-			}
-			if(I == B && J<=D && J>=C){
-				aW[I][j] = 0;
-				if(xplus[I][J]<11.63)
-					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
-				else
-					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
-			}
-//			if(I > A && I<B && J==C)
-//				SP[I][j]= -LARGE;
-//			if(I > A && I<B && J==D)								
-//				SP[I][j] = - LARGE;
-			if(I>A && I<B && J<D && J>C){
-				SP[i][J]= -LARGE;
-			}
-			/* bluff body */
+	
 				
 			/* eq. 8.31 without time dependent terms (see also eq. 5.14): */
 
@@ -1022,28 +983,7 @@ void epscoeff(double **aE, double **aW, double **aN, double **aS, double **aP, d
 			aN[I][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			aPold    = rho[I][J]*AREAe*AREAn/Dt;
 			
-			/*bluff body*/	
-			if(I == A && J<D && J>C){
-				SP[I][J] = -LARGE;
-				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
-			}
-			if(I == B && J<D && J>C){
-				SP[I][J] = -LARGE;
-				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
-			}
-			if(I > A && I<B && J==C){
-				SP[I][J] = -LARGE;
-				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
-			}
-			if(I > A && I<B && J==D){
-				SP[I][J] = -LARGE;
-				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
-			}
 			
-			if(I>A && I<B && J<D && J>C){
-				SP[i][J]= -LARGE;
-			}
-			/* bluff body */
 
 			/* eq. 8.31 with time dependent terms (see also eq. 5.14): */
 
@@ -1143,31 +1083,7 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			if (J == NPJ) aN[i][J] = 0;
 			else          aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			
-//						/*bluff body*/	
-			if(I == A && J<D && J>C){
-				aE[I][j] = 0;
-				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
-				Su[I][J] = twx[I][J] * 0.5 * (v[I][j] + v[I][j+1])/(0.5*AREAs) * AREAw * AREAs;
-			}
-			if(I == B && J<D && J>C){
-				aW[I][j] = 0;
-				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
-				Su[I][J] = twx[I][J] * 0.5 * (v[I][j] + v[I][j+1])/(0.5*AREAs) * AREAw * AREAs;
-			}
-			if(I > A && I<B && J==C){
-				aN[i][J] = 0;
-				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
-				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
-			}
-			if(I > A && I<B && J==D){
-				aS[i][J] = 0;
-				SP[I][J]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
-				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
-			}
-			if(I>A && I<B && J<D && J>C){
-				SP[i][J]= -LARGE;
-			}
-			/* bluff body */
+
             
             aPold    = rho[I][J]*AREAe*AREAn/Dt;
 
