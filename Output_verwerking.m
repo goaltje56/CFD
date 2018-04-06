@@ -51,13 +51,13 @@ velmag = sqrt(umat.^2 + vmat.^2);
 
 figure(1)
 subplot(2,1,1)
-contourf(xmat,ymat,umat,30 )
+contourf(xmat,ymat,vmat,30 )
 grid on
 grid minor
 shading interp
 colorbar
 subplot(2,1,2)
-contourf(xmat,ymat,vmat,30 )
+contourf(xmat,ymat,yplusmat,30 )
 grid on
 shading interp
 colorbar

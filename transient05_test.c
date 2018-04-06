@@ -569,10 +569,10 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
             
             			/*bluff body*/	
-			if(I>=A && I<=B && J<=D && J>=C){
+			if(I>A && I<B && J<D && J>C){
 				SP[i][J]= -LARGE;
-				aS[i][j]= 0;
-				aN[i][j] = 0;
+//				aS[i][j]= 0;
+//				aN[i][j] = 0;
 			}
 //			if(I == B && J<D && J>C)
 //				SP[i][J]= -LARGE;
@@ -713,10 +713,10 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 //				SP[I][j]= -LARGE;
 //			if(I > A && I<B && J==D)								
 //				SP[I][j] = - LARGE;
-			if(I>=A && I<=B && J<=D && J>=C){
+			if(I>A && I<B && J<=D && J>C){
 				SP[i][J]= -LARGE;
-				aE[i][j]= 0;
-				aW[i][j] = 0;
+//				aE[i][j]= 0;
+//				aW[i][j] = 0;
 			}
 			/* bluff body */
 				
