@@ -1,3 +1,5 @@
+clear all, close all, clc;
+
 %% triangle creater
 xmin = 0;
 xmax = 4;
@@ -8,14 +10,14 @@ Npoints = 10;
 ystep = ymax/Npoints;
 xstep = xmax/Npoints;
 
-% y(1) = 0;
-% x(1) = 4;
-% i = 1;
+y(1) = 0;
+x(1) = 4;
+i = 2;
 y_count = 0;
 x_count = 4;
 
 %straight line
-while i < Npoints
+while i <= (Npoints+1)
     x(i) = xmax;
     y_count = y_count + ystep;
     y(i) = y_count;
@@ -23,17 +25,17 @@ while i < Npoints
 end
 
 % i = 1;
-%going down till y = 2
-while i < 1.5*Npoints
+% going down till y = 2
+while i <= (1.5*Npoints)+1
     x_count = x_count-xstep;
     x(i) = x_count;
     y_count = y_count - ystep;
     y(i) = y_count;
     i= i+1;
 end
-
-% goint back to initial point
-while i < 2*Npoints
+% 
+% % goint back to initial point
+while i <= (2*Npoints)+1
     x_count = x_count+xstep;
     x(i) = x_count;
     y_count = y_count - ystep;

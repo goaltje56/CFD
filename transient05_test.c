@@ -23,6 +23,13 @@
 //
 //	return (I>A && I<B && J>C && J<D);
 //}
+//double Triangle(void)
+//
+//{
+//	Triangle_x = {4,4,4,4,4,4,4,4,4,4,4,3.6,3.2,2.8,2.4,2,2.4,2.8,3.2,3.6,4};
+//	Triangle_y  = {0, 0.4, 0.8, 1.2, 1.6, 2, 2.4, 2.8, 3.2, 3.6, 4, 3.6, 3.2, 2.8, 2.4, 2, 1.6, 1.2, 0.8, 0.4, 0}
+//}
+
 /* ################################################################# */
 int main(int argc, char *argv[])
 /* ################################################################# */
@@ -30,6 +37,8 @@ int main(int argc, char *argv[])
 	int    iter_u, iter_v, iter_pc, iter_T, iter_eps, iter_k;
 	double du, dv, time, TOTAL_TIME = 5;
 	
+//	double Triangle_x[21] = {4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,3.6,3.2,2.8,2.4,2.0,2.4,2.8,3.2,3.6,4.0};
+//	double Triangle_y[21]  = {0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.2, 3.6, 4.0, 3.6, 3.2, 2.8, 2.4, 2.0, 1.6, 1.2, 0.8, 0.4, 0.0};
 	init();
 	bound(); /* apply boundary conditions */
 
@@ -167,8 +176,11 @@ void init(void)
 		
 		for(J = 0; J<= (NPJ/2); J++){		
 			u      [i][J] = U_IN*pow((y[j]/(YMAX/2)),(1/7));     /* Velocity in x-direction */
-			u 	   [i+(NPI/2)][J+(NPJ/2)] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
+//			u 	   [i+(NPI/2)][J+(NPJ/2)] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
 		}	
+		for(J = 0; J<= (NPJ/2); J++){
+			u 	   [i][J+20] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
+		}
 		for (J = 0; J <= NPJ + 1; J++) {
 			j = J;
 			v      [I][j] = 0.;       /* Velocity in y-direction */
@@ -224,9 +236,13 @@ void bound(void)
 	for(J = 0; J<= (NPJ/2); J++){		
 		u      [1][J] = U_IN*pow((y[j]/(YMAX/2)),(1/7));     /* Velocity in x-direction */
 	}
-	for(J>(NPJ/2);J<=NPJ;J++){	
-		u 		[1][J] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
-	}	
+//	for(J>(NPJ/2);J<=NPJ;J++){	
+//		u 		[1][J] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
+//	}	
+
+	for(J = 0; J<= NPJ/2; J++){
+		u 	   [1][J+20] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
+	}
 
 //	for (J = 0; J <= NPJ + 1; J++) {
 //		/* Temperature at the walls in Kelvin */
@@ -483,6 +499,8 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 	       Dw, De, Ds, Dn, 
 	       AREAw, AREAe, AREAs, AREAn,
 	       aPold, mun, mus;
+	double Triangle_x[21] = {4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,3.6,3.2,2.8,2.4,2.0,2.4,2.8,3.2,3.6,4.0};
+	double Triangle_y[21]  = {0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.2, 3.6, 4.0, 3.6, 3.2, 2.8, 2.4, 2.0, 1.6, 1.2, 0.8, 0.4, 0.0};
 
 	Istart = 2;
 	Iend   = NPI;
