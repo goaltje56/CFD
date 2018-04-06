@@ -553,7 +553,7 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
             
             			/*bluff body*/	
-			if(I>A && I<B && J<D && J>C)
+			if(I>A && I<=B && J<=D && J>C)
 				SP[i][J]= -LARGE;
 //			if(I == B && J<D && J>C)
 //				SP[i][J]= -LARGE;
@@ -1237,32 +1237,34 @@ void calculateuplus(void)
 	    i=I;
 		for (J = 1; J <= NPJ + 1; J++) {
 			j=J;
-			if (yplus1[I][J] < 11.63) {
-                  tw[I][J]      = mu[I][J]*0.5*(u[i][J]+u[i+1][j])/(y[J] -y_v[j]);
-                  yplus1[I][J]  = sqrt(rho[I][J] * fabs(tw[I][J])) * (y[J] - y_v[J]) / mu[I][J];
-                  yplus[I][J]   = yplus1[I][J];
-                  uplus[I][J]   = yplus[I][J];
-            }/* if */
-            else {
-                  tw[I][J]      = rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*0.5*(u[i][J]+u[i+1][J])/uplus[I][J];
-                  yplus1[I][J]  = sqrt(rho[I][J] * fabs(tw[I][J])) * (y[J] - y_v[j]) / mu[I][J];
-                  yplus [I][J]  = yplus1[I][J];
-                  uplus [I][J]  = log(ERough*yplus[I][J])/kappa;
-            }/* else */
+			if(I>=A && I<=B&& J>=C && J<= D){
+				if (yplus1[I][J] < 11.63) {
+                  	tw[I][J]      = mu[I][J]*0.5*(u[i][J]+u[i+1][j])/(y[J] -y_v[j]);
+                 	yplus1[I][J]  = sqrt(rho[I][J] * fabs(tw[I][J])) * (y[J] - y_v[J]) / mu[I][J];
+                  	yplus[I][J]   = yplus1[I][J];
+                 	uplus[I][J]   = yplus[I][J];
+            	}/* if */
+            	else {
+                  	tw[I][J]      = rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*0.5*(u[i][J]+u[i+1][J])/uplus[I][J];
+                  	yplus1[I][J]  = sqrt(rho[I][J] * fabs(tw[I][J])) * (y[J] - y_v[j]) / mu[I][J];
+                  	yplus [I][J]  = yplus1[I][J];
+                  	uplus [I][J]  = log(ERough*yplus[I][J])/kappa;
+            	}/* else */
             
-			if (xplus1[I][J] < 11.63) {
-                  twx[I][J]      = mu[I][J]*0.5*(v[I][j]+v[I][j+1])/(x[I] -x_u[i]);
-                  xplus1[I][J]  = sqrt(rho[I][J] * fabs(twx[I][J])) * (x[I] - x_u[i]) / mu[I][J];
-                  xplus[I][J]   = xplus1[I][J];
-                  vplus[I][J]   = xplus[I][J];
-            }/* if */
-            else {
-            	//////// nog zelf doen :-)
-                  twx[I][J]      = rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*0.5*(v[I][j]+v[I][j+1])/vplus[I][J];
-                  xplus1[I][J]  = sqrt(rho[I][J] * fabs(twx[I][J])) * (x[I] - x_u[i]) / mu[I][J];
-                  xplus [I][J]  = xplus1[I][J];
-                  vplus [I][J]  = log(ERough*xplus[I][J])/kappa;
-            }/* else */
+				if (xplus1[I][J] < 11.63) {
+                  	twx[I][J]      = mu[I][J]*0.5*(v[I][j]+v[I][j+1])/(x[I] -x_u[i]);
+                  	xplus1[I][J]  = sqrt(rho[I][J] * fabs(twx[I][J])) * (x[I] - x_u[i]) / mu[I][J];
+                  	xplus[I][J]   = xplus1[I][J];
+                  	vplus[I][J]   = xplus[I][J];
+            	}/* if */
+            	else {
+            		//////// nog zelf doen :-)
+                  	twx[I][J]      = rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*0.5*(v[I][j]+v[I][j+1])/vplus[I][J];
+                  	xplus1[I][J]  = sqrt(rho[I][J] * fabs(twx[I][J])) * (x[I] - x_u[i]) / mu[I][J];
+                  	xplus [I][J]  = xplus1[I][J];
+                  	vplus [I][J]  = log(ERough*xplus[I][J])/kappa;
+            	}/* else */
+            }
                   
         } /* for */
 
@@ -1316,9 +1318,9 @@ void output(void)
 			j = J;
 			ugrid = 0.5*(u[i][J]+u[i+1][J  ]);
 			vgrid = 0.5*(v[I][j]+v[I  ][j+1]);
-			fprintf(fp, "%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\n",
-			             x[I], y[J], ugrid, vgrid, p[I][J], T[I][J], rho[I][J], mu[I][J], Gamma[I][J], k[I][J], eps[I][J], uplus[I][J], yplus[I][J], yplus1[I][J], yplus2[I][J]);
-//			             1     2     3      4      5        6        7          8         9            10       11         12           13           14            15
+			fprintf(fp, "%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\n",
+			             x[I], y[J], ugrid, vgrid, p[I][J], T[I][J], rho[I][J], mu[I][J], Gamma[I][J], k[I][J], eps[I][J], uplus[I][J], yplus[I][J], yplus1[I][J], yplus2[I][J], tw[I][J], twx[I][J]);
+//			             1     2     3      4      5        6        7          8         9            10       11         12           13           14            15				16		17
 		} /* for J */
 		fprintf(fp, "\n");
 	} /* for I */

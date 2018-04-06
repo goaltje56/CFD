@@ -21,6 +21,9 @@ uplus   = output([ny+1:end],12);
 yplus   = output([ny+1:end],13);
 yplus1  = output([ny+1:end],14);
 yplus2  = output([ny+1:end],15);
+tw      = output([ny+1:end],16);
+twx      = output([ny+1:end],17);
+
 
 xmat = zeros(nx,1);
 for i = 1:nx;
@@ -41,6 +44,8 @@ uplusmat    = reshape(uplus,[ny,nx]);
 yplusmat    = reshape(yplus,[ny,nx]);
 yplus1mat   = reshape(yplus1,[ny,nx]);
 yplus2mat   = reshape(yplus2,[ny,nx]);
+twmat      = reshape(tw,[ny,nx]);
+twxmat      = reshape(twx,[ny,nx]);
 
 velmag = sqrt(umat.^2 + vmat.^2);
 
@@ -56,3 +61,10 @@ contourf(xmat,ymat,kmat,30 )
 grid on
 shading interp
 colorbar
+
+% for i=1:nx
+%     for j=1:ny
+% twtest(i,j) = mu(i,j) * 0.5*(u(i,j)+u(i+1,j))...
+%     /(y-y);
+%     end
+% end
