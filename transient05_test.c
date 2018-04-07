@@ -97,35 +97,26 @@ void triang(void)
 	grid();
 	
 	int    I, J, i, j, N, a;
-	double Dx, Dy, TRX[21], TRY[21], tresh;
+	double Dx, Dy, TRX[21], TRY[21], xvalue,yvalue;
 	double Triangle_x[21] = {4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,3.6,3.2,2.8,2.4,2.0,2.4,2.8,3.2,3.6,4.0};
 	double Triangle_y[21]  = {0.0, 0.004, 0.008, 0.012, 0.016, 0.020, 0.024, 0.028, 0.032, 0.036, 0.040, 0.036, 0.032, 0.028, 0.024, 0.020, 0.016, 0.012, 0.008, 0.004, 0.0};
 	
 	for (N = 0; N <= 20; N++){
-		tresh = Triangle_x[N];
+		xvalue = Triangle_x[N];
+		yvalue = Triangle_y[N];
 		a=0;
 		for(I = 0; I <= NPI+1; I++){
-		
-			if (x[I]>=tresh && a <=1){
-				TRX[N] = I;
-				printf("%e\n",TRX[N]);
-				break;	
+			for(J = 0; J <= NPJ+1; J++){
+				
+				if ((x[I]>=xvalue &&y[J]>=yvalue) && a <=1){
+					TRX[N] = I; /* HIER MOET NOG DE JUISTE I EN J WAARDE OPGESLAGEN WORDEN*/
+					printf("%e\t %e\n",TRX,x[I]);
+					break;
+				}
 			}				
 		}		
 	} /* for I */
 	
-	for (N = 0; N <= 20; N++){
-		tresh = Triangle_y[N]+YMAX/2;
-		a=0;
-		for(J = 0; J <= NPJ+1; J++){
-		
-			if (y[J]>=tresh && a <=1){
-				TRY[N]=J;
-				printf("%e\n",TRY[N]);
-				break;	
-			}				
-		}		
-	} /* for J */
 
 } /* triang */
 
