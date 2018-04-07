@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 	
 	init();
 	bound(); /* apply boundary conditions */
-	triang();
+//	triang();
 	
 	for (time = Dt; time <= TOTAL_TIME; time += Dt) {
 		iter = 0; 
@@ -91,43 +91,43 @@ int main(int argc, char *argv[])
 } /* main */
 
 /* ################################################################# */
-void triang(void)
-/* ################################################################# */
-{
-	grid();
-	
-	int    I, J, i, j, N, a;
-	double Dx, Dy, TRX[21], TRY[21], tresh;
-	double Triangle_x[21] = {4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,3.6,3.2,2.8,2.4,2.0,2.4,2.8,3.2,3.6,4.0};
-	double Triangle_y[21]  = {0.0, 0.004, 0.008, 0.012, 0.016, 0.020, 0.024, 0.028, 0.032, 0.036, 0.040, 0.036, 0.032, 0.028, 0.024, 0.020, 0.016, 0.012, 0.008, 0.004, 0.0};
-	
-	for (N = 0; N <= 20; N++){
-		tresh = Triangle_x[N];
-		a=0;
-		for(I = 0; I <= NPI+1; I++){
-		
-			if (x[I]>=tresh && a <=1){
-				TRX[N] = I;
-				printf("%e\n",TRX[N]);
-				break;	
-			}				
-		}		
-	} /* for I */
-	
-	for (N = 0; N <= 20; N++){
-		tresh = Triangle_y[N]+YMAX/2;
-		a=0;
-		for(J = 0; J <= NPJ+1; J++){
-		
-			if (y[J]>=tresh && a <=1){
-				TRY[N]=J;
-				printf("%e\n",TRY[N]);
-				break;	
-			}				
-		}		
-	} /* for J */
-
-} /* triang */
+//void triang(void)
+///* ################################################################# */
+//{
+////	grid();
+//	
+//	int    I, J, i, j, N, a;
+//	double Dx, Dy, TRX[21], TRY[21], tresh;
+//	double Triangle_x[21] = {4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,3.6,3.2,2.8,2.4,2.0,2.4,2.8,3.2,3.6,4.0};
+//	double Triangle_y[21]  = {0.0, 0.004, 0.008, 0.012, 0.016, 0.020, 0.024, 0.028, 0.032, 0.036, 0.040, 0.036, 0.032, 0.028, 0.024, 0.020, 0.016, 0.012, 0.008, 0.004, 0.0};
+//	
+//	for (N = 0; N <= 20; N++){
+//		tresh = Triangle_x[N];
+//		a=0;
+//		for(I = 0; I <= NPI+1; I++){
+//		
+//			if (x[I]>=tresh && a <=1){
+//				TRX[N] = I;
+//				printf("TRX is: %e\n",TRX[N]);
+//				break;	
+//			}				
+//		}		
+//	} /* for I */
+//	
+//	for (N = 0; N <= 20; N++){
+//		tresh = Triangle_y[N]+YMAX/2;
+//		a=0;
+//		for(J = 0; J <= NPJ+1; J++){
+//		
+//			if (y[J]>=tresh && a <=1){
+//				TRY[N]=J;
+//				printf("TRY is: %e\n",TRY[N]);
+//				break;	
+//			}				
+//		}		
+//	} /* for J */
+//
+//} /* triang */
 
 /* ################################################################# */
 void grid(void)
@@ -292,9 +292,17 @@ void bound(void)
 		eps[NPI+1][J] = eps[NPI][J];
 	} /* for J */
 
-	for (J = 0; J <= NPJ+1; J++) {
-		T[NPI+1][J] = T[NPI][J];
-	} /* for J */
+//	for (J = 0; J <= NPJ+1; J++) {
+//		T[NPI+1][J] = T[NPI][J];
+//	} /* for J */
+	
+	for (I = 0; I <= NPI + 1; I++) {
+		for(J=0; J<=NPJ; J++){
+			if(I>=A && I <= B && J >= C && J <= D){
+			T[I][J]     = 700.; /* Temperature in Kelvin */
+			}
+		}
+	} /* for I */
 
 	for (J = 0; J <= NPJ + 1; J++) {
 		k[0][J] = 2./3.*sqr(U_IN*Ti); /* inlet */
@@ -971,7 +979,35 @@ void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 				SP[I][J] = -LARGE;
 				Su[I][J] = LARGE*373.;
 			}
-
+	
+				/*bluff body*/	
+			if(I == A && J<D && J>C){
+				aE[I][J] = 0;
+				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(0.5*AREAs) * AREAw * AREAs;
+				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
+			}
+			if(I == B && J<D && J>C){
+				aW[I][J] = 0;
+				SP[I][J] = -LARGE;
+				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
+			}
+			if(I > A && I<B && J==C){
+				aN[I][J] = 0;
+				SP[I][J] = -LARGE;
+				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
+			}
+			if(I > A && I<B && J==D){
+				aS[I][J] = 0;
+				SP[I][J] = -LARGE;
+				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
+			}
+			
+			if(I>A && I<B && J<D && J>C){
+				SP[i][J]= -LARGE;
+			}
+			/* bluff body */
+			
+			
 			/* eq. 8.31 with time dependent terms (see also eq. 5.14): */
 
 			aP[I][J] = aW[I][J] + aE[I][J] + aS[I][J] + aN[I][J] + Fe - Fw + Fn - Fs - SP[I][J] + aPold;
@@ -1278,6 +1314,7 @@ void calculateuplus(void)
 //           } /* for */
 
 ////////////
+
 	for (I = 0; I <= NPI; I++){
 	    i=I;
 		for (J = 1; J <= NPJ + 1; J++) {
@@ -1288,6 +1325,7 @@ void calculateuplus(void)
                  	yplus1[I][J]  = sqrt(rho[I][J] * fabs(tw[I][J])) * (y[J] - y_v[J]) / mu[I][J];
                   	yplus[I][J]   = yplus1[I][J];
                  	uplus[I][J]   = yplus[I][J];
+//                 	Tplus[I][J]	  = 0.9*(uplus+)
             	}/* if */
             	else {
                   	tw[I][J]      = rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*0.5*(u[i][J]+u[i+1][J])/uplus[I][J];

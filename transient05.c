@@ -259,10 +259,20 @@ void bound(void)
 		k[NPI+1][J] = k[NPI][J];
 		eps[NPI+1][J] = eps[NPI][J];
 	} /* for J */
+	
+	for (I = 0; I <= NPI + 1; I++) {
+		for(J=0; J<=NPJ; J++){
+			if(I>=A && I <= B && J >= C && J <= D){
+			T[I][J]     = 700.; /* Temperature in Kelvin */
+			}
+		}
+	} /* for I */
 
-	for (J = 0; J <= NPJ+1; J++) {
-		T[NPI+1][J] = T[NPI][J];
-	} /* for J */
+	/* Fixed temperature at the left and right wall */
+
+//	for (J = 0; J <= NPJ+1; J++) {
+//		T[NPI+1][J] = T[NPI][J];
+//	} /* for J */
 
 	for (J = 0; J <= NPJ + 1; J++) {
 		k[0][J] = 2./3.*sqr(U_IN*Ti); /* inlet */

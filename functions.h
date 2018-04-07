@@ -40,3 +40,5 @@ extern double *double_1D_array(int np);
 extern double **double_2D_matrix(int nm, int np);
 extern void free_double_2D_matrix (double **m, int nm);
 
+extern void triang(void);
+
