@@ -4,6 +4,12 @@ double *y;               /* y coordinate on pressure points [m] */
 double *y_v;             /* y coordinate on v-velocity points [m] */
 double Dt;
 
+double *Triangle_x;
+double *Triangle_y;
+int *TRX;
+int *TRY;
+
+
 double **u;
 double **v;
 double **pc;

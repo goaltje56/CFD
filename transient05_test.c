@@ -23,12 +23,7 @@
 //
 //	return (I>A && I<B && J>C && J<D);
 //}
-//double Triangle(void)
-//
-//{
-//	Triangle_x = {4,4,4,4,4,4,4,4,4,4,4,3.6,3.2,2.8,2.4,2,2.4,2.8,3.2,3.6,4};
-//	Triangle_y  = {0, 0.4, 0.8, 1.2, 1.6, 2, 2.4, 2.8, 3.2, 3.6, 4, 3.6, 3.2, 2.8, 2.4, 2, 1.6, 1.2, 0.8, 0.4, 0}
-//}
+
 
 /* ################################################################# */
 int main(int argc, char *argv[])
@@ -37,15 +32,15 @@ int main(int argc, char *argv[])
 	int    iter_u, iter_v, iter_pc, iter_T, iter_eps, iter_k;
 	double du, dv, time, TOTAL_TIME = 5;
 	
-//	double Triangle_x[21] = {4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,3.6,3.2,2.8,2.4,2.0,2.4,2.8,3.2,3.6,4.0};
-//	double Triangle_y[21]  = {0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.2, 3.6, 4.0, 3.6, 3.2, 2.8, 2.4, 2.0, 1.6, 1.2, 0.8, 0.4, 0.0};
 	init();
 	bound(); /* apply boundary conditions */
-
+	triang();
+	
 	for (time = Dt; time <= TOTAL_TIME; time += Dt) {
 		iter = 0; 
 		while (iter < MAX_ITER && SMAX > SMAXneeded && SAVG > SAVGneeded) { /* outer iteration loop */
-
+			
+			
 			derivatives();
 			ucoeff(aE, aW, aN, aS, aP, b);
 			for (iter_u = 0; iter_u < U_ITER; iter_u++)
@@ -95,6 +90,44 @@ int main(int argc, char *argv[])
 
 } /* main */
 
+/* ################################################################# */
+void triang(void)
+/* ################################################################# */
+{
+	grid();
+	
+	int    I, J, i, j, N, a;
+	double Dx, Dy, TRX[21], TRY[21], tresh;
+	double Triangle_x[21] = {4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,3.6,3.2,2.8,2.4,2.0,2.4,2.8,3.2,3.6,4.0};
+	double Triangle_y[21]  = {0.0, 0.004, 0.008, 0.012, 0.016, 0.020, 0.024, 0.028, 0.032, 0.036, 0.040, 0.036, 0.032, 0.028, 0.024, 0.020, 0.016, 0.012, 0.008, 0.004, 0.0};
+	
+	for (N = 0; N <= 20; N++){
+		tresh = Triangle_x[N];
+		a=0;
+		for(I = 0; I <= NPI+1; I++){
+		
+			if (x[I]>=tresh && a <=1){
+				TRX[N] = I;
+				printf("%e\n",TRX[N]);
+				break;	
+			}				
+		}		
+	} /* for I */
+	
+	for (N = 0; N <= 20; N++){
+		tresh = Triangle_y[N]+YMAX/2;
+		a=0;
+		for(J = 0; J <= NPJ+1; J++){
+		
+			if (y[J]>=tresh && a <=1){
+				TRY[N]=J;
+				printf("%e\n",TRY[N]);
+				break;	
+			}				
+		}		
+	} /* for J */
+
+} /* triang */
 
 /* ################################################################# */
 void grid(void)
@@ -103,7 +136,7 @@ void grid(void)
 /***** Purpose: Defining the geometrical variables ******/
 /*****          See fig. 6.2-6.4 in ref. 1 ******/
 	int    I, J, i, j;
-	double Dx, Dy;
+	double Dx, Dy, TRX, TRY;
 
 	/* Length of volume element */
 
@@ -175,11 +208,10 @@ void init(void)
 		i = I;
 		
 		for(J = 0; J<= (NPJ/2); J++){		
-			u      [i][J] = U_IN*pow((y[j]/(YMAX/2)),(1/7));     /* Velocity in x-direction */
-//			u 	   [i+(NPI/2)][J+(NPJ/2)] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
-		}	
-		for(J = 0; J<= (NPJ/2); J++){
-			u 	   [i][J+20] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
+			u      [i][J] = U_IN*pow(y[J]/(YMAX/2),.143);     /* Velocity in x-direction */
+			}
+		for(J>(NPJ/2);J<=NPJ;J++){	
+			u 		[i][J] = U_IN*pow(2-y[J]/(YMAX/2),.143);
 		}
 		for (J = 0; J <= NPJ + 1; J++) {
 			j = J;
@@ -233,22 +265,13 @@ void bound(void)
 
 	/* Fixed temperature at the upper and lower wall */
 
-	for(J = 0; J<= (NPJ/2); J++){		
-		u      [1][J] = U_IN*pow((y[j]/(YMAX/2)),(1/7));     /* Velocity in x-direction */
-	}
-//	for(J>(NPJ/2);J<=NPJ;J++){	
-//		u 		[1][J] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
-//	}	
+		for(J = 0; J<= (NPJ/2); J++){		
+			u [1][J] = U_IN*pow(y[J]/(YMAX/2),.143);     /* Velocity in x-direction */
+			}
+		for(J>(NPJ/2);J<=NPJ;J++){	
+			u [1][J] = U_IN*pow(2-y[J]/(YMAX/2),.143);
+		}
 
-	for(J = 0; J<= NPJ/2; J++){
-		u 	   [1][J+20] = U_IN*pow((1-(y[j]/(YMAX/2))),(1/7));
-	}
-
-//	for (J = 0; J <= NPJ + 1; J++) {
-//		/* Temperature at the walls in Kelvin */
-////		u[1][J] = U_IN; /* inlet */
-//		u[1][J] = U_IN*1.5*(1.-sqr(2.*(y[J]-YMAX/2.)/YMAX)); /* inlet */
-//	} /* for J */
 
 	for (I = 0; I <= NPI + 1; I++) {
 		/* Temperature at the walls in Kelvin */
@@ -574,6 +597,7 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 //				aS[i][j]= 0;
 //				aN[i][j] = 0;
 			}
+
 //			if(I == B && J<D && J>C)
 //				SP[i][J]= -LARGE;
 			if(I >= A && I<=B && J==C){
@@ -1313,10 +1337,10 @@ void printConv(double time, int iter)
 {
 /***** Purpose: Creating result table ******/
 	if (time == Dt)
-		printf ("Time\t u\t v\t SMAX\t SAVG\n");
+		printf (" Time\t u\t v\t SMAX\t SAVG\n");
 
-	printf ("%4d %10.3e\t%10.2e\t%10.2e\t%10.2e\t%10.2e\t%10.2e\n", 
-             iter, time, u[3*NPI/10][2*NPJ/5], v[3*NPI/10][2*NPJ/5], T[3*NPI/10][2*NPJ/5], SMAX, SAVG);
+	printf (" %4d %10.3e\t%10.2e\t%10.2e\t%10.2e\t%10.2e\t%10.2e\n", 
+              iter, time, u[3*NPI/10][2*NPJ/5], v[3*NPI/10][2*NPJ/5], T[3*NPI/10][2*NPJ/5], SMAX, SAVG);
 
 } /* printConv */
 
@@ -1327,7 +1351,7 @@ void output(void)
 /***** Purpose: Creating result table ******/
 	int    I, J, i, j;
 	double ugrid, vgrid,stream,vorticity;
-	FILE   *fp, *str, *velu, *velv, *vort;
+	FILE   *fp, *str, *velu, *velv, *vort, *triang;
 
 /* Plot all results in output.dat */
 
@@ -1464,6 +1488,10 @@ void memalloc(void)
 	x_u  = double_1D_array(NPI + 2);
 	y    = double_1D_array(NPJ + 2);
 	y_v  = double_1D_array(NPJ + 2);
+	Triangle_x = double_1D_array(21);
+	Triangle_y = double_1D_array(21);
+	TRX = int_1D_array(21);
+	TRY = int_1D_array(21);
 
 	u      = double_2D_matrix(NPI + 2, NPJ + 2);
 	v      = double_2D_matrix(NPI + 2, NPJ + 2);
