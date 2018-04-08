@@ -1,4 +1,4 @@
-\begin{thebibliography}{3}
+\begin{thebibliography}{2}
 \newcommand{\enquote}[1]{``#1''}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
@@ -8,11 +8,6 @@
 \bibitem[{Deen(2017)}]{slides}
 DEEN, N. (2017).
 \newblock \enquote{Introduction to computational fluid dynamics}.
-
-\bibitem[{Luke(1988)}]{Luke1988}
-LUKE, T. (1988).
-\newblock \enquote{A new technique for stencil publishing}.
-\newblock \emph{J. Stencils}, \textbf{5}, 179--221.
 
 \bibitem[{Versteeg and Malalasekera(2007)}]{Versteeg2007}
 VERSTEEG, H. and MALALASEKERA, W. (2007).
