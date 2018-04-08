@@ -87,23 +87,137 @@ The first part of this article is composed of the theory and the numerical solve
 This chapter covers the theory behind the CFD model. Once the theory is explained, the discretization of the governing equations is treated. Additional to that the used solver is explained.
 
 \subsection{Turbulent flow}
-Here is how to produce a numbered equation under a second level
-heading \cite{James1988}.
-\vspace{2cm}\\
-\emph{Continuity equation}
+A flow in a channel can be characterized by the Reynolds number, a dimensionless number which represents the ratio of viscous and inertial forces in the flow. The Reynolds number can be calculated upon use of Equation \ref{Reynolds}\cite{Versteeg2007}. Here $\rho$ is the fluid density in $[kg\cdot m^{-1}]$, $u$ is the velocity in $[m\cdot s^{-1}]$, $D$ is the characteristic length in $[m]$ and $\mu$ is the fluids dynamic viscosity in $[kg\cdot m^{-1}\cdot s^{-1}]$
+
 \begin{equation}
-  \frac{\partial \rho_G}{\partial t}+\nabla\left(\rho_G\mathbf
-    u\right)=0
+\label{Reynolds}
+Re = \frac{\rho \boldsymbol{u} D}{\mu}
+\end{equation}
+The flow is considered turbulent if the Reynolds number exceeds a value of 2300. A turbulent flow is contemplated as chaotic, containing flow instabilities such as eddies. These eddies cause local fluctuations in the velocity field. Therefore, the normal steady convection and diffusion equations can not be used to solve turbulent flows. To solve the turbulent flow equations one needs to introduce general equation for unsteady convection and diffusion\cite{Versteeg2007}.\vspace{2mm}
+
+\emph{Unsteady convection-diffusion}
+\begin{equation}
+\label{unsteadConvDiff}
+\frac{\partial \rho \phi}{\partial t} + div(\rho\phi\mathbf u)= div(\Gamma grad \phi)+S_{\phi}
+\end{equation}
+Equation \ref{unsteadConvDiff} consists of four parts. The first part is the time dependent term, the second part represents the convection, the third part the diffusion and the last part of the equation is the sink and or source term. $\phi$ is the transport term, $\Gamma$ is the diffusion or conduction coefficient. The transport term changes according to the equation to be solved. \\
+One of the most important requirements for a set of equations is the conservation mass, momentum and energy. All conservation equations are derived in case of incompressible flow. The conservation of mass can be extracted from Equation\ref{unsteadConvDiff}, and results in \cite{slides}:\vspace{2mm}
+
+\emph{Mass balance}
+\begin{equation}
+\label{MassBal}
+\frac{\partial \rho }{\partial t} + div(\rho\mathbf u)= 0
+\end{equation}
+The conservation of momentum needs to be solved in two directions, $x$ and $y$, since it is a two dimensional problem. The general form for the momentum conservation is treated as:\vspace{2mm}
+
+\emph{Momentum balance}
+\begin{equation}
+\begin{split}
+\label{MomBal}
+&\frac{D( \rho u) }{D t} =-\frac{\partial P}{\partial x} + div(\mu \hspace{1mm} grad\hspace{1mm}u)+S_{Mx}\\ 
+&\frac{D( \rho u) }{D t} =-\frac{\partial P}{\partial x} + div(\mu \hspace{1mm} grad\hspace{1mm}u)+S_{Mx}
+\end{split}
+\end{equation}\
+The last conservation equation is the conservation of energy, and can be computed upon use of Equation \ref{EnerBal}.\vspace{2mm}
+
+\emph{Energy balance}
+\begin{equation}
+\label{EnerBal}
+\rho C_p\frac{D T }{D t} = div(k \hspace{1mm}grad\hspace{1mm}T) +S_i 
 \end{equation}
 
-\subsubsection*{Example of Sub-subheading}
-This is how \cite{Luke1988} produced an unnumbered equation under a
-third level heading.
+Note that in equation\ref{EnerBal} the heating by viscous dissipation is assumed to be zero. The viscous dissipation can be neglected if the velocity gradients within the domain are small. (DIT NOG EVEN GOED CHECKEN).\\
+Since this study regards a turbulent flow, the mass and momentum equations have to be sloved in a different manner. This is done by taking the Reynolds average approach. In the Reynolds average approach the mean velocity is determined and the turbulence is described by a fluctuation around the mean velocity. Therefore, components in the convection-diffution and conservation equations are decomposed in a mean and a fluctuation variable. The decomposed variables are given in Equation \ref{decomposed}.\vspace{2mm}
+
+\emph{Decomposed variables}
 \begin{equation}
-  \mathbf J=\sigma(\mathbf E+\mathbf u\times\mathbf B)
+\label{decomposed}
+u=U+u'; \hspace{4mm} v = V+v'; \hspace{4mm} w=W+w'; \hspace{4mm} p=P+p' 
+\end{equation}
+In here, $U$, $V$ and $W$ are mean the velocities in $x$, $y$ and $z$ direction respectively. $P$ is the average pressure. the apostroph terms are the fluctuating components. The average term is given by Equation \ref{Uavg}.\vspace{2mm}
+
+\emph{Average velocity}
+\begin{equation}
+\label{Uavg}
+U = \frac{1}{\Delta t}\int_{0}^{\Delta t}u(t)dt
+\end{equation}
+The other average terms are calculated in the same manner. After computing the decomposed variables, they are subsituted into the system of equations. The time averaged part in Equation \ref{Uavg} transforms the regular Navier-Stokes equations into time averaged Navier-Stokes equations, also called Reynolds averaged Navier-Stokes equations (RANS). By using RANS, a new definition is introduced called Reynolds stresses. The Reynolds stresses are present in all directions, and are calculated by Equation \ref{ReStress} \cite{slides}. \vspace{2mm}
+
+\emph{Reynolds stresses}
+\begin{equation}
+\label{ReStress}
+\tau_{ij}=-\rho\overline{u_i'u_j'}
+\end{equation}
+Now that all general equations are known, a closure model is needed to close the system of equations. The two equation model, generally known as the $\kappa-\epsilon$ model is used to close the system. The $\kappa-\epsilon$ is chosen above the Prandtl mixing length model and the Reynolds stress model and algebraic stress model due to its simple implementation and widely proven validation \cite{Versteeg2007}.
+
+
+\subsubsection{$\kappa-\epsilon$ turbulence model}
+The standard  $\kappa-\epsilon$ model introduces two extra transport equations to be solved. one for the turbulent kinetic energy, $\kappa$, and one for the viscous dissipation of turbulent kinetic energy, $\epsilon$.  $\kappa$ and $\epsilon$ are used to introduce a velocity scale, $\theta$ and large-scale turbulence length scale $\ell$. The velocity scale is calculated upon use of Equation \ref{velScale}, and the turbulence length-scale is calculated with use of Equation \ref{turbScale}.\vspace{2mm}
+
+\emph{Velocity- and turbulence length-scale}
+\begin{align}
+&\theta = \kappa^{1/2} \label{velScale}\\
+&\ell=\frac{\kappa^{3/2}}{\epsilon} \label{turbScale}
+\end{align}
+Equation \ref{turbScale} shows that one is able to use the small eddy variable $\epsilon$ to describe the large eddy scale, $\ell$. This is only permitted if, and only if, the rate at which large eddies extract energy from the mean flow matches the rate of transfer of energy across the energy spectrum to small, dissipating, eddies if the flow does not change rapidly. \cite{Versteeg2007}.\\
+
+The turbulent viscosity, the eddy viscosity is introduced by Equation \ref{eddyvisc}, where $C_{\mu}$ is a dimensionless constant.\vspace{2mm}
+
+\emph{Turbulent viscosity}
+\begin{equation}
+\label{eddyvisc}
+\mu_t=C\rho \theta \ell=C_{\mu}\rho\frac{\kappa^2}{\epsilon}
 \end{equation}
 
-\newpage
+One is now able to describe the equations for both $\kappa$ and $\epsilon$, shown in Equation \ref{kappa} and \ref{eps} respectively.\vspace{2mm}
+
+\emph{$\kappa$- and $\epsilon$-transport equation}
+
+\begin{align}
+&\frac{\partial \rho \kappa}{\partial t} + div(\rho \kappa \mathbf{U}) = div\bigg[\frac{\mu_t}{\sigma_{\kappa}}grad\hspace{1mm}\kappa\bigg] +2\mu_tS_{ij}\cdot S_{ij}-\rho\epsilon \label{kappa}\\
+\begin{split}
+&\frac{\partial \rho \epsilon}{\partial t} + div(\rho \epsilon \mathbf{U}) = div\bigg[\frac{\mu_t}{\sigma_{\epsilon}}grad\hspace{1mm}\epsilon\bigg] +\\
+&C_{l\epsilon} \frac{\epsilon}{\kappa}2\mu_tS_{ij}\cdot S_{ij}-\rho C_{2\epsilon}\frac{\epsilon^2}{\kappa} \label{eps}
+\end{split}
+\end{align}
+
+In both equations, the first term represents the rate of change in $\kappa$ and $\epsilon$ respectively. Within the first term $\mathbf{U}$ is the average velocity magnitude. The second and third term represent the transport driven by convection and diffusion for $\kappa$ and $\epsilon$. The fourth and fifth term are the rate of production and rate of destruction of $\kappa$ and $\epsilon$.\\
+The equations use five dimensionless constants, the standard $\kappa-\epsilon$ model uses values that have been determined through comprehensive data fitting for a wide range of turbulent flows \cite{Versteeg2007}:\vspace{2mm}
+
+\emph{Dimensionless constants:}
+\begin{equation*}
+\label{dimConst}
+C_{\mu}=0.09 \hspace{4mm} \sigma_{\kappa}=1.00\hspace{4mm}\sigma_{\epsilon}=1.30\hspace{4mm}C_{l\epsilon}=1.44\hspace{4mm}C_{2\epsilon}=1.92
+\end{equation*}
+
+
+\subsubsection{discretization of governing equations}
+To solve the turbulence model, all of the partial differential equations (PDE's) need to be solved. Solving a PDE takes a few steps. First of all let us consider a two dimensional grid consisting of several grid cells. To find the value for $\phi$ from Equation \ref{unsteadConvDiff} at a center point P of the grid cell, one needs the values of the neighbouring cells. In CFD these values are called north(N), west(W), south(S) and east(E). Thereafter, Equation \ref{unsteadConvDiff} is integrated over the control volume, yielding the results shown in Equation \ref{intergrated}.\vspace{2mm}
+DEZE FUNCTIE NOG EENS NAKIJKEN WANT DIE IS MOEILIJK\\
+\emph{Intergrated diffusion convection equation}
+\begin{equation}
+\begin{split}
+\label{intergrated}
+&\frac{(\rho_p \rho_p^0)\phi}{\Delta t}\Delta V +[(\rho u A \phi)_e -(\rho u A \phi)_w]+[(\rho u A \phi)_n -\\
+&(\rho u A \phi)_s]=\bigg[\bigg(\Gamma A \frac{\partial \phi}{\partial x}\bigg)_e -\bigg(\Gamma A \frac{\partial \phi}{\partial x}\bigg)_w\bigg] +\\
+&\bigg[\bigg(\Gamma A \frac{\partial \phi}{\partial x}\bigg)_n -\bigg(\Gamma A \frac{\partial \phi}{\partial x}\bigg)_s\bigg] + S_u + S_p\phi_p^0
+\end{split}
+\end{equation}
+Now let us introduce variables $F$ and $D$ to represent the convective mass flux per unit area and the diffusive conductance at the cell faces \cite{Versteeg2007}.\vspace{2mm}
+
+\begin{align}
+&F = \rho u\\
+&D=\frac{\Gamma}{\partial x}
+\end{align}
+Substitution variables $F$ and $D$ into Equation \ref{intergrated} forms Equation \ref{Substituted} after some rearranging \cite{Versteeg2007}. \\OOK DEZE FORMULE NOG CHECKEN!!!
+
+\begin{equation}
+\label{Substituted}
+\frac{\rho_P^0 \Delta V}{\Delta t}\phi_P=a_W\phi_W+a_E\phi_E+a_S\phi_S+a_N\phi_N +\Delta F
+\end{equation}
+The coefficients of $a$ are dependent on the differencing scheme. The discretization scheme has some properties. First propertie is the conservativeness which means the flux $\phi$ leaving a control volume has to be equal to the flux $\phi$ entering the controle volume through the same face. By using a hybrid differencing scheme, the conservativeness is automatically satisfied. The second property is the boundedness. The boundedness describes the value of $\phi$ in case there is no source term. In that case, the nodal value of $\phi$ must be equal to the value of $\phi$ at the boundary. Besides the restricted value of $\phi$, the coefficients $a$ of the discretized equation must have equal signs. The last important property is the transportiveness. This requires that the transportiveness changes according to the magnitude of the Peclet number ($Pe=F/D$). Hence, if Pe is zero, $\phi$ equally diffuses in all directions. The hybrid differencing scheme satisfies the three properties. However, this comes at the price of only first order accuracy \cite{Versteeg2007}.
+
+\section{Geometry}
 
 Figure \ref{fig:Geometry} shows the geometry used during the research
 \InsFig{FlowGeometry}{Schematic diagram of geometry.}{Geometry}
