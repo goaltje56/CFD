@@ -23,6 +23,12 @@ yplus1  = output([ny+1:end],14);
 yplus2  = output([ny+1:end],15);
 tw      = output([ny+1:end],16);
 twx      = output([ny+1:end],17);
+mueff      = output([ny+1:end],18);
+
+for ii = 1:length(u)
+    vel_mag(ii) = sqrt(v(ii)^2+u(ii)^2);
+    Re(:,ii) = rho(ii)*vel_mag(ii)*0.2/mu(ii);
+end
 
 
 xmat = zeros(nx,1);
@@ -46,6 +52,8 @@ yplus1mat   = reshape(yplus1,[ny,nx]);
 yplus2mat   = reshape(yplus2,[ny,nx]);
 twmat      = reshape(tw,[ny,nx]);
 twxmat      = reshape(twx,[ny,nx]);
+Remat       = reshape(Re,[ny,nx]);
+mueffmat      = reshape(mueff,[ny,nx]);
 
 velmag = sqrt(umat.^2 + vmat.^2);
 
@@ -57,7 +65,7 @@ grid minor
 shading interp
 colorbar
 subplot(2,1,2)
-contourf(xmat,ymat,mumat,30 )
+contourf(xmat,ymat,mueffmat,30 )
 grid on
 shading interp
 colorbar
@@ -90,7 +98,7 @@ title('Centerline velocity magnitude [m/s]')
 % end
 
 figure(4)
-contourf(xmat,ymat,vmat,'.','Linewidth',1)
+contourf(xmat,ymat,Remat,'.','Linewidth',1)
 s=colorbar
-% colormap('jet(1000)')
-set(s,'Location','southoutside')
+colormap('jet(1000)')
+% set(s,'Location','southoutside')
