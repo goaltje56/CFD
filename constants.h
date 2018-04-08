@@ -32,3 +32,5 @@
 #define C			15
 #define D			25
 
+#define sigma_t		0.9		/*turbulent Prandtl number */
+

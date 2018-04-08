@@ -292,9 +292,9 @@ void bound(void)
 		eps[NPI+1][J] = eps[NPI][J];
 	} /* for J */
 
-//	for (J = 0; J <= NPJ+1; J++) {
-//		T[NPI+1][J] = T[NPI][J];
-//	} /* for J */
+	for (J = 0; J <= NPJ+1; J++) {
+		T[NPI+1][J] = T[NPI][J];
+	} /* for J */
 	
 	for (I = 0; I <= NPI + 1; I++) {
 		for(J=0; J<=NPJ; J++){
@@ -532,6 +532,8 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 	       aPold, mun, mus;
 	double Triangle_x[21] = {4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,3.6,3.2,2.8,2.4,2.0,2.4,2.8,3.2,3.6,4.0};
 	double Triangle_y[21]  = {0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.2, 3.6, 4.0, 3.6, 3.2, 2.8, 2.4, 2.0, 1.6, 1.2, 0.8, 0.4, 0.0};
+	double Pr, Pee;
+	
 
 	Istart = 2;
 	Iend   = NPI;
@@ -928,8 +930,11 @@ void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 	Iend   = NPI;
 	Jstart = 1;
 	Jend   = NPJ;
+//	double Pr, Pee;
 
 	conv();
+
+    calculateuplus();
 
 	for (I = Istart; I <= Iend; I++) {
 		i = I;
@@ -942,7 +947,7 @@ void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			AREAe = AREAw;
 			AREAs = x_u[i+1] - x_u[i]; /* = A[I][j] */
 			AREAn = AREAs;
-
+			
 			/* The convective mass flux defined in eq. 5.8a */
 			/* note:  F = rho*u but Fw = (rho*u)w = rho*u*AREAw per definition. */
 
@@ -966,6 +971,7 @@ void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 
 			SP[I][J] = 0.;
 			Su[I][J] = 0.;
+			
 
 			/* The coefficients (hybrid differencing scheme) */
 
@@ -983,27 +989,31 @@ void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 				/*bluff body*/	
 			if(I == A && J<D && J>C){
 				aE[I][J] = 0;
-				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(0.5*AREAs) * AREAw * AREAs;
-				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
+				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
+				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
 			}
 			if(I == B && J<D && J>C){
 				aW[I][J] = 0;
-				SP[I][J] = -LARGE;
-				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
+				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe ;
+				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
 			}
 			if(I > A && I<B && J==C){
 				aN[I][J] = 0;
-				SP[I][J] = -LARGE;
-				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
+				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
+				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
 			}
 			if(I > A && I<B && J==D){
 				aS[I][J] = 0;
-				SP[I][J] = -LARGE;
-				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
+				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
+				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
 			}
 			
 			if(I>A && I<B && J<D && J>C){
-				SP[i][J]= -LARGE;
+				aN[i][J]= 0;
+				aW[i][J]= 0;
+				aS[i][J]= 0;
+				aE[i][J]= 0;
+
 			}
 			/* bluff body */
 			
@@ -1280,6 +1290,7 @@ void calculateuplus(void)
 /***** Purpose: Calculate uplus, yplus and tw  ******/
 
 	int    i,j,I, J;
+//	double Pr, Pee;
 
 	viscosity();
 
@@ -1325,13 +1336,23 @@ void calculateuplus(void)
                  	yplus1[I][J]  = sqrt(rho[I][J] * fabs(tw[I][J])) * (y[J] - y_v[J]) / mu[I][J];
                   	yplus[I][J]   = yplus1[I][J];
                  	uplus[I][J]   = yplus[I][J];
-//                 	Tplus[I][J]	  = 0.9*(uplus+) / Tplus
+                 				/* Prandtl number laminar flow */
+					Pr[I][J] = mu[I][J]*Cp[I][J]/0.025;		//Prandtl number laminar flow
+					Pee[I][J] = 9.24*(pow((Pr[I][J]/sigma_t),0.75)-1)*(1+0.28*exp(-0.007*(Pr[I][J]/sigma_t)));
+//                 	Tplus[I][J]	  = sigma_t*(uplus[I][J]+Pee[I][J]);
+					 
+//					 (rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J])
             	}/* if */
             	else {
                   	tw[I][J]      = rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*0.5*(u[i][J]+u[i+1][J])/uplus[I][J];
                   	yplus1[I][J]  = sqrt(rho[I][J] * fabs(tw[I][J])) * (y[J] - y_v[j]) / mu[I][J];
                   	yplus [I][J]  = yplus1[I][J];
                   	uplus [I][J]  = log(ERough*yplus[I][J])/kappa;
+                  	
+        			Pr[I][J] = mu[I][J]*Cp[I][J]/0.025;		//Prandtl number laminar flow
+					Pee[I][J] = 9.24*(pow((Pr[I][J]/sigma_t),0.75)-1)*(1+0.28*exp(-0.007*(Pr[I][J]/sigma_t)));
+                 	Tplus[I][J]	  = sigma_t*(uplus[I][J]+Pee[I][J]);
+
             	}/* else */
             
 				if (xplus1[I][J] < 11.63) {
@@ -1339,6 +1360,10 @@ void calculateuplus(void)
                   	xplus1[I][J]  = sqrt(rho[I][J] * fabs(twx[I][J])) * (x[I] - x_u[i]) / mu[I][J];
                   	xplus[I][J]   = xplus1[I][J];
                   	vplus[I][J]   = xplus[I][J];
+                  	
+                  	Pr[I][J] = mu[I][J]*Cp[I][J]/0.025;		//Prandtl number laminar flow
+					Pee[I][J] = 9.24*(pow((Pr[I][J]/sigma_t),0.75)-1)*(1+0.28*exp(-0.007*(Pr[I][J]/sigma_t)));
+
             	}/* if */
             	else {
             		//////// nog zelf doen :-)
@@ -1346,6 +1371,11 @@ void calculateuplus(void)
                   	xplus1[I][J]  = sqrt(rho[I][J] * fabs(twx[I][J])) * (x[I] - x_u[i]) / mu[I][J];
                   	xplus [I][J]  = xplus1[I][J];
                   	vplus [I][J]  = log(ERough*xplus[I][J])/kappa;
+                  	
+					Pr[I][J] = mu[I][J]*Cp[I][J]/0.025;		//Prandtl number laminar flow
+					Pee[I][J] = 9.24*(pow((Pr[I][J]/sigma_t),0.75)-1)*(1+0.28*exp(-0.007*(Pr[I][J]/sigma_t)));
+                 	Tplus[I][J]	  = sigma_t*(vplus[I][J]+Pee[I][J]);
+
             	}/* else */
             }
                   
@@ -1402,7 +1432,7 @@ void output(void)
 			ugrid = 0.5*(u[i][J]+u[i+1][J  ]);
 			vgrid = 0.5*(v[I][j]+v[I  ][j+1]);
 			fprintf(fp, "%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\n",
-			             x[I], y[J], ugrid, vgrid, p[I][J], T[I][J], rho[I][J], mu[I][J], Gamma[I][J], k[I][J], eps[I][J], uplus[I][J], yplus[I][J], yplus1[I][J], yplus2[I][J], tw[I][J], twx[I][J]);
+			             x[I], y[J], ugrid, vgrid, p[I][J], T[I][J], rho[I][J], mueff[I][J], Gamma[I][J], k[I][J], eps[I][J], uplus[I][J], yplus[I][J], yplus1[I][J], yplus2[I][J], tw[I][J], twx[I][J]);
 //			             1     2     3      4      5        6        7          8         9            10       11         12           13           14            15				16		17
 		} /* for J */
 		fprintf(fp, "\n");
@@ -1530,6 +1560,9 @@ void memalloc(void)
 	Triangle_y = double_1D_array(21);
 	TRX = int_1D_array(21);
 	TRY = int_1D_array(21);
+	Pr  = double_2D_matrix(NPI + 2, NPJ + 2);
+	Pee  = double_2D_matrix(NPI + 2, NPJ + 2);
+	Tplus = double_2D_matrix(NPI + 2, NPJ + 2);
 
 	u      = double_2D_matrix(NPI + 2, NPJ + 2);
 	v      = double_2D_matrix(NPI + 2, NPJ + 2);
