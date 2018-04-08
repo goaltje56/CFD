@@ -88,3 +88,9 @@ title('Centerline velocity magnitude [m/s]')
 %     /(y-y);
 %     end
 % end
+
+figure(4)
+contourf(xmat,ymat,vmat,'.','Linewidth',1)
+s=colorbar
+% colormap('jet(1000)')
+set(s,'Location','southoutside')
