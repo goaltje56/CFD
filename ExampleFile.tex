@@ -101,7 +101,7 @@ The flow is considered turbulent if the Reynolds number exceeds a value of 2300.
 \frac{\partial \rho \phi}{\partial t} + div(\rho\phi\mathbf u)= div(\Gamma grad \phi)+S_{\phi}
 \end{equation}
 Equation \ref{unsteadConvDiff} consists of four parts. The first part is the time dependent term, the second part represents the convection, the third part the diffusion and the last part of the equation is the sink and or source term. $\phi$ is the transport term, $\Gamma$ is the diffusion or conduction coefficient. The transport term changes according to the equation to be solved. \\
-The conservation of mass, momentum and energy play a major role in a CFD code. All conservation equations are derived for the case of an incompressible flow. The conservation of mass can be extracted from Equation\ref{unsteadConvDiff}, and results in \cite{slides}:\vspace{2mm}
+The conservation of mass, momentum and energy play a major role in a CFD code. All conservation equations are derived for the case of an incompressible flow. The conservation of mass can be extracted from Equation \ref{unsteadConvDiff}, and results in \cite{slides}:\vspace{2mm}
 
 \emph{Mass balance}
 \begin{equation}
@@ -148,7 +148,7 @@ The other average terms are calculated in the same manner. After computing the d
 \label{ReStress}
 \tau_{ij}=-\rho\overline{u_i'u_j'}
 \end{equation}
-Now that all general equations are known, a closure model is needed to close the system of equations. The two equation model, generally known as the $\kappa-\epsilon$ model is used to close the system. The $\kappa-\epsilon$ is chosen above the Prandtl mixing length model and the Reynolds stress model and algebraic stress model due to its simple implementation and widely proven validation \cite{Versteeg2007}.
+The $\kappa-\epsilon$ model is used to close the system of equations. The $\kappa-\epsilon$ is chosen above the Prandtl mixing length model and the Reynolds stress model and algebraic stress model due to its simple implementation and widely proven validation \cite{Versteeg2007}.
 
 
 \subsubsection{$\kappa-\epsilon$ turbulence model}
@@ -243,7 +243,7 @@ The equation is constructed of a lower and upper half since the geometry has its
 
 \InsFig{InletBC}{Schematic diagram of geometry.}{Inlet}
 
-One can clearly see the agreement of the analitical expression for the inlet profile with the numerical result at the inlet. The outlet however, shows a sligth deviation from the inlet condition. This is due to the fact that the analytical expression is an approximation of the turbulent profile.\\
+One can clearly see the agreement of the analytical expression for the inlet profile with the numerical result at the inlet. The outlet however, shows a sligth deviation from the inlet condition. This is due to the fact that the analytical expression is an approximation of the turbulent profile.\\
 To obtain accurate results one has to define values for the turbulent kinetic energy and dissipation rate at the inlet of the geometry. The inlet values can be calculated upon use of Equation \ref{kepsBC}.
 
 \begin{equation}
@@ -251,13 +251,13 @@ To obtain accurate results one has to define values for the turbulent kinetic en
 \kappa_{IN}=\frac{2}{3}(U_{IN}T_i)^2,\hspace{4mm}\epsilon_{IN}=C_{\mu}^0.25\frac{\kappa_{IN}^{1/3}}{0.035 D}
 \end{equation}
 In these equations $T_i$ is the turbulent intensity, set to a value of 4\%. The value for $T_i$ for the inlet boundary is in general taken between 1\% and 6\% \cite{Versteeg2007}.\\
-At both top and bottom walls of the geometry the axial velocity is set to $u=0[m\cdot s^{-1}]$. Since the flow is turbulent not only the value at the boundary itself should be restricted, but also the so called near wall region. These regions need wall functions to describe the flow near the walls. Closest to the walls there is a viscous sub-layer. Within this layer the eddies decrease in size and dissipate their energy due to viscous forces dominating in this area. When one looks more towards the center of the geometry a log-law layer appears. In order to implement such conditions one needs to introduce $y^+$ and $u^+$, as seen in Equation \ref{yplusuplus} \cite{Versteeg2007}.
+At both top and bottom walls of the geometry the axial velocity is set to $u=0[m\cdot s^{-1}]$. Since the flow is turbulent not only the value at the boundary itself should be restricted, but also the so called near wall region. These regions need wall functions to describe the flow near the walls. Closest to the walls there is a viscous sub-layer. Within this layer the eddies decrease in size and dissipate their energy due to viscous forces dominating in this area. When one looks more towards the centre of the geometry a log-law layer appears. In order to implement such conditions one needs to introduce $y^+$ and $u^+$, as seen in Equation \ref{yplusuplus} \cite{Versteeg2007}.
 
 \begin{equation}
 \label{yplusuplus}
 y^+=\frac{\rho u_{\tau}y}{\mu},\hspace{4mm}u^+=\frac{U}{ u_{\tau}}
 \end{equation}
-In this equation, $ u_{\tau}$ represents the friction velocity and $U$ is the average mean flow velocity. The friction velocity is calcualted with Equation \ref{fricvel}
+In this equation, $ u_{\tau}$ represents the friction velocity and $U$ is the average mean flow velocity. The friction velocity is calculated with Equation \ref{fricvel}
 \begin{equation}
 \label{fricvel}
 u_{\tau}=\big(\frac{\tau_w}{\rho}\big)^{1/2}
@@ -280,7 +280,7 @@ The shear stress in the log-law area, used to calculate $y^+$, is determined upo
 \end{equation}
 
 
- At the exit of the geometry the gradient of velocity and temperature in both $u$ and $y$ directionis set to zero. This is done in order to comply with the mass balance equation since otherwise mass may dissapear through the exit.\\
+ At the exit of the geometry the gradient of velocity and temperature in both $u$ and $y$ directions set to zero. This is done in order to comply with the mass balance equation since otherwise mass may disappear through the exit.\\
 
 \subsubsection{Bluff-body boundary conditions} \label{bluffBC}
 The walls of the bluff body are treated in the same manner as explained in the previous section. Additional to that, the grid cells inside the bluff body are set to zero values by prescribing $S_p=-10^{30}$. The temperature of the bluff body is prescribed at the walls, and can be changed. MOETEN WE OOK DIE KAPPA EN EPSILON UITLEGGEN BIJ DEZE BOUNDARY CONDITIONS?????
@@ -292,7 +292,11 @@ In Figures \ref{fig:Geometry} and \ref{fig:Geometry} it can be seen how figures 
 In Table \ref{tab:label} it is seen how we can include a table.
 The table is constructed in the file table.tex, where also the table caption and label are defined.
 
-
+\InsFig{convergence_x10_y20}{Turbulent inlet profile}{conv_1}[H]
+\InsFig{convergence_x20_y40}{Turbulent inlet profile}{conv_2}[H]
+\InsFig{convergence_x40_y80}{Turbulent inlet profile}{conv_3}[H]
+\InsFig{convergence_x80_y160}{Turbulent inlet profile}{conv_4}[H]
+\InsFig{Re_finest}{Reynolds number}{Re}
 \newpage
 \InsTab{Table}
 

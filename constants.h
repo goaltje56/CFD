@@ -1,5 +1,5 @@
-#define NPI        20       /* number of grid cells in x-direction [-] */
-#define NPJ        40        /* number of grid cells in y-direction [-] */
+#define NPI        80       /* number of grid cells in x-direction [-] */
+#define NPJ        160        /* number of grid cells in y-direction [-] */
 #define XMAX       10.0      /* width of the domain [m] */ 
 #define YMAX       0.2       /* height of the domain [m] */
 #define Rbluff	   0.01      /* radius of the bluff body in the domain [m] */
@@ -27,10 +27,26 @@
 #define ERough     9.793
 #define Ti         0.04
 
-#define A			8
-#define B			12
-#define C			15
-#define D			25
+//#define A			8
+//#define B			12
+//#define C			15
+//#define D			25
+
+
+//#define A			4
+//#define B			6
+//#define C			8
+//#define D			12
+
+//#define A			16
+//#define B			24
+//#define C			30
+//#define D			50
+
+#define A			32
+#define B			48
+#define C			60
+#define D			100
 
 #define sigma_t		0.9		/*turbulent Prandtl number */
 

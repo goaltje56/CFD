@@ -3,8 +3,8 @@ close all
 clear all
 
 output = load('output.dat');
-nx = 20;
-ny = 40;
+nx = 80;
+ny = 160;
 %% columns
 x       = output([ny+1:end],1);
 y       = output([ny+1:end],2);
@@ -28,6 +28,7 @@ mueff      = output([ny+1:end],18);
 for ii = 1:length(u)
     vel_mag(ii) = sqrt(v(ii)^2+u(ii)^2);
     Re(:,ii) = rho(ii)*vel_mag(ii)*0.2/mu(ii);
+    I(:,ii) = 0.16*Re(ii)^(-1/8);
 end
 
 
@@ -54,6 +55,7 @@ twmat      = reshape(tw,[ny,nx]);
 twxmat      = reshape(twx,[ny,nx]);
 Remat       = reshape(Re,[ny,nx]);
 mueffmat      = reshape(mueff,[ny,nx]);
+Imat       = reshape(I,[ny,nx]);
 
 velmag = sqrt(umat.^2 + vmat.^2);
 
@@ -65,7 +67,7 @@ grid minor
 shading interp
 colorbar
 subplot(2,1,2)
-contourf(xmat,ymat,mueffmat,30 )
+contourf(xmat,ymat,pmat,30 )
 grid on
 shading interp
 colorbar
@@ -78,14 +80,16 @@ uT=1*(1-r/0.1).^(1/7);
 uT2 = (r/0.1).^(1/7);
 
 figure(2)
-plot(ymat(:,1),umat(:,1))
+plot(ymat(:,1),umat(:,1),'LineWidth',2)
 hold on
-plot(ymat(:,1),umat(:,end/2))
-plot(ymat(:,1),umat(:,end))
-plot(r+0.1,uT, 'k')
-plot(r,uT2, 'k')
-title('velocity in axial direction [m/s]')
-legend('Entrance vel','midway vel','exit vel','analytical')
+% plot(ymat(:,1),umat(:,end/2))
+plot(ymat(:,1),umat(:,end),'LineWidth',2)
+plot(r+0.1,uT, 'k','LineWidth',2)
+plot(r,uT2, 'k','LineWidth',2)
+title('velocity in axial direction [m/s]', 'FontSize', 15)
+axis([0 0.2 0.2 1.1]);
+set(gca, 'box', 'on', 'LineWidth', 2, 'FontSize', 15)
+legend('Entrance vel','exit vel','analytical','Location','Southwest')%, 'FontSize', 15);%,'midway vel'
 
 figure(3)
 plot(xmat(:,1),velmag(end/2,:))
