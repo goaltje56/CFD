@@ -215,14 +215,77 @@ Substitution variables $F$ and $D$ into Equation \ref{intergrated} forms Equatio
 \label{Substituted}
 \frac{\rho_P^0 \Delta V}{\Delta t}\phi_P=a_W\phi_W+a_E\phi_E+a_S\phi_S+a_N\phi_N +\Delta F
 \end{equation}
-The coefficients of $a$ are dependent on the differencing scheme. The discretization scheme has some properties. First property is the conservativeness which means the flux $\phi$ leaving a control volume has to be equal to the flux $\phi$ entering the control volume through the same face. By using a hybrid differencing scheme, the conservativeness is automatically satisfied. The second property is the boundedness. The boundedness describes the value of $\phi$ in case there is no source term. In that case, the nodal value of $\phi$ must be equal to the value of $\phi$ at the boundary. Besides the restricted value of $\phi$, the coefficients $a$ of the discretized equation must have equal signs. The last important property is the transportiveness. This requires that the transportiveness changes according to the magnitude of the P\`{e}clet number ($Pe=F/D$). Hence, if Pe is zero, $\phi$ equally diffuses in all directions. The hybrid differencing scheme satisfies the three properties. However, this comes at the price of only first order accuracy \cite{Versteeg2007}.
+The coefficients of $a$ are dependent on the differencing scheme. The discretization scheme has some properties. First property is the conservativeness which means the flux $\phi$ leaving a control volume has to be equal to the flux $\phi$ entering the control volume through the same face. By using a hybrid differencing scheme, the conservativeness is automatically satisfied. The second property is the boundedness. The boundedness describes the value of $\phi$ in case there is no source term. In that case, the nodal value of $\phi$ must be equal to the value of $\phi$ at the boundary. Besides the restricted value of $\phi$, the coefficients $a$ of the discretized equation must have equal signs. The last important property is the transportiveness. This requires that the transportiveness changes according to the magnitude of the P\`{e}clet number ($Pe=F/D$). Hence, if Pe is zero, $\phi$ equally diffuses in all directions. The hybrid differencing scheme satisfies the three properties. However, this comes at the price of only first order accuracy \cite{Versteeg2007}. The obtained values for $F$ and $D$ determine the values of the $a$ coefficients. They can be determined as shown in Table \ref{tab:coefsa}.
+\InsTab{coefficients}\\
+The discretized equation can now be solved using the transient SIMPLE algorithm. SIMPLE stands for Semi-Implicit Method for Pressure-Linked Equations. In essential the algorithm is a guess and correct procedure for pressure calculations in a staggered grid which is used \cite{Versteeg2007}. The transient SIMPLE algortithm is used due to the unsteady convection-diffusion equations used to describe the problem. The difference with the regular SIMPLE algorithm is the time $t$, discretized in time steps, $\Delta t$ for which the equations are solved. The transient SIMPLE algortithm works in the following manner. First the variables $u$, $v$, $p$ and $\phi$ are initialized and a time step $\Delta t$ is defined. The time itiration starts at $t_0$ and continues untill $t>t_{max}$. VERDERE UITLEG NODIG, EVEN GOED BEKIJKEN HOE DIE SOLVER WERKT
 
-\section{Geometry}
+\section{CFD problem}
+This chapter will describe the entire CFD model used during simulations. First of all the geometry will be introduces, after which the applied boundary conditions are explained.
 
-Figure \ref{fig:Geometry} shows the geometry used during the research
+\subsubsection{Geometry}
+Figure \ref{fig:Geometry} shows the geometry used during the research. The rectangular grid with dimensions length, $L$ and width $D$, contains a bluff-body with height and width $h$ and $b$ respectively.
+
 \InsFig{FlowGeometry}{Schematic diagram of geometry.}{Geometry}
 
+The size of the bluff body is changer during the simulations for the purpose of finding its influence on the turbulence intensity. The size of the bluff-body will from now on be described with respect to the width of the channel. This can be acchieved upon use of $h/D$, wich describes the dimensionless size.\\
 
+
+
+\subsubsection{General boundary conditions}
+To compose a realistic problem one needs to define boundary conditions. Since this study focussus on tubulent flows only, the applied boundary conditions are solely turbulent as well. This section will cover the boundary conditions applied to the general domain. The next Section \ref{bluffBC} will cover the boundary conditions applied to the bluff body.  will  First of all A fully developed turbulent profile enters the geometry at the left side. This boundary condition is applied to reduce computational time. Without the fully developed inlet profile, the flow needs some time to adapt to a fully developed profile, which demands computational power. The inlet boundary condition can be applied with help of Equation \ref{inletBC}, called the power law velocity profile. \vspace{2mm}
+
+\emph{Power law velocity profile}
+\begin{equation}
+\label{inletBC}
+u(y) = \begin{cases} U_{IN}\cdot \big[\frac{y}{D/2}\big]^{1/n}, & \mbox{if } y\leq\frac{D}{2} \\ U_{IN}\cdot \big[2-\frac{y}{D/2}\big]^{1/n}, & \mbox{if } y>\frac{D}{2}\end{cases}
+\end{equation}
+The equation is constructed of a lower and upper half since the geometry has its origin in the lower left corner. In the equation $D$ is defined as the maximum height in the channel, $U_{IN}$ is the maximum inlet velocity. The height of the profile can be altered by a change in $U_{IN}$. The power $n$ is chosen to be 7, which is a value suited for a wide range of turbulent flows \cite{Morrison}. Figure \ref{fig:Inlet} shows the analytical inlet, as presented in Equation \ref{inletBC}, the inlet profile as extracted from the simulation and the profile at the exit of the geometry as extracted from the simulation. The entire domain is initialized to a temperature of 273$K$.
+
+\InsFig{InletBC}{Schematic diagram of geometry.}{Inlet}
+
+One can clearly see the agreement of the analitical expression for the inlet profile with the numerical result at the inlet. The outlet however, shows a sligth deviation from the inlet condition. This is due to the fact that the analytical expression is an approximation of the turbulent profile.\\
+To obtain accurate results one has to define values for the turbulent kinetic energy and dissipation rate at the inlet of the geometry. The inlet values can be calculated upon use of Equation \ref{kepsBC}.
+
+\begin{equation}
+\label{kepsBC}
+\kappa_{IN}=\frac{2}{3}(U_{IN}T_i)^2,\hspace{4mm}\epsilon_{IN}=C_{\mu}^0.25\frac{\kappa_{IN}^{1/3}}{0.035 D}
+\end{equation}
+In these equations $T_i$ is the turbulent intensity, set to a value of 4\%. The value for $T_i$ for the inlet boundary is in general taken between 1\% and 6\% \cite{Versteeg2007}.\\
+At both top and bottom walls of the geometry the axial velocity is set to $u=0[m\cdot s^{-1}]$. Since the flow is turbulent not only the value at the boundary itself should be restricted, but also the so called near wall region. These regions need wall functions to describe the flow near the walls. Closest to the walls there is a viscous sub-layer. Within this layer the eddies decrease in size and dissipate their energy due to viscous forces dominating in this area. When one looks more towards the center of the geometry a log-law layer appears. In order to implement such conditions one needs to introduce $y^+$ and $u^+$, as seen in Equation \ref{yplusuplus} \cite{Versteeg2007}.
+
+\begin{equation}
+\label{yplusuplus}
+y^+=\frac{\rho u_{\tau}y}{\mu},\hspace{4mm}u^+=\frac{U}{ u_{\tau}}
+\end{equation}
+In this equation, $ u_{\tau}$ represents the friction velocity and $U$ is the average mean flow velocity. The friction velocity is calcualted with Equation \ref{fricvel}
+\begin{equation}
+\label{fricvel}
+u_{\tau}=\big(\frac{\tau_w}{\rho}\big)^{1/2}
+\end{equation}
+$\tau_w$ is the shear stress in the boundary layer in $[Pa]$. In the viscous sub-layer, which is defined in the layer where $y^+\leq 11.63$, the value of $u^+$ is equal to the value of $y^+$. The shear stress in this region can be evaluated by Equation \ref{subtau}
+
+\begin{equation}
+\label{subtau}
+\tau_w = \mu \frac{\partial u}{\partial y}
+\end{equation}
+If the value of the dimensionless height $y^+$ grows beyond $11.63$ one enters the log-law regime. Within this layer $u^+$ is calculated with Equation\ref{ulog}, where the values for $\kappa$ and $E$ are $0.4187$ and $9.793$ respectively.
+\begin{equation}
+\label{ulog}
+u^+=\frac{1}{\kappa}ln(Ey^+)
+\end{equation}
+The shear stress in the log-law area, used to calculate $y^+$, is determined upon us of Equation \ref{taulog}
+\begin{equation}
+\label{taulog}
+\tau_w = \frac{\rho C_{\mu}^{0.25}\kappa^{1/2}\partial u}{u^+}
+\end{equation}
+
+
+ At the exit of the geometry the gradient of velocity and temperature in both $u$ and $y$ directionis set to zero. This is done in order to comply with the mass balance equation since otherwise mass may dissapear through the exit.\\
+
+\subsubsection{Bluff-body boundary conditions} \label{bluffBC}
+The walls of the bluff body are treated in the same manner as explained in the previous section. Additional to that, the grid cells inside the bluff body are set to zero values by prescribing $S_p=-10^{30}$. The temperature of the bluff body is prescribed at the walls, and can be changed. MOETEN WE OOK DIE KAPPA EN EPSILON UITLEGGEN BIJ DEZE BOUNDARY CONDITIONS?????
+
+ 
 \section{Results}
 The results of using the \LaTeX template is a great looking paper.
 In Figures \ref{fig:Geometry} and \ref{fig:Geometry} it can be seen how figures are easily included.

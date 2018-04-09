@@ -3,7 +3,10 @@
 \BOOKMARK [2][-]{section*.4}{Turbulent flow}{section*.3}% 3
 \BOOKMARK [2][-]{section*.13}{- turbulence model}{section*.3}% 4
 \BOOKMARK [2][-]{section*.19}{discretization of governing equations}{section*.3}% 5
-\BOOKMARK [1][-]{section*.24}{Geometry}{}% 6
-\BOOKMARK [1][-]{section*.26}{Results}{}% 7
-\BOOKMARK [1][-]{section*.28}{Conclusion}{}% 8
-\BOOKMARK [1][-]{section*.32}{Appendix A}{}% 9
+\BOOKMARK [1][-]{section*.25}{CFD problem}{}% 6
+\BOOKMARK [2][-]{section*.26}{Geometry}{section*.25}% 7
+\BOOKMARK [2][-]{section*.28}{General boundary conditions}{section*.25}% 8
+\BOOKMARK [2][-]{section*.37}{Bluff-body boundary conditions}{section*.25}% 9
+\BOOKMARK [1][-]{section*.38}{Results}{}% 10
+\BOOKMARK [1][-]{section*.40}{Conclusion}{}% 11
+\BOOKMARK [1][-]{section*.44}{Appendix A}{}% 12
