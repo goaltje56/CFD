@@ -2,13 +2,18 @@ clc
 close all
 clear all
 factor = [1 2 4 8];
-for i = 1:4
-nx = 10*factor(i);
-ny = 20*factor(i);
+pp = [];
+max_v = [];
+max_v_analytical = [];
+for ppp = 1:4
+nx = 10*factor(ppp);
+ny = 20*factor(ppp);
+pp = [pp ppp]
 name = sprintf('convergence_x%2.0f_y%2.0f.dat',nx,ny)
 output = load(name);
 % nx = 80;
 % ny = 160;
+
 %% columns
 x       = output([ny+1:end],1);
 y       = output([ny+1:end],2);
@@ -111,5 +116,18 @@ plot(ymat(:,1),abs(error),'LineWidth',2)
 title('error at the inlet [-]', 'FontSize', 15)
 axis([0 0.2 -0.1 0.4]);
 set(gca, 'box', 'on', 'LineWidth', 2, 'FontSize', 15)
-end
 legend('h=8','h=4','h=2','h=1','Location','NorthEast')
+
+max_v = [max_v max(umat(:,1))];
+max_v_analytical = [max_v_analytical max(u_total)];
+
+end
+
+figure(5)
+hold on
+plot(pp,max_v,'LineWidth',2)
+plot(pp,max_v_analytical,'LineWidth',2)
+title('max velocity at inlet [m/s]', 'FontSize', 15)
+% axis([0 0.2 -0.1 0.4]);
+set(gca, 'box', 'on', 'LineWidth', 2, 'FontSize', 15)
+% legend('h=8','h=4','h=2','h=1','Location','NorthEast')

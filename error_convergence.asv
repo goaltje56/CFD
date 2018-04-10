@@ -1,14 +1,15 @@
 clc
 close all
 clear all
-
-for i = i:
-gridx = 80;
-gridy = 160;
-name = sprintf('convergence_x%2.0f_y%2.0f.dat',gridx,gridy)
+factor = [1 2 4 8];
+for k = 1:4
+nx = 10*factor(i);
+ny = 20*factor(i);
+name = sprintf('convergence_x%2.0f_y%2.0f.dat',nx,ny)
 output = load(name);
-nx = 80;
-ny = 160;
+% nx = 80;
+% ny = 160;
+
 %% columns
 x       = output([ny+1:end],1);
 y       = output([ny+1:end],2);
@@ -79,7 +80,7 @@ colorbar
 
 R=0;
 R2=0.1;
-r=linspace(0,0.1,80);
+r=linspace(0,0.1,nx);
 
 uT=1*(1-r/0.1).^(1/7);
 uT2 = (r/0.1).^(1/7);
@@ -106,8 +107,16 @@ u_total = [transpose(uT2); transpose(uT)]
 error = u_total-umat(:,1);
 
 figure(4)
+hold on
 plot(ymat(:,1),abs(error),'LineWidth',2)
 title('error at the inlet [-]', 'FontSize', 15)
 axis([0 0.2 -0.1 0.4]);
 set(gca, 'box', 'on', 'LineWidth', 2, 'FontSize', 15)
-legend('finest grid','Location','NorthEast')
+legend('h=8','h=4','h=2','h=1','Location','NorthEast')
+
+max_v = max(umat(:,1));
+max_v_analytical = max(u_total);
+figure(5)
+hold on
+
+end

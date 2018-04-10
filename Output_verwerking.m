@@ -2,9 +2,9 @@ clc
 close all
 clear all
 
-output = load('convergence_x80_y160.dat');
-nx = 80;
-ny = 160;
+output = load('output.dat');
+nx = 160;
+ny = 320;
 %% columns
 x       = output([ny+1:end],1);
 y       = output([ny+1:end],2);
@@ -103,7 +103,7 @@ title('Centerline velocity magnitude [m/s]')
 % end
 
 figure(4)
-contourf(xmat,ymat,vel_magmat,'.','Linewidth',1)
+contourf(xmat,ymat,pmat,'.','Linewidth',1)
 s=colorbar
 colormap('jet(1000)')
 % set(s,'Location','southoutside')
