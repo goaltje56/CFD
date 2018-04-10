@@ -2,7 +2,11 @@ clc
 close all
 clear all
 
-output = load('output.dat');
+for i = i:
+gridx = 80;
+gridy = 160;
+name = sprintf('convergence_x%2.0f_y%2.0f.dat',gridx,gridy)
+output = load(name);
 nx = 80;
 ny = 160;
 %% columns
@@ -56,7 +60,7 @@ twxmat      = reshape(twx,[ny,nx]);
 Remat       = reshape(Re,[ny,nx]);
 mueffmat      = reshape(mueff,[ny,nx]);
 Imat       = reshape(I,[ny,nx]);
-vel_magmat       = reshape(I,[ny,nx]);
+vel_magmat       = reshape(vel_mag,[ny,nx]);
 
 velmag = sqrt(umat.^2 + vmat.^2);
 
@@ -68,14 +72,14 @@ grid minor
 shading interp
 colorbar
 subplot(2,1,2)
-contourf(xmat,ymat,pmat,30 )
+contourf(xmat,ymat,Remat,30 )
 grid on
 shading interp
 colorbar
 
 R=0;
 R2=0.1;
-r=linspace(0,0.1,1000);
+r=linspace(0,0.1,80);
 
 uT=1*(1-r/0.1).^(1/7);
 uT2 = (r/0.1).^(1/7);
@@ -93,17 +97,17 @@ set(gca, 'box', 'on', 'LineWidth', 2, 'FontSize', 15)
 legend('Entrance vel','exit vel','analytical','Location','Southwest')%, 'FontSize', 15);%,'midway vel'
 
 figure(3)
-plot(xmat(:,1),velmag(end/2,:))
-title('Centerline velocity magnitude [m/s]')
-% for i=1:nx
-%     for j=1:ny
-% twtest(i,j) = mu(i,j) * 0.5*(u(i,j)+u(i+1,j))...
-%     /(y-y);
-%     end
-% end
-
-figure(4)
-contourf(xmat,ymat,vel_mag,'.','Linewidth',1)
+contourf(xmat,ymat,vel_magmat,'.','Linewidth',1)
 s=colorbar
 colormap('jet(1000)')
-% set(s,'Location','southoutside')
+set(s,'Location','southoutside')
+
+u_total = [transpose(uT2); transpose(uT)]
+error = u_total-umat(:,1);
+
+figure(4)
+plot(ymat(:,1),abs(error),'LineWidth',2)
+title('error at the inlet [-]', 'FontSize', 15)
+axis([0 0.2 -0.1 0.4]);
+set(gca, 'box', 'on', 'LineWidth', 2, 'FontSize', 15)
+legend('finest grid','Location','NorthEast')

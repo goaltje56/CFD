@@ -1,5 +1,5 @@
-#define NPI        80       /* number of grid cells in x-direction [-] */
-#define NPJ        160        /* number of grid cells in y-direction [-] */
+#define NPI        160       /* number of grid cells in x-direction [-] */
+#define NPJ        320        /* number of grid cells in y-direction [-] */
 #define XMAX       10.0      /* width of the domain [m] */ 
 #define YMAX       0.2       /* height of the domain [m] */
 #define Rbluff	   0.01      /* radius of the bluff body in the domain [m] */
@@ -27,26 +27,32 @@
 #define ERough     9.793
 #define Ti         0.04
 
-//#define A			8
+//#define A			4			/*this are the points with x=10 y=20 */
+//#define B			6
+//#define C			8
+//#define D			12
+
+
+//#define A			8			/*this are the initial points with x=20 y=40 */
 //#define B			12
 //#define C			15
 //#define D			25
 
 
-//#define A			4
-//#define B			6
-//#define C			8
-//#define D			12
-
-//#define A			16
+//#define A			16			/*this are the points with x=40 y=80 */
 //#define B			24
 //#define C			30
 //#define D			50
 
-#define A			32
-#define B			48
-#define C			60
-#define D			100
+//#define A			32			/*this are the points with x=80 y=160 */
+//#define B			48
+//#define C			60
+//#define D			100
+
+#define A			64			/*this are the points with x=160 y=320 */
+#define B			96
+#define C			120
+#define D			200
 
 #define sigma_t		0.9		/*turbulent Prandtl number */
 

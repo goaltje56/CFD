@@ -2,7 +2,7 @@ clc
 close all
 clear all
 
-output = load('output.dat');
+output = load('convergence_x80_y160.dat');
 nx = 80;
 ny = 160;
 %% columns
@@ -56,6 +56,7 @@ twxmat      = reshape(twx,[ny,nx]);
 Remat       = reshape(Re,[ny,nx]);
 mueffmat      = reshape(mueff,[ny,nx]);
 Imat       = reshape(I,[ny,nx]);
+vel_magmat       = reshape(vel_mag,[ny,nx]);
 
 velmag = sqrt(umat.^2 + vmat.^2);
 
@@ -67,14 +68,14 @@ grid minor
 shading interp
 colorbar
 subplot(2,1,2)
-contourf(xmat,ymat,pmat,30 )
+contourf(xmat,ymat,Remat,30 )
 grid on
 shading interp
 colorbar
 
 R=0;
 R2=0.1;
-r=linspace(0,0.1,1000);
+r=linspace(0,0.1,80);
 
 uT=1*(1-r/0.1).^(1/7);
 uT2 = (r/0.1).^(1/7);
@@ -102,7 +103,7 @@ title('Centerline velocity magnitude [m/s]')
 % end
 
 figure(4)
-contourf(xmat,ymat,Remat,'.','Linewidth',1)
+contourf(xmat,ymat,vel_magmat,'.','Linewidth',1)
 s=colorbar
 colormap('jet(1000)')
 % set(s,'Location','southoutside')

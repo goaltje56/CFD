@@ -981,10 +981,10 @@ void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			aN[I][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			aPold    = rho[I][J]*AREAe*AREAn/Dt;
 
-			if (I > 11*NPI/200 && I < 18*NPI/200 && J > 2*NPJ/5 && J < 3*NPJ/5){
-				SP[I][J] = -LARGE;
-				Su[I][J] = LARGE*373.;
-			}
+//			if (I > 11*NPI/200 && I < 18*NPI/200 && J > 2*NPJ/5 && J < 3*NPJ/5){
+//				SP[I][J] = -LARGE;
+//				Su[I][J] = LARGE*373.;
+//			}
 	
 				/*bluff body*/	
 			if(I == A && J<D && J>C){
