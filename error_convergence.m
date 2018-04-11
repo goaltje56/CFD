@@ -1,11 +1,11 @@
 clc
 close all
 clear all
-factor = [1 2 4 8];
+factor = [1 2 4 8 16];
 pp = [];
 max_v = [];
 max_v_analytical = [];
-for ppp = 1:4
+for ppp = 1:5
 nx = 10*factor(ppp);
 ny = 20*factor(ppp);
 pp = [pp ppp]
@@ -112,9 +112,9 @@ error = u_total-umat(:,1);
 
 figure(4)
 hold on
-plot(ymat(:,1),abs(error),'LineWidth',2)
+plot(ymat(:,1),error,'LineWidth',2)
 title('error at the inlet [-]', 'FontSize', 15)
-axis([0 0.2 -0.1 0.4]);
+axis([0 0.2 -0.4 0.4]);
 set(gca, 'box', 'on', 'LineWidth', 2, 'FontSize', 15)
 legend('h=8','h=4','h=2','h=1','Location','NorthEast')
 

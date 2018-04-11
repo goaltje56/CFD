@@ -1,5 +1,5 @@
-#define NPI        160       /* number of grid cells in x-direction [-] */
-#define NPJ        320        /* number of grid cells in y-direction [-] */
+#define NPI        20       /* number of grid cells in x-direction [-] */
+#define NPJ        40        /* number of grid cells in y-direction [-] */
 #define XMAX       10.0      /* width of the domain [m] */ 
 #define YMAX       0.2       /* height of the domain [m] */
 #define Rbluff	   0.01      /* radius of the bluff body in the domain [m] */
@@ -33,10 +33,10 @@
 //#define D			12
 
 
-//#define A			8			/*this are the initial points with x=20 y=40 */
-//#define B			12
-//#define C			15
-//#define D			25
+#define A			8			/*this are the initial points with x=20 y=40 */
+#define B			12
+#define C			15
+#define D			25
 
 
 //#define A			16			/*this are the points with x=40 y=80 */
@@ -49,10 +49,15 @@
 //#define C			60
 //#define D			100
 
-#define A			64			/*this are the points with x=160 y=320 */
-#define B			96
-#define C			120
-#define D			200
+//#define A			64			/*this are the points with x=160 y=320 */
+//#define B			96
+//#define C			120
+//#define D			200
+
+//#define A			128			/*this are the points with x=320 y=640 */
+//#define B			192			/* although it gives very accurate results */
+//#define C			240			/* it is not recommended to use so many points */
+//#define D			400			/* as the simulation time is very long */
 
 #define sigma_t		0.9		/*turbulent Prandtl number */
 

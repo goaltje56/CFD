@@ -3,8 +3,8 @@ close all
 clear all
 
 output = load('output.dat');
-nx = 160;
-ny = 320;
+nx = 20;
+ny = 40;
 %% columns
 x       = output([ny+1:end],1);
 y       = output([ny+1:end],2);
@@ -68,7 +68,7 @@ grid minor
 shading interp
 colorbar
 subplot(2,1,2)
-contourf(xmat,ymat,Remat,30 )
+contourf(xmat,ymat,vmat,30 )
 grid on
 shading interp
 colorbar
