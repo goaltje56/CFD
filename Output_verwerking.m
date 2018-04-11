@@ -77,8 +77,8 @@ R=0;
 R2=0.1;
 r=linspace(0,0.1,80);
 
-uT=1*(1-r/0.1).^(1/7);
-uT2 = (r/0.1).^(1/7);
+uT=10*(1-r/0.1).^(1/7);
+uT2 = 10*(r/0.1).^(1/7);
 
 figure(2)
 plot(ymat(:,1),umat(:,1),'LineWidth',2)
@@ -88,7 +88,7 @@ plot(ymat(:,1),umat(:,end),'LineWidth',2)
 plot(r+0.1,uT, 'k','LineWidth',2)
 plot(r,uT2, 'k','LineWidth',2)
 title('velocity in axial direction [m/s]', 'FontSize', 15)
-axis([0 0.2 0.2 1.1]);
+% axis([0 0.2 0.2 1.1]);
 set(gca, 'box', 'on', 'LineWidth', 2, 'FontSize', 15)
 legend('Entrance vel','exit vel','analytical','Location','Southwest')%, 'FontSize', 15);%,'midway vel'
 
@@ -103,7 +103,7 @@ title('Centerline velocity magnitude [m/s]')
 % end
 
 figure(4)
-contourf(xmat,ymat,pmat,'.','Linewidth',1)
+contourf(xmat,ymat,Tmat,'.','Linewidth',1)
 s=colorbar
 colormap('jet(1000)')
 % set(s,'Location','southoutside')

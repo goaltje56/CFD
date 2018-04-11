@@ -208,17 +208,19 @@ void init(void)
 	for (I = 0; I <= NPI + 1; I++) {
 		i = I;
 		
-		for(J = 0; J<= (NPJ/2); J++){		
+		for(J = 0; J<= (NPJ/2); J++){
+			T[I][J] = 1.;		
 			u      [i][J] = U_IN*pow(y[J]/(YMAX/2),.143);     /* Velocity in x-direction */
 			}
 		for(J>(NPJ/2);J<=NPJ;J++){	
 			u 		[i][J] = U_IN*pow(2-y[J]/(YMAX/2),.143);
+			T[I][J] = 0;		
 		}
 		for (J = 0; J <= NPJ + 1; J++) {
 			j = J;
 			v      [I][j] = 0.;       /* Velocity in y-direction */
 			p      [I][J] = 0.;       /* Relative pressure */
-			T      [I][J] = 273.;     /* Temperature */
+//			T      [I][J] = 0.;     /* Temperature */
 			k      [I][J] = 1e-3;     /* k */
 			eps    [I][J] = 1e-4;     /* epsilon */
 			uplus  [I][J] = 1.;                                            /* uplus */
@@ -250,7 +252,7 @@ void init(void)
 	relax_u   = 0.3;             /* See eq. 6.36 */
 	relax_v   = relax_u;       /* See eq. 6.37 */
 	relax_pc  = 0.2;//1.1 - relax_u; /* See eq. 6.33 */
-	relax_T   = 0.5;  /* Relaxation factor for temperature */
+	relax_T   = 0.3;  /* Relaxation factor for temperature */
 	relax_eps   = 0.3;  /* Relaxation factor for epsilon */
 	relax_k   = 0.3; /* Relaxation factor for k */
 
@@ -266,19 +268,22 @@ void bound(void)
 
 	/* Fixed temperature at the upper and lower wall */
 
-		for(J = 0; J<= (NPJ/2); J++){		
+		for(J = 0; J<= (NPJ/2); J++){	
+			T[1][J]	= 1.;
 			u [1][J] = U_IN*pow(y[J]/(YMAX/2),.143);     /* Velocity in x-direction */
 			}
 		for(J>(NPJ/2);J<=NPJ;J++){	
+			T[1][J]=0.;
 			u [1][J] = U_IN*pow(2-y[J]/(YMAX/2),.143);
 		}
 
-
-	for (I = 0; I <= NPI + 1; I++) {
-		/* Temperature at the walls in Kelvin */
-		T[I][0] = 273.; /* bottom wall */
-		T[I][NPJ+1] = 273.; /* top wall */
-	} /* for J */
+		
+//	for (I = 0; I <= NPI + 1; I++) {
+//		/* Temperature at the walls in Kelvin */
+//		T[I][0] = 273.; /* bottom wall */
+//		T[I][NPJ+1] = 273.; /* top wall */
+//	} /* for J */
+	
 
 	globcont();
 
@@ -297,17 +302,17 @@ void bound(void)
 		T[NPI+1][J] = T[NPI][J];
 	} /* for J */
 	
-	for (I = 0; I <= NPI + 1; I++) {
-		for(J=0; J<=NPJ; J++){
-			if(I>=A && I <= B && J >= C && J <= D){
-			T[I][J]     = 700.; /* Temperature in Kelvin */
-			}
-		}
-	} /* for I */
+//	for (I = 0; I <= NPI + 1; I++) {
+//		for(J=0; J<=NPJ; J++){
+//			if(I>=A && I <= B && J >= C && J <= D){
+//			T[I][J]     = 700.; /* Temperature in Kelvin */
+//			}
+//		}
+//	} /* for I */
 
 	for (J = 0; J <= NPJ + 1; J++) {
-		k[0][J] = 2./3.*sqr(U_IN*Ti); /* inlet */
-		eps[0][J] = pow(Cmu,0.75)*pow(k[0][J],1.5)/(0.07*YMAX*0.5); /* inlet */
+		k[1][J] = 2./3.*sqr(U_IN*Ti); /* inlet */
+		eps[1][J] = pow(Cmu,0.75)*pow(k[1][J],1.5)/(0.07*YMAX*0.5); /* inlet */
 	} /* for J */
 
 } /* bound */
@@ -988,26 +993,26 @@ void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 //			}
 	
 				/*bluff body*/	
-			if(I == A && J<D && J>C){
-				aE[I][J] = 0;
-				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-			}
-			if(I == B && J<D && J>C){
-				aW[I][J] = 0;
-				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe ;
-				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-			}
-			if(I > A && I<B && J==C){
-				aN[I][J] = 0;
-				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-			}
-			if(I > A && I<B && J==D){
-				aS[I][J] = 0;
-				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-			}
+//			if(I == A && J<D && J>C){
+//				aE[I][J] = 0;
+//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
+//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
+//			}
+//			if(I == B && J<D && J>C){
+//				aW[I][J] = 0;
+//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe ;
+//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
+//			}
+//			if(I > A && I<B && J==C){
+//				aN[I][J] = 0;
+//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
+//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
+//			}
+//			if(I > A && I<B && J==D){
+//				aS[I][J] = 0;
+//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
+//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
+//			}
 			
 			if(I>A && I<B && J<D && J>C){
 				aN[i][J]= 0;
@@ -1409,7 +1414,7 @@ void thermal_diffusivity(void)
 
 	for (I = 0; I <= NPI; I++)
 		for (J = 1; J <= NPJ + 1; J++)
-            Gamma[I][J] = 0.2/Cp[I][J] + mut[I][J];
+            Gamma[I][J] = 0.25/Cp[I][J] + mut[I][J];
 
 } /* thermal_diffusivity */
 
