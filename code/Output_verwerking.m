@@ -77,8 +77,8 @@ R=0;
 R2=0.1;
 r=linspace(0,0.1,80);
 
-uT=1*(1-r/0.1).^(1/7);
-uT2 = 1*(r/0.1).^(1/7);
+uT=10*(1-r/0.1).^(1/7);
+uT2 = 10*(r/0.1).^(1/7);
 
 figure(2)
 plot(ymat(:,1),umat(:,1),'LineWidth',2)
@@ -103,7 +103,7 @@ title('Centerline velocity magnitude [m/s]')
 % end
 
 figure(4)
-contourf(xmat,ymat, Tmat,'.','Linewidth',1)
+contourf(xmat,ymat,Tmat,'.','Linewidth',1)
 s=colorbar
 colormap('jet(1000)')
 % set(s,'Location','southoutside')

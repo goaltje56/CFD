@@ -1241,27 +1241,27 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			else          aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			
 //						/*bluff body*/	
-			if(I == A && J<D && J>C){
+			if((I == A && J<D && J>C)||(I == AA && J<DD && J>CC)){
 				aE[I][j] = 0;
 				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
 				Su[I][J] = twx[I][J] * 0.5 * (v[I][j] + v[I][j+1])/(0.5*AREAs) * AREAw * AREAs;
 			}
-			if(I == B && J<D && J>C){
+			if((I == B && J<D && J>C)||(I == BB && J<DD && J>CC)){
 				aW[I][j] = 0;
 				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
 				Su[I][J] = twx[I][J] * 0.5 * (v[I][j] + v[I][j+1])/(0.5*AREAs) * AREAw * AREAs;
 			}
-			if(I > A && I<B && J==C){
+			if((I > A && I<B && J==C)||(I > AA && I<BB && J==CC)){
 				aN[i][J] = 0;
 				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
 				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
 			}
-			if(I > A && I<B && J==D){
+			if((I > A && I<B && J==D)||(I > AA && I<BB && J==DD)){
 				aS[i][J] = 0;
 				SP[I][J]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
 				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
 			}
-			if(I>A && I<B && J<D && J>C){
+			if((I>A && I<B && J<D && J>C)||(I>AA && I<BB && J<DD && J>CC)){
 				SP[i][J]= -LARGE;
 			}
 			/* bluff body */
