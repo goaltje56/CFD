@@ -1,5 +1,5 @@
-#define NPI        40       /* number of grid cells in x-direction [-] */
-#define NPJ        80        /* number of grid cells in y-direction [-] */
+#define NPI        20       /* number of grid cells in x-direction [-] */
+#define NPJ        40        /* number of grid cells in y-direction [-] */
 #define XMAX       10.0      /* width of the domain [m] */ 
 #define YMAX       0.2       /* height of the domain [m] */
 #define Rbluff	   0.01      /* radius of the bluff body in the domain [m] */
