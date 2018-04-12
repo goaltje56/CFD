@@ -1,6 +1,6 @@
-clc
-close all
-clear all
+% clc
+% close all
+% clear all
 
 output = load('output.dat');
 nx = 20;
@@ -102,7 +102,7 @@ title('Centerline velocity magnitude [m/s]')
 %     end
 % end
 
-figure(4)
+figure(5)
 contourf(xmat,ymat, Tmat,'.','Linewidth',1)
 s=colorbar
 colormap('jet(1000)')

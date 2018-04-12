@@ -25,7 +25,7 @@
 #define C2eps      1.92
 #define kappa      0.4187
 #define ERough     9.793
-#define Ti         0.04
+#define Ti         0.4
 
 //#define A			4			/*this are the points with x=10 y=20 */
 //#define B			6
