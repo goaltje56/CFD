@@ -16,6 +16,7 @@ extern void ucoeff(double **aE, double **aW, double **aN, double **aS, double **
 extern void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b);
 extern void pccoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b);
 extern void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b);
+extern void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b);
 extern void epscoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b);
 extern void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b);
 
@@ -31,6 +32,7 @@ extern void storeresults(void);
 extern void calculateuplus(void);
 extern void viscosity(void);
 extern void thermal_diffusivity(void);
+extern void species_diffusivity(void);
 
 extern void output(void);
 extern void printConv(double time, int iter);

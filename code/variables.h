@@ -15,6 +15,8 @@ double **v;
 double **pc;
 double **p;
 double **T;
+double **f;
+
 double **rho;
 double **mu;
 double **mut;
@@ -22,6 +24,8 @@ double **mueff;
 double **E;
 double **E2;
 double **Gamma;
+double **Gamma_f;
+
 double **Cp;
 double **k;
 double **gammak;
@@ -47,6 +51,7 @@ double **u_old;
 double **v_old;
 double **pc_old;
 double **T_old;
+double **f_old;
 double **k_old;
 double **eps_old;
 
@@ -68,8 +73,8 @@ int    Jstart;
 int    Jend;
 
 int    iter;
-int    iter_u, iter_v, iter_pc, iter_T, iter_k, iter_eps;
-double relax_u, relax_v, relax_pc, relax_T, relax_eps, relax_k;
+int    iter_u, iter_v, iter_pc,iter_f, iter_T, iter_k, iter_eps;
+double relax_u, relax_v, relax_pc,relax_f, relax_T, relax_eps, relax_k;
 
 double SAVG;
 double SMAX;

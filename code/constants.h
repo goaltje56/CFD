@@ -9,6 +9,7 @@
 #define V_ITER     10         /* number of Newton iterations for v equation [-] */
 #define PC_ITER    30        /* number of Newton iterations for pc equation [-] */
 #define T_ITER     1         /* number of Newton iterations for T equation [-] */
+#define f_ITER     1         /* number of Newton iterations for f equation [-] */
 #define EPS_ITER   50         /* number of Newton iterations for Eps equation [-] */
 #define K_ITER     50         /* number of Newton iterations for K equation [-] */
 #define SMAXneeded 1E-8      /* maximum accepted error in mass balance [kg/s] */
@@ -16,7 +17,7 @@
 #define LARGE      1E30      /* arbitrary very large value [-] */
 #define SMALL      1E-30     /* arbitrary very small value [-] */
 #define P_ATM      101000.   /* athmospheric pressure [Pa] */
-#define U_IN       10       /* in flow velocity [m/s] */
+#define U_IN       5       /* in flow velocity [m/s] */
 
 #define Cmu        0.09
 #define sigmak       1.
@@ -25,7 +26,7 @@
 #define C2eps      1.92
 #define kappa      0.4187
 #define ERough     9.793
-#define Ti         0.4
+#define Ti         0.06
 
 //#define A			4			/*this are the points with x=10 y=20 */
 //#define B			6
