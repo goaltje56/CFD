@@ -17,7 +17,7 @@
 #define LARGE      1E30      /* arbitrary very large value [-] */
 #define SMALL      1E-30     /* arbitrary very small value [-] */
 #define P_ATM      101000.   /* athmospheric pressure [Pa] */
-#define U_IN       5       /* in flow velocity [m/s] */
+#define U_IN       1       /* in flow velocity [m/s] */
 
 #define Cmu        0.09
 #define sigmak       1.
@@ -26,7 +26,7 @@
 #define C2eps      1.92
 #define kappa      0.4187
 #define ERough     9.793
-#define Ti         0.06
+#define Ti         0.01
 
 //#define A			4			/*this are the points with x=10 y=20 */
 //#define B			6
@@ -34,16 +34,16 @@
 //#define D			12
 
 
-#define A			8			/*this are the initial points with x=20 y=40 */
-#define B			12
-#define C			15
-#define D			25
+//#define A			8			/*this are the initial points with x=20 y=40 */
+//#define B			12
+//#define C			15
+//#define D			25
 
 
-//#define A			16			/*this are the points with x=40 y=80 */
-//#define B			24
-//#define C			30
-//#define D			50
+#define A			16			/*this are the points with x=40 y=80 */
+#define B			24
+#define C			30
+#define D			50
 
 //#define A			32			/*this are the points with x=80 y=160 */
 //#define B			48
@@ -61,4 +61,9 @@
 //#define D			400			/* as the simulation time is very long */
 
 #define sigma_t		0.9		/*turbulent Prandtl number */
+
+#define AA			28	
+#define BB			36
+#define	CC			30	
+#define DD			50	
 
