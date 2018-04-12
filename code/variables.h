@@ -46,6 +46,7 @@ double **twx;
 double **Pr;
 double **Pee;
 double **Tplus;
+double **fplus;
 //
 double **u_old;
 double **v_old;
