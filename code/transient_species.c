@@ -1414,7 +1414,7 @@ void thermal_diffusivity(void)
 
 	for (I = 0; I <= NPI; I++)
 		for (J = 1; J <= NPJ + 1; J++)
-            Gamma[I][J] = 0.15*(u[I+1][J]-u[I][J])*0.2 + mut[I][J];
+            Gamma[I][J] = 0.025/Cp[I][J] + mut[I][J];
 
 } /* thermal_diffusivity */
 
