@@ -1,0 +1,20 @@
+\begin{thebibliography}{3}
+\newcommand{\enquote}[1]{``#1''}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Deen(2017)}]{slides}
+DEEN, N. (2017).
+\newblock \enquote{Introduction to computational fluid dynamics}.
+
+\bibitem[{Morrison(2003)}]{Morrison}
+MORRISON, A. (2003).
+\newblock 32 Avenue of the Americas, New York, NY 10013-2473, USA.
+
+\bibitem[{Versteeg and Malalasekera(2007)}]{Versteeg2007}
+VERSTEEG, H. and MALALASEKERA, W. (2007).
+\newblock Edinburgh Gate, Harlow, England.
+
+\end{thebibliography}
