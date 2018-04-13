@@ -1,4 +1,4 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{3}
 \newcommand{\enquote}[1]{``#1''}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
@@ -8,11 +8,6 @@
 \bibitem[{Deen(2017)}]{slides}
 DEEN, N. (2017).
 \newblock \enquote{Introduction to computational fluid dynamics}.
-
-\bibitem[{Li and Chan(2012)}]{buildingTurb}
-LI, L. and CHAN, P.W. (2012).
-\newblock \enquote{Numerical simulation study of the effect of buildings and
-  complex terrain on the low-level winds at an airport in typhoon situation}.
 
 \bibitem[{Morrison(2003)}]{Morrison}
 MORRISON, A. (2003).

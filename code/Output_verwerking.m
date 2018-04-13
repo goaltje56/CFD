@@ -2,16 +2,16 @@ clc
 close all
 clear all
 
-output = load('output.dat');
-nx = 20;
-ny = 40;
+output = load('output1.dat');
+nx = 40;
+ny = 80;
 %% columns
 x       = output([ny+1:end],1);
 y       = output([ny+1:end],2);
 u       = output([ny+1:end],3);
 v       = output([ny+1:end],4);
 p       = output([ny+1:end],5);
-T       = output([ny+1:end],6);
+f       = output([ny+1:end],6);
 rho     = output([ny+1:end],7);
 mu      = output([ny+1:end],8);
 gamma   = output([ny+1:end],9);
@@ -24,6 +24,8 @@ yplus2  = output([ny+1:end],15);
 tw      = output([ny+1:end],16);
 twx      = output([ny+1:end],17);
 mueff      = output([ny+1:end],18);
+T      = output([ny+1:end],19);
+
 
 for ii = 1:length(u)
     vel_mag(ii) = sqrt(v(ii)^2+u(ii)^2);
@@ -41,7 +43,7 @@ ymat = y(1:ny);
 umat        = reshape(u,[ny,nx]);
 vmat        = reshape(v,[ny,nx]);
 pmat        = reshape(p,[ny,nx]);
-Tmat        = reshape(T,[ny,nx]);
+fmat        = reshape(f,[ny,nx]);
 rhomat      = reshape(rho,[ny,nx]);
 mumat       = reshape(mu,[ny,nx]);
 gammamat    = reshape(gamma,[ny,nx]);
@@ -57,6 +59,8 @@ Remat       = reshape(Re,[ny,nx]);
 mueffmat      = reshape(mueff,[ny,nx]);
 Imat       = reshape(I,[ny,nx]);
 vel_magmat       = reshape(vel_mag,[ny,nx]);
+Tmat         = reshape(T,[ny,nx]);
+
 
 velmag = sqrt(umat.^2 + vmat.^2);
 
@@ -103,7 +107,7 @@ title('Centerline velocity magnitude [m/s]')
 % end
 
 figure(4)
-contourf(xmat,ymat,pmat,'.','Linewidth',1)
+contourf(xmat,ymat,Tmat,'.','Linewidth',1)
 s=colorbar
 colormap('jet(1000)')
 % set(s,'Location','southoutside')

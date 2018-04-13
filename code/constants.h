@@ -1,5 +1,5 @@
-#define NPI        20       /* number of grid cells in x-direction [-] */
-#define NPJ        40        /* number of grid cells in y-direction [-] */
+#define NPI        40       /* number of grid cells in x-direction [-] */
+#define NPJ        80        /* number of grid cells in y-direction [-] */
 #define XMAX       10.0      /* width of the domain [m] */ 
 #define YMAX       0.2       /* height of the domain [m] */
 #define Rbluff	   0.01      /* radius of the bluff body in the domain [m] */
@@ -17,7 +17,7 @@
 #define LARGE      1E30      /* arbitrary very large value [-] */
 #define SMALL      1E-30     /* arbitrary very small value [-] */
 #define P_ATM      101000.   /* athmospheric pressure [Pa] */
-#define U_IN       1       /* in flow velocity [m/s] */
+#define U_IN       5       /* in flow velocity [m/s] */
 
 #define Cmu        0.09
 #define sigmak       1.
@@ -34,21 +34,21 @@
 //#define D			12
 
 
-#define A			6			/*this are the initial points with x=20 y=40 */
-#define B			10
-#define C			9
-#define D			15
+//#define A			6			/*this are the initial points with x=20 y=40 */
+//#define B			10
+//#define C			9
+//#define D			15
 
-#define A2			3			/*this are the initial points with x=20 y=40 */
-#define B2			7
-#define C2			2
-#define D2			8
+//#define A2			3			/*this are the initial points with x=20 y=40 */
+//#define B2			7
+//#define C2			2
+//#define D2			8
 
 
-//#define A			16			/*this are the points with x=40 y=80 */
-//#define B			24
-//#define C			30
-//#define D			50
+#define A			16			/*this are the points with x=40 y=80 */
+#define B			24
+#define C			30
+#define D			50
 
 //#define A			32			/*this are the points with x=80 y=160 */
 //#define B			48
@@ -67,12 +67,12 @@
 
 #define sigma_t		0.9		/*turbulent Prandtl number */
 
-#define AA			14	
-#define BB			18
-#define	CC			25	
-#define DD			31	
-
-#define AA2			11	
-#define BB2			15
-#define	CC2			32	
-#define DD2			38
+//#define AA			14	
+//#define BB			18
+//#define	CC			25	
+//#define DD			31	
+//
+//#define AA2			11	
+//#define BB2			15
+//#define	CC2			32	
+//#define DD2			38

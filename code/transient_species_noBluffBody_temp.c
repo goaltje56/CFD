@@ -23,23 +23,19 @@
 //
 //	return (I>A && I<B && J>C && J<D);
 //}
-
-
 /* ################################################################# */
 int main(int argc, char *argv[])
 /* ################################################################# */
 {
-	int    iter_u, iter_v, iter_pc, iter_T, iter_f, iter_eps, iter_k;
+	int    iter_u, iter_v, iter_pc, iter_T, iter_eps, iter_k;
 	double du, dv, time, TOTAL_TIME = 5;
 	
 	init();
 	bound(); /* apply boundary conditions */
-//	triang();
 	
 	for (time = Dt; time <= TOTAL_TIME; time += Dt) {
 		iter = 0; 
-		while (iter < MAX_ITER && SMAX > SMAXneeded && SAVG > SAVGneeded) { /* outer iteration loop */
-			
+		while (iter < MAX_ITER && SMAX > SMAXneeded && SAVG > SAVGneeded) { /* outer iteration loop */			
 			
 			derivatives();
 			ucoeff(aE, aW, aN, aS, aP, b);
@@ -65,17 +61,16 @@ int main(int argc, char *argv[])
 			for (iter_eps = 0; iter_eps < EPS_ITER; iter_eps++)
 				solve(eps, b, aE, aW, aN, aS, aP);
 
+			fcoeff(aE, aW, aN, aS, aP, b);
+			for (iter_f = 0; iter_f < T_ITER; iter_f++)
+				solve(f, b, aE, aW, aN, aS, aP);
+				
 			Tcoeff(aE, aW, aN, aS, aP, b);
 			for (iter_T = 0; iter_T < T_ITER; iter_T++)
 				solve(T, b, aE, aW, aN, aS, aP);
 
-			fcoeff(aE, aW, aN, aS, aP, b);
-			for (iter_f = 0; iter_f < f_ITER; iter_f++)
-				solve(f, b, aE, aW, aN, aS, aP);
-				
 			viscosity();
 			thermal_diffusivity();
-			species_diffusivity();
 
 			bound();
 			storeresults(); /* Store data at current time level in arrays for "old" data*/
@@ -96,44 +91,6 @@ int main(int argc, char *argv[])
 
 } /* main */
 
-/* ################################################################# */
-//void triang(void)
-///* ################################################################# */
-//{
-////	grid();
-//	
-//	int    I, J, i, j, N, a;
-//	double Dx, Dy, TRX[21], TRY[21], tresh;
-//	double Triangle_x[21] = {4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,3.6,3.2,2.8,2.4,2.0,2.4,2.8,3.2,3.6,4.0};
-//	double Triangle_y[21]  = {0.0, 0.004, 0.008, 0.012, 0.016, 0.020, 0.024, 0.028, 0.032, 0.036, 0.040, 0.036, 0.032, 0.028, 0.024, 0.020, 0.016, 0.012, 0.008, 0.004, 0.0};
-//	
-//	for (N = 0; N <= 20; N++){
-//		tresh = Triangle_x[N];
-//		a=0;
-//		for(I = 0; I <= NPI+1; I++){
-//		
-//			if (x[I]>=tresh && a <=1){
-//				TRX[N] = I;
-//				printf("TRX is: %e\n",TRX[N]);
-//				break;	
-//			}				
-//		}		
-//	} /* for I */
-//	
-//	for (N = 0; N <= 20; N++){
-//		tresh = Triangle_y[N]+YMAX/2;
-//		a=0;
-//		for(J = 0; J <= NPJ+1; J++){
-//		
-//			if (y[J]>=tresh && a <=1){
-//				TRY[N]=J;
-//				printf("TRY is: %e\n",TRY[N]);
-//				break;	
-//			}				
-//		}		
-//	} /* for J */
-//
-//} /* triang */
 
 /* ################################################################# */
 void grid(void)
@@ -225,7 +182,7 @@ void init(void)
 			j = J;
 			v      [I][j] = 0.;       /* Velocity in y-direction */
 			p      [I][J] = 0.;       /* Relative pressure */
-			T      [I][J] = 273.;     /* Temperature */
+			T      [I][J] = 273;     /* Temperature */
 			k      [I][J] = 1e-3;     /* k */
 			eps    [I][J] = 1e-4;     /* epsilon */
 			uplus  [I][J] = 1.;                                            /* uplus */
@@ -242,12 +199,11 @@ void init(void)
 			mu     [I][J] = 2.E-5;    /* Viscosity */
 			Cp     [I][J] = 1013.;     /* J/(K*kg) Heat capacity - assumed constant for this problem */
 			Gamma  [I][J] = 0.025/Cp[I][J]; /* Thermal conductivity divided by heat capacity */
-			Gamma_f  [I][J] = 0.025/Cp[I][J]; /* Thermal conductivity divided by heat capacity */
 
 			u_old  [i][J] = u[i][J];  /* Velocity in x-direction old timestep */
 			v_old  [I][j] = v[I][j];  /* Velocity in y-direction old timestep */
 			pc_old [I][J] = pc[I][J]; /* Pressure correction old timestep */
-			f_old  [I][J] = f[I][J];  /* species mixture old timestep */
+			f_old  [I][J] = f[I][J];  /* fraction old timestep */
 			T_old  [I][J] = T[I][J];  /* Temperature old timestep */
 			eps_old[I][J] = eps[I][J];  /* epsilon old timestep*/
 			k_old  [I][J] = k[I][J];    /* k old timestep*/
@@ -259,8 +215,8 @@ void init(void)
 	relax_u   = 0.3;             /* See eq. 6.36 */
 	relax_v   = relax_u;       /* See eq. 6.37 */
 	relax_pc  = 0.2;//1.1 - relax_u; /* See eq. 6.33 */
+	relax_f   = 0.3;  /* Relaxation factor for temperature */
 	relax_T   = 0.3;  /* Relaxation factor for temperature */
-	relax_f   = 0.3;  /* Relaxation factor for species */
 	relax_eps   = 0.3;  /* Relaxation factor for epsilon */
 	relax_k   = 0.3; /* Relaxation factor for k */
 
@@ -307,17 +263,20 @@ void bound(void)
 	} /* for J */
 
 	for (J = 0; J <= NPJ+1; J++) {
-		T[NPI+1][J] = T[NPI][J];
 		f[NPI+1][J] = f[NPI][J];
 	} /* for J */
 	
-//	for (I = 0; I <= NPI + 1; I++) {
-//		for(J=0; J<=NPJ; J++){
-//			if(I>=A && I <= B && J >= C && J <= D){
-//			T[I][J]     = 700.; /* Temperature in Kelvin */
-//			}
-//		}
-//	} /* for I */
+	for (I = 0; I <= NPI + 1; I++) {
+		for(J=0; J<=NPJ; J++){
+			if((I>=A && I <= B && J >= C && J <= D)){//||(I>=AA && I <= BB && J >= CC && J <= DD)||(I>=A2 && I <= B2 && J >= C2 && J <= D2)||(I>=AA2 && I <= BB2 && J >= CC2 && J <= DD2)){
+			T[I][J]     = 700.; /* Temperature in Kelvin */
+			}
+		}
+	} /* for I */
+
+	for (J = 0; J <= NPJ+1; J++) {
+		T[NPI+1][J] = T[NPI][J];
+	} /* for J */
 
 	for (J = 0; J <= NPJ + 1; J++) {
 		k[1][J] = 2./3.*sqr(U_IN*Ti); /* inlet */
@@ -616,33 +575,33 @@ void ucoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			if (J==NPJ) aN[i][J] =0.;
 			else        aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
             
-//            			/*bluff body*/	
-//			if(I>A && I<B && J<D && J>C){
+            			/*bluff body*/	
+			if((I>A && I<B && J<D && J>C)){//||(I>AA && I<BB && J<DD && J>CC)||(I>A2 && I<B2 && J<D2 && J>C2)||(I>AA2 && I<BB2 && J<DD2 && J>CC2)){
+				SP[i][J]= -LARGE;
+//				aS[i][j]= 0;
+//				aN[i][j] = 0;
+			}
+
+//			if(I == B && J<D && J>C)
 //				SP[i][J]= -LARGE;
-////				aS[i][j]= 0;
-////				aN[i][j] = 0;
-//			}
-//
-////			if(I == B && J<D && J>C)
-////				SP[i][J]= -LARGE;
-//			if(I >= A && I<=B && J==C){
-//				aN[I][j] = 0;
-//				if(yplus[I][J] < 11.63)
-//					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
-//				else
-//					SP[i][J]= - rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-////				SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-//			}								
-//			if(I >= A && I<=B && J==D){
-//				aS[I][j] = 0;
-//				if(yplus[I][J] < 11.63)
-//					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
-//				else
-//					SP[i][J]= - rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-////				SP[I][j] = -rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
-//			}
-//
-//            /* bluff body */
+			if((I >= A && I<=B && J==C)){//||(I >= AA && I<=BB && J==CC)||(I >= A2 && I<=B2 && J==C2)||(I >= AA2 && I<=BB2 && J==CC2)){
+				aN[I][j] = 0;
+				if(yplus[I][J] < 11.63)
+					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
+				else
+					SP[i][J]= - rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
+//					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
+			}								
+			if((I >= A && I<=B && J==D)){//||(I >= AA && I<=BB && J==DD)||(I >= A2 && I<=B2 && J==D2)||(I >= AA2 && I<=BB2 && J==DD2)){
+				aS[I][j] = 0;
+				if(yplus[I][J] < 11.63)
+					SP[i][J]= -mu[I][J]*AREAs/(0.5*AREAw);
+				else
+					SP[i][J]= - rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
+//					SP[I][j] = -rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / uplus[I][J] * AREAs;
+			}
+
+            /* bluff body */
             
 			aPold    = 0.5*(rho[I-1][J] + rho[I][J])*AREAe*AREAn/Dt;
 
@@ -743,31 +702,31 @@ void vcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			aN[I][j] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			aPold    = 0.5*(rho[I][J-1] + rho[I][J])*AREAe*AREAn/Dt;
 
-//			/*bluff body*/	
-//			if(I == A && J<=D && J>=C){
-//				aE[I][j] = 0;
-//				if(xplus[I][J] < 11.63)
-//					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
-//				else
-//					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
-//			}
-//			if(I == B && J<=D && J>=C){
-//				aW[I][j] = 0;
-//				if(xplus[I][J]<11.63)
-//					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
-//				else
-//					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
-//			}
-////			if(I > A && I<B && J==C)
-////				SP[I][j]= -LARGE;
-////			if(I > A && I<B && J==D)								
-////				SP[I][j] = - LARGE;
-//			if(I>A && I<B && J<=D && J>C){
-//				SP[i][J]= -LARGE;
-////				aE[i][j]= 0;
-////				aW[i][j] = 0;
-//			}
-//			/* bluff body */
+			/*bluff body*/	
+			if((I == A && J<=D && J>=C)){//||(I == AA && J<=DD && J>=CC)||(I == A2 && J<=D2 && J>=C2)||(I == AA2 && J<=DD2 && J>=CC2)){
+				aE[I][j] = 0;
+				if(xplus[I][J] < 11.63)
+					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
+				else
+					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
+			}
+			if((I == B && J<=D && J>=C)){//||(I == BB && J<=DD && J>=CC)||(I == B2 && J<=D2 && J>=C2)||(I == BB2 && J<=DD2 && J>=CC2)){
+				aW[I][j] = 0;
+				if(xplus[I][J]<11.63)
+					SP[I][j]= -mu[I][J]*AREAw/(0.5*AREAs);
+				else
+					SP[I][j]=-rho[I][J] * pow(Cmu, 0.25) * sqrt(k[I][J]) / vplus[I][J] * AREAw;
+			}
+//			if(I > A && I<B && J==C)
+//				SP[I][j]= -LARGE;
+//			if(I > A && I<B && J==D)								
+//				SP[I][j] = - LARGE;
+			if((I>A && I<B && J<=D && J>C)){//||(I>AA && I<BB && J<=DD && J>CC)||(I>A2 && I<B2 && J<=D2 && J>C2)||(I>AA2 && I<BB2 && J<=DD2 && J>CC2)){
+				SP[i][J]= -LARGE;
+//				aE[i][j]= 0;
+//				aW[i][j] = 0;
+			}
+			/* bluff body */
 				
 			/* eq. 8.31 without time dependent terms (see also eq. 5.14): */
 
@@ -892,8 +851,8 @@ void storeresults(void)
 	for(I = 1; I <= NPI; I++)
 		for(J = 1; J <= NPJ; J++) {
 			pc_old[I][J]  = pc[I][J];
-			T_old[I][J]   = T[I][J];
 			f_old[I][J]   = f[I][J];
+			T_old[I][J]   = T[I][J];
 			eps_old[I][J] = eps[I][J];
 			k_old[I][J]   = k[I][J];				
       }
@@ -932,7 +891,7 @@ void velcorr(void)
 } /* velcorr */
 
 /* ################################################################# */
-void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b)
+void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b)
 /* ################################################################# */
 {
 /***** Purpose: To calculate the coefficients for the T equation. ******/
@@ -946,11 +905,8 @@ void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 	Iend   = NPI;
 	Jstart = 1;
 	Jend   = NPJ;
-//	double Pr, Pee;
 
 	conv();
-
-    calculateuplus();
 
 	for (I = Istart; I <= Iend; I++) {
 		i = I;
@@ -963,7 +919,7 @@ void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			AREAe = AREAw;
 			AREAs = x_u[i+1] - x_u[i]; /* = A[I][j] */
 			AREAn = AREAs;
-			
+
 			/* The convective mass flux defined in eq. 5.8a */
 			/* note:  F = rho*u but Fw = (rho*u)w = rho*u*AREAw per definition. */
 
@@ -978,16 +934,15 @@ void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			/* The conductivity, Gamma, at the interface is calculated */
 			/* with the use of a harmonic mean. */
 
-			Dw = Gamma_f[I-1][J  ]*Gamma_f[I  ][J  ]/(Gamma_f[I-1][J  ]*(x[I  ] - x_u[i  ]) + Gamma_f[I  ][J  ]*(x_u[i  ] - x[I-1]))*AREAw;
-			De = Gamma_f[I  ][J  ]*Gamma_f[I+1][J  ]/(Gamma_f[I  ][J  ]*(x[I+1] - x_u[i+1]) + Gamma_f[I+1][J  ]*(x_u[i+1] - x[I  ]))*AREAe;
-			Ds = Gamma_f[I  ][J-1]*Gamma_f[I  ][J  ]/(Gamma_f[I  ][J-1]*(y[J  ] - y_v[j  ]) + Gamma_f[I  ][J  ]*(y_v[j  ] - y[J-1]))*AREAs;
-			Dn = Gamma_f[I  ][J  ]*Gamma_f[I  ][J+1]/(Gamma_f[I  ][J  ]*(y[J+1] - y_v[j+1]) + Gamma_f[I  ][J+1]*(y_v[j+1] - y[J  ]))*AREAn;
+			Dw = Gamma[I-1][J  ]*Gamma[I  ][J  ]/(Gamma[I-1][J  ]*(x[I  ] - x_u[i  ]) + Gamma[I  ][J  ]*(x_u[i  ] - x[I-1]))*AREAw;
+			De = Gamma[I  ][J  ]*Gamma[I+1][J  ]/(Gamma[I  ][J  ]*(x[I+1] - x_u[i+1]) + Gamma[I+1][J  ]*(x_u[i+1] - x[I  ]))*AREAe;
+			Ds = Gamma[I  ][J-1]*Gamma[I  ][J  ]/(Gamma[I  ][J-1]*(y[J  ] - y_v[j  ]) + Gamma[I  ][J  ]*(y_v[j  ] - y[J-1]))*AREAs;
+			Dn = Gamma[I  ][J  ]*Gamma[I  ][J+1]/(Gamma[I  ][J  ]*(y[J+1] - y_v[j+1]) + Gamma[I  ][J+1]*(y_v[j+1] - y[J  ]))*AREAn;
 
 			/* The source terms */
 
 			SP[I][J] = 0.;
 			Su[I][J] = 0.;
-			
 
 			/* The coefficients (hybrid differencing scheme) */
 
@@ -1001,52 +956,51 @@ void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 //				SP[I][J] = -LARGE;
 //				Su[I][J] = LARGE*373.;
 //			}
-	
+
 				/*bluff body*/	
-//			if(I == A && J<D && J>C){
-//				aE[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-//			if(I == B && J<D && J>C){
-//				aW[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe ;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-//			if(I > A && I<B && J==C){
-//				aN[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-//			if(I > A && I<B && J==D){
-//				aS[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
+			if((I == A && J<D && J>C)){//||(I == A2 && J<D2 && J>C2)||(I == AA && J<DD && J>CC)||(I == AA2 && J<DD2 && J>CC2)){
+				aE[I][J] = 0;
+				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
+				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
+			}
+			if((I == B && J<D && J>C)){//||(I == B2 && J<D2 && J>C2)||(I == BB && J<DD && J>CC)|(I == BB2 && J<DD2 && J>CC2)){
+				aW[I][J] = 0;
+				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe ;
+				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
+			}
+			if((I > A && I<B && J==C)){//||(I > A2 && I<B2 && J==C2)||(I > AA && I<BB && J==CC)||(I > AA2 && I<BB2 && J==CC2)){
+				aN[I][J] = 0;
+				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
+				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
+			}
+			if((I > A && I<B && J==D)){//||(I > A2 && I<B2 && J==D2)||(I > AA && I<BB && J==DD)||(I > AA2 && I<BB2 && J==DD2)){
+				aS[I][J] = 0;
+				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
+				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
+			}
 			
-//			if(I>A && I<B && J<D && J>C){
-//				aN[i][J]= 0;
-//				aW[i][J]= 0;
-//				aS[i][J]= 0;
-//				aE[i][J]= 0;
-//
-//			}
-//			/* bluff body */
-			
-			
+			if((I>A && I<B && J<D && J>C)){//||(I>A2 && I<B2 && J<D2 && J>C2)||(I>AA2 && I<BB2 && J<DD2 && J>CC2)||(I>AA && I<BB && J<DD && J>CC)){
+				aN[i][J]= 0;
+				aW[i][J]= 0;
+				aS[i][J]= 0;
+				aE[i][J]= 0;
+
+			}
+			/* bluff body */
+
 			/* eq. 8.31 with time dependent terms (see also eq. 5.14): */
 
 			aP[I][J] = aW[I][J] + aE[I][J] + aS[I][J] + aN[I][J] + Fe - Fw + Fn - Fs - SP[I][J] + aPold;
 
 			/* Setting the source term equal to b */
 
-			b[I][J] = Su[I][J] + aPold*f_old[I][J];
+			b[I][J] = Su[I][J] + aPold*T_old[I][J];
 
 			/* Introducing relaxation by eq. 6.37 . and putting also the last */
 			/* term on the right side into the source term b[i][J] */
 
-			aP[I][J] /= relax_f;
-			b [I][J] += (1 - relax_f)*aP[I][J]*f[I][J];
+			aP[I][J] /= relax_T;
+			b [I][J] += (1 - relax_T)*aP[I][J]*T[I][J];
 
 			/* now the TDMA algorithm can be called to solve the equation. */
 			/* This is done in the next step of the main program. */
@@ -1054,11 +1008,10 @@ void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			} /* for J */
 		} /* for I */
 
-} /* fcoeff */
-
+} /* Tcoeff */
 
 /* ################################################################# */
-void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b)
+void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b)
 /* ################################################################# */
 {
 /***** Purpose: To calculate the coefficients for the T equation. ******/
@@ -1123,42 +1076,15 @@ void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			aN[I][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			aPold    = rho[I][J]*AREAe*AREAn/Dt;
 
-//			if (I > 11*NPI/200 && I < 18*NPI/200 && J > 2*NPJ/5 && J < 3*NPJ/5){
-//				SP[I][J] = -LARGE;
-//				Su[I][J] = LARGE*373.;
-//			}
-	
-				/*bluff body*/	
-//			if(I == A && J<D && J>C){
-//				aE[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-//			if(I == B && J<D && J>C){
-//				aW[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe ;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-//			if(I > A && I<B && J==C){
-//				aN[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-//			if(I > A && I<B && J==D){
-//				aS[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-			
-//			if(I>A && I<B && J<D && J>C){
-//				aN[i][J]= 0;
-//				aW[i][J]= 0;
-//				aS[i][J]= 0;
-//				aE[i][J]= 0;
-//
-//			}
-//			/* bluff body */
-			
+			if((I>A && I<B && J<D && J>C)){//||(I>AA && I<BB && J<DD && J>CC)||(I>A2 && I<B2 && J<D2 && J>C2)||(I>AA2 && I<BB2 && J<DD2 && J>CC2)){
+				aN[i][J]= 0;
+				aW[i][J]= 0;
+				aS[i][J]= 0;
+				aE[i][J]= 0;
+				SP[I][J] = -LARGE;
+
+			}
+			/* bluff body */
 			
 			/* eq. 8.31 with time dependent terms (see also eq. 5.14): */
 
@@ -1166,13 +1092,13 @@ void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 
 			/* Setting the source term equal to b */
 
-			b[I][J] = Su[I][J] + aPold*T_old[I][J];
+			b[I][J] = Su[I][J] + aPold*f_old[I][J];
 
 			/* Introducing relaxation by eq. 6.37 . and putting also the last */
 			/* term on the right side into the source term b[i][J] */
 
-			aP[I][J] /= relax_T;
-			b [I][J] += (1 - relax_T)*aP[I][J]*T[I][J];
+			aP[I][J] /= relax_f;
+			b [I][J] += (1 - relax_f)*aP[I][J]*f[I][J];
 
 			/* now the TDMA algorithm can be called to solve the equation. */
 			/* This is done in the next step of the main program. */
@@ -1180,7 +1106,7 @@ void Tcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			} /* for J */
 		} /* for I */
 
-} /* Tcoeff */
+} /* fcoeff */
 
 /* ################################################################# */
 void epscoeff(double **aE, double **aW, double **aN, double **aS, double **aP, double **b)
@@ -1254,28 +1180,28 @@ void epscoeff(double **aE, double **aW, double **aN, double **aS, double **aP, d
 			aS[I][J] = max3( Fs, Ds + 0.5*Fs, 0.);
 			aN[I][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			aPold    = rho[I][J]*AREAe*AREAn/Dt;
-//			
-//			/*bluff body*/	
-//			if(I == A && J<D && J>C){
-//				SP[I][J] = -LARGE;
-//				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
-//			}
-//			if(I == B && J<D && J>C){
-//				SP[I][J] = -LARGE;
-//				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
-//			}
-//			if(I > A && I<B && J==C){
-//				SP[I][J] = -LARGE;
-//				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
-//			}
-//			if(I > A && I<B && J==D){
-//				SP[I][J] = -LARGE;
-//				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
-//			}
-//			
-//			if(I>A && I<B && J<D && J>C){
-//				SP[i][J]= -LARGE;
-//			}
+			
+			/*bluff body*/	
+			if((I == A && J<D && J>C)){//||(I == AA && J<DD && J>CC)||(I == A2 && J<D2 && J>C2)||(I == AA2 && J<DD2 && J>CC2)){
+				SP[I][J] = -LARGE;
+				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
+			}
+			if((I == B && J<D && J>C)){//||(I == BB && J<DD && J>CC)||(I == B2 && J<D2 && J>C2)||(I == BB2 && J<DD2 && J>CC2)){
+				SP[I][J] = -LARGE;
+				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAs)*LARGE;
+			}
+			if((I > A && I<B && J==C)){//||(I > AA && I<BB && J==CC)||(I > A2 && I<B2 && J==C2)||(I > AA2 && I<BB2 && J==CC2)){
+				SP[I][J] = -LARGE;
+				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
+			}
+			if((I > A && I<B && J==D)){//||(I > AA && I<BB && J==DD)||(I > A2 && I<B2 && J==D2)||(I > AA2 && I<BB2 && J==DD2)){
+				SP[I][J] = -LARGE;
+				Su[I][J] = pow(Cmu,0.75)*pow(k[I][J],1.5)/(kappa*0.5*AREAw)*LARGE;
+			}
+			
+			if((I>A && I<B && J<D && J>C)){//||(I>AA && I<BB && J<DD && J>CC)||(I>A2 && I<B2 && J<D2 && J>C2)||(I>AA2 && I<BB2 && J<DD2 && J>CC2)){
+				SP[i][J]= -LARGE;
+			}
 			/* bluff body */
 
 			/* eq. 8.31 with time dependent terms (see also eq. 5.14): */
@@ -1376,31 +1302,31 @@ void kcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			if (J == NPJ) aN[i][J] = 0;
 			else          aN[i][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			
-////						/*bluff body*/	
-//			if(I == A && J<D && J>C){
-//				aE[I][j] = 0;
-//				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
-//				Su[I][J] = twx[I][J] * 0.5 * (v[I][j] + v[I][j+1])/(0.5*AREAs) * AREAw * AREAs;
-//			}
-//			if(I == B && J<D && J>C){
-//				aW[I][j] = 0;
-//				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
-//				Su[I][J] = twx[I][J] * 0.5 * (v[I][j] + v[I][j+1])/(0.5*AREAs) * AREAw * AREAs;
-//			}
-//			if(I > A && I<B && J==C){
-//				aN[i][J] = 0;
-//				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
-//				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
-//			}
-//			if(I > A && I<B && J==D){
-//				aS[i][J] = 0;
-//				SP[I][J]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
-//				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
-//			}
-//			if(I>A && I<B && J<D && J>C){
-//				SP[i][J]= -LARGE;
-//			}
-//			/* bluff body */
+						/*bluff body*/	
+			if((I == A && J<D && J>C)){			//||(I == AA && J<DD && J>CC)||(I == A2 && J<D2 && J>C2)||(I == AA2 && J<DD2 && J>CC2)){
+				aE[I][j] = 0;
+				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
+				Su[I][J] = twx[I][J] * 0.5 * (v[I][j] + v[I][j+1])/(0.5*AREAs) * AREAw * AREAs;
+			}
+			if((I == B && J<D && J>C)){			//||(I == BB && J<DD && J>CC)||(I == B2 && J<D2 && J>C2)||(I == BB2 && J<DD2 && J>CC2)){
+				aW[I][j] = 0;
+				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * vplus[I][J]/(0.5*AREAs) * AREAw * AREAs;
+				Su[I][J] = twx[I][J] * 0.5 * (v[I][j] + v[I][j+1])/(0.5*AREAs) * AREAw * AREAs;
+			}
+			if((I > A && I<B && J==C)){  //||(I > AA && I<BB && J==CC)||(I > A2 && I<B2 && J==C2)||(I > AA2 && I<BB2 && J==CC2)){
+				aN[i][J] = 0;
+				SP[I][j]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
+				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
+			}
+			if((I > A && I<B && J==D)){//||(I > AA && I<BB && J==DD)||(I > A2 && I<B2 && J==D2)||(I > AA2 && I<BB2 && J==DD2)){
+				aS[i][J] = 0;
+				SP[I][J]=-rho[I][J] * pow(Cmu,0.75) * sqrt(k[I][J]) * uplus[I][J]/(0.5*AREAw) * AREAs * AREAw;
+				Su[I][J] = tw[I][J] * 0.5 * (u[i][J] + u[i+1][J])/(0.5*AREAw) * AREAs * AREAw;
+			}
+			if((I>A && I<B && J<D && J>C)){//||(I>AA && I<BB && J<DD && J>CC)||(I>A2 && I<B2 && J<D2 && J>C2)||(I>AA2 && I<BB2 && J<DD2 && J>CC2)){
+				SP[i][J]= -LARGE;
+			}
+			/* bluff body */
             
             aPold    = rho[I][J]*AREAe*AREAn/Dt;
 
@@ -1432,7 +1358,6 @@ void calculateuplus(void)
 /***** Purpose: Calculate uplus, yplus and tw  ******/
 
 	int    i,j,I, J;
-//	double Pr, Pee;
 
 	viscosity();
 
@@ -1472,7 +1397,7 @@ void calculateuplus(void)
 	    i=I;
 		for (J = 1; J <= NPJ + 1; J++) {
 			j=J;
-			if(I>=A && I<=B&& J>=C && J<= D){
+			if((I>=A && I<=B && J<=D && J>=C)){//||(I>=AA && I<=BB && J<=DD && J>=CC)||(I>=A2 && I<=B2 && J<=D2 && J>=C2)||(I>=AA2 && I<=BB2 && J<=DD2 && J>=CC2)){
 				if (yplus1[I][J] < 11.63) {
                   	tw[I][J]      = mu[I][J]*0.5*(u[i][J]+u[i+1][j])/(y[J] -y_v[j]);
                  	yplus1[I][J]  = sqrt(rho[I][J] * fabs(tw[I][J])) * (y[J] - y_v[J]) / mu[I][J];
@@ -1481,7 +1406,7 @@ void calculateuplus(void)
                  				/* Prandtl number laminar flow */
 					Pr[I][J] = mu[I][J]*Cp[I][J]/0.025;		//Prandtl number laminar flow
 					Pee[I][J] = 9.24*(pow((Pr[I][J]/sigma_t),0.75)-1)*(1+0.28*exp(-0.007*(Pr[I][J]/sigma_t)));
-//                 	Tplus[I][J]	  = sigma_t*(uplus[I][J]+Pee[I][J]);
+                 	Tplus[I][J]	  = sigma_t*(uplus[I][J]+Pee[I][J]);
 					 
 //					 (rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J])
             	}/* if */
@@ -1493,6 +1418,7 @@ void calculateuplus(void)
                   	
         			Pr[I][J] = mu[I][J]*Cp[I][J]/0.025;		//Prandtl number laminar flow
 					Pee[I][J] = 9.24*(pow((Pr[I][J]/sigma_t),0.75)-1)*(1+0.28*exp(-0.007*(Pr[I][J]/sigma_t)));
+                 	fplus[I][J]	  = sigma_t*(uplus[I][J]+Pee[I][J]);
                  	Tplus[I][J]	  = sigma_t*(uplus[I][J]+Pee[I][J]);
 
             	}/* else */
@@ -1516,7 +1442,8 @@ void calculateuplus(void)
                   	
 					Pr[I][J] = mu[I][J]*Cp[I][J]/0.025;		//Prandtl number laminar flow
 					Pee[I][J] = 9.24*(pow((Pr[I][J]/sigma_t),0.75)-1)*(1+0.28*exp(-0.007*(Pr[I][J]/sigma_t)));
-                 	Tplus[I][J]	  = sigma_t*(vplus[I][J]+Pee[I][J]);
+                 	fplus[I][J]	  = sigma_t*(vplus[I][J]+Pee[I][J]);
+                 	Tplus[I][J]	  = sigma_t*(uplus[I][J]+Pee[I][J]);
 
             	}/* else */
             }
@@ -1555,19 +1482,6 @@ void thermal_diffusivity(void)
 } /* thermal_diffusivity */
 
 /* ################################################################# */
-void species_diffusivity(void)
-/* ################################################################# */
-{
-/***** Purpose: Calculate the viscosity in the fluid as a function of temperature *****/
-	int   I, J;
-
-	for (I = 0; I <= NPI; I++)
-		for (J = 1; J <= NPJ + 1; J++)
-            Gamma_f[I][J] = 0.025/Cp[I][J] + mut[I][J];
-
-} /* species_diffusivity */
-
-/* ################################################################# */
 void printConv(double time, int iter)
 /* ################################################################# */
 {
@@ -1576,7 +1490,7 @@ void printConv(double time, int iter)
 		printf (" Time\t u\t v\t SMAX\t SAVG\n");
 
 	printf (" %4d %10.3e\t%10.2e\t%10.2e\t%10.2e\t%10.2e\t%10.2e\n", 
-              iter, time, u[3*NPI/10][2*NPJ/5], v[3*NPI/10][2*NPJ/5], T[3*NPI/10][2*NPJ/5], SMAX, SAVG);
+              iter, time, u[3*NPI/10][2*NPJ/5], v[3*NPI/10][2*NPJ/5], f[3*NPI/10][2*NPJ/5], SMAX, SAVG);
 
 } /* printConv */
 
@@ -1599,9 +1513,9 @@ void output(void)
 			j = J;
 			ugrid = 0.5*(u[i][J]+u[i+1][J  ]);
 			vgrid = 0.5*(v[I][j]+v[I  ][j+1]);
-			fprintf(fp, "%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\n",
-			             x[I], y[J], ugrid, vgrid, p[I][J], T[I][J], rho[I][J], mu[I][J], Gamma[I][J], k[I][J], eps[I][J], uplus[I][J], yplus[I][J], yplus1[I][J], yplus2[I][J], tw[I][J], twx[I][J], mueff[I][J], k[I][J]);
-//			             1     2     3      4      5        6        7          8         9            10       11         12           13           14            15				16		17			18            19
+			fprintf(fp, "%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\n",
+			             x[I], y[J], ugrid, vgrid, p[I][J], f[I][J], rho[I][J], mu[I][J], Gamma[I][J], k[I][J], eps[I][J], uplus[I][J], yplus[I][J], yplus1[I][J], yplus2[I][J], tw[I][J], twx[I][J], mueff[I][J], T[I][J]);
+//			             1     2     3      4      5        6        7          8         9            10       11         12           13           14            15				16		17			18			19
 		} /* for J */
 		fprintf(fp, "\n");
 	} /* for I */
@@ -1730,8 +1644,9 @@ void memalloc(void)
 	TRY = int_1D_array(21);
 	Pr  = double_2D_matrix(NPI + 2, NPJ + 2);
 	Pee  = double_2D_matrix(NPI + 2, NPJ + 2);
+	fplus = double_2D_matrix(NPI + 2, NPJ + 2);
 	Tplus = double_2D_matrix(NPI + 2, NPJ + 2);
-
+	
 	u      = double_2D_matrix(NPI + 2, NPJ + 2);
 	v      = double_2D_matrix(NPI + 2, NPJ + 2);
 	pc     = double_2D_matrix(NPI + 2, NPJ + 2);

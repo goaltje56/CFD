@@ -71,20 +71,21 @@ A complete list of symbols used, with dimensions, is required.
 
 
 \section{Introduction}
-Within industrial applications, mixing of fluids is a well known phenomenon. Mixing fluids can be initiated by a propeller, driven by a motor, or by obstacles in a flow. A simple example is the mixing of two paint colors. starting with half a tank of blue paint and the other half yellow paint, will result in a completely green paint.\\
-This study focusses on the quality of mixing. Mainly the influence of the bluff-body size and its influence on the mixing quality. The mixing quality can be measured at the outlet of the geometry by looking at the value of the mixture fraction.
+Within industrial applications, mixing of fluids is a well known phenomenon. The mixing of fluids can be initiated by a propeller, driven by a motor, or by obstacles in a flow, as well as a difference in concentration. A simple example of mixing due to concentration difference is the mixing of two paint colours. Starting with half a tank of blue paint and the other half yellow paint, will result in a completely green paint.\\
+This study focusses on the quality of mixing. Mainly the influence of the bluff-body size and its influence on the mixing quality will be discussed, as well as the influence of the turbulent intensity at the inlet. The mixing quality can be measured at the outlet of the geometry by looking at the value of the mixture fraction.
 
-Computational Fluid Dynamics (CFD) is used to solve the system of equations. For this particular problem, the mass, momentum and transport equations are solved. The simulations are performed for fully developed turbulent and incompressible flows. The turbulence is modelled by means of a $\kappa-\epsilon$ model.\\
+Computational Fluid Dynamics (CFD) is used to solve the system of equations. For this particular problem, the mass, momentum \textcolor{cyan}{energy?} and transport equations are solved. The simulations are performed for fully developed turbulent and incompressible flows. The turbulence is modelled by means of a $\kappa-\epsilon$ model.\\
 \newline
+The expectation is that in a turbulent flow better mixing will be achieved without a bluff body. Prospected is that the bluff body will cause a decrease in turbulence and therefore contribute negative to the mixing. 
 SOME PIECE ABOUT EXPECTATIONS??\\
 \newline
-The first part of this article is composed of the theory and the numerical solver used to attain the solution. Then CFD model is treated, after which the Geometry and boundary conditions applied to the problem are discussed. Subsequently the mesh convergence and executed simulations are explained. Finally, the results of the simulations are displayed with a discussion and conclusion.
+The first part of this article is concerns the theory and the numerical solver used to attain the solution. Then the CFD model is treated, after which the geometry and boundary conditions applied to the problem are discussed. Subsequently the mesh convergence and executed simulations are explained. Finally, the results of the simulations are displayed with a discussion and conclusion.
 \newpage
 
 
 
 \section{Physics}
-This chapter covers the theory behind the CFD model. Once the theory is explained, the discretization of the governing equations is treated. Additional to that the used solver is explained.
+This chapter covers the theory of the CFD model. Once the theory is explained, the discretization of the governing equations is treated. Additional to that the used solver is explained.
 
 \subsection{Turbulent flow}
 A flow in a channel can be characterized by the Reynolds number, a dimensionless number which represents the ratio of viscous and inertial forces in the flow. The Reynolds number can be calculated upon use of Equation \ref{Reynolds}\cite{Versteeg2007}. Here $\rho$ is the fluid density in $[kg\cdot m^{-1}]$, $u$ is the velocity in $[m\cdot s^{-1}]$, $D$ is the characteristic length in $[m]$ and $\mu$ is the fluids dynamic viscosity in $[kg\cdot m^{-1}\cdot s^{-1}]$
@@ -93,14 +94,14 @@ A flow in a channel can be characterized by the Reynolds number, a dimensionless
 \label{Reynolds}
 Re = \frac{\rho \boldsymbol{u} D}{\mu}
 \end{equation}
-The flow is considered turbulent if the Reynolds number exceeds a value of 2300. A turbulent flow is contemplated as chaotic, containing flow instabilities such as eddies. These eddies cause local fluctuations in the velocity field. Therefore, the normal steady convection and diffusion equations can not be used to solve turbulent flows. To solve the turbulent flow equations one needs to introduce general equation for unsteady convection and diffusion\cite{Versteeg2007}.\vspace{2mm}
+The flow is considered turbulent if the Reynolds number exceeds a value of 2300. A turbulent flow is contemplated as chaotic, containing flow instabilities such as eddies. These eddies cause local fluctuations in the velocity field. Therefore, the normal steady convection and diffusion equations can not be used to solve turbulent flows. To solve the turbulent flow equations one needs to introduce a general equation for unsteady convection and diffusion\cite{Versteeg2007}.\vspace{2mm}
 
 \emph{Unsteady convection-diffusion}
 \begin{equation}
 \label{unsteadConvDiff}
 \frac{\partial \rho \phi}{\partial t} + div(\rho\phi\mathbf u)= div(\Gamma grad \phi)+S_{\phi}
 \end{equation}
-Equation \ref{unsteadConvDiff} consists of four parts. The first part is the time dependent term, the second part represents the convection, the third part the diffusion and the last part of the equation is the sink and or source term. $\phi$ is the transport term, $\Gamma$ is the diffusion or conduction coefficient. The transport term changes according to the equation to be solved. \\
+Equation \ref{unsteadConvDiff} consists of four parts. The first part is a time dependent term, the second part represents the convection, the third part the diffusion and the last part of the equation is the sink and or source term. $\phi$ is the transport term, $\Gamma$ is the diffusion or conduction coefficient. The transport term changes according to the equation to be solved. \\
 The conservation of mass, momentum and fraction play a major role in a CFD code. All conservation equations are derived for the case of an incompressible flow. The conservation of mass can be extracted from Equation \ref{unsteadConvDiff}, and results in \cite{slides}:\vspace{2mm}
 
 \emph{Mass balance}
@@ -120,21 +121,21 @@ For a two dimensional problem, the conservation of momentum needs to be solved i
 \end{equation}\
 The last important equation is the transport of fractions, and can be computed upon use of Equation \ref{fractrans}.\vspace{2mm}
 
-\emph{Fraction transport}
+\emph{Species fraction transport}
 \begin{equation}
 \label{fractrans}
 \rho C_p\frac{D f }{D t} = div(k \hspace{1mm}grad\hspace{1mm}f) +S_i 
 \end{equation}
 DEZE MOET NOG IETS ANDERS!!!!
-The fraction transport is introduced specifically for this study in order to keep track of the mixing of the flow.  \\
-Since this study regards a turbulent flow, the mass and momentum equations have to be solved in a different manner. This is done by taking the Reynolds average approach. In the Reynolds average approach the mean velocity is determined and the turbulence is described by a fluctuation around the mean velocity. Therefore, components in the convection-diffusion and conservation equations are decomposed in a mean and a fluctuation variable. The decomposed variables are given in Equation \ref{decomposed}.\vspace{2mm}
+The fraction transport is introduced specifically for this study in order to keep track of the mixing of the flow. This variable can have any value between 0 and 1. Considering only 2 species, a value of 1 means that the fluid is purely specie 1 and a value of 0 is purely the other specie. \\ \\
+Since this study regards a turbulent flow, the mass and momentum equations have to be solved in a different manner. This is done by means of the Reynolds average approach. In the Reynolds average approach the mean velocity is determined and the turbulence is described by a fluctuation around the mean velocity. Therefore, components in the convection-diffusion and conservation equations are decomposed in a mean and a fluctuating variable. The decomposed variables are given in Equation \ref{decomposed}.\vspace{2mm}
 
 \emph{Decomposed variables}
 \begin{equation}
 \label{decomposed}
 u=U+u'; \hspace{4mm} v = V+v'; \hspace{4mm} w=W+w'; \hspace{4mm} p=P+p' 
 \end{equation}
-In here, $U$, $V$ and $W$ are mean the velocities in $x$, $y$ and $z$ direction respectively. $P$ is the average pressure. the apostrophe terms are the fluctuating components. The average term is given by Equation \ref{Uavg}.\vspace{2mm}
+In here, $U$, $V$ and $W$ are the mean velocities in $x$, $y$ and $z$ direction respectively. $P$ is the average pressure. The apostrophe terms are the fluctuating components. The average term is given by Equation \ref{Uavg}.\vspace{2mm}
 
 \emph{Average velocity}
 \begin{equation}
@@ -148,11 +149,11 @@ The other average terms are calculated in the same manner. After computing the d
 \label{ReStress}
 \tau_{ij}=-\rho\overline{u_i'u_j'}
 \end{equation}
-The $\kappa-\epsilon$ model is used to close the system of equations. The $\kappa-\epsilon$ is chosen above the Prandtl mixing length model and the Reynolds stress model and algebraic stress model due to its simple implementation and widely proven validation \cite{Versteeg2007}.
+The $\kappa-\epsilon$ model is used to close the system of equations. This model is chosen above the Prandtl mixing length model and the Reynolds stress model and algebraic stress model due to its simple implementation and widely proven validation \cite{Versteeg2007}.
 
 
 \subsubsection{$\kappa-\epsilon$ turbulence model}
-The standard  $\kappa-\epsilon$ model introduces two extra transport equations to be solved. one for the turbulent kinetic energy, $\kappa$, and one for the viscous dissipation of turbulent kinetic energy, $\epsilon$.  $\kappa$ and $\epsilon$ are used to introduce a velocity scale, $\theta$ and large-scale turbulence length scale $\ell$. The velocity scale is calculated upon use of Equation \ref{velScale}, and the turbulence length-scale is calculated with use of Equation \ref{turbScale}.\vspace{2mm}
+The standard  $\kappa-\epsilon$ model introduces two extra transport equations to be solved. one for the turbulent kinetic energy, $\kappa$, and one for the viscous dissipation of turbulent kinetic energy, $\epsilon$.  $\kappa$ and $\epsilon$ are used to introduce a velocity \textcolor{red}{length?} scale, $\theta$ and large-scale turbulence length scale $\ell$. The velocity textcolor{red}{length?} scale is calculated upon use of Equation \ref{velScale}, and the turbulence length-scale is calculated with use of Equation \ref{turbScale}.\vspace{2mm}
 
 \emph{Velocity- and turbulence length-scale}
 \begin{align}
