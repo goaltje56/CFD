@@ -34,16 +34,21 @@
 //#define D			12
 
 
-//#define A			8			/*this are the initial points with x=20 y=40 */
-//#define B			12
-//#define C			15
-//#define D			25
+#define A			6			/*this are the initial points with x=20 y=40 */
+#define B			10
+#define C			9
+#define D			15
+
+#define A2			3			/*this are the initial points with x=20 y=40 */
+#define B2			7
+#define C2			2
+#define D2			8
 
 
-#define A			16			/*this are the points with x=40 y=80 */
-#define B			24
-#define C			30
-#define D			50
+//#define A			16			/*this are the points with x=40 y=80 */
+//#define B			24
+//#define C			30
+//#define D			50
 
 //#define A			32			/*this are the points with x=80 y=160 */
 //#define B			48
@@ -62,8 +67,12 @@
 
 #define sigma_t		0.9		/*turbulent Prandtl number */
 
-#define AA			28	
-#define BB			36
-#define	CC			30	
-#define DD			50	
+#define AA			14	
+#define BB			18
+#define	CC			25	
+#define DD			31	
 
+#define AA2			11	
+#define BB2			15
+#define	CC2			32	
+#define DD2			38
