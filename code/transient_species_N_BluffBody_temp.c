@@ -1076,42 +1076,15 @@ void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			aN[I][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			aPold    = rho[I][J]*AREAe*AREAn/Dt;
 
-//			if (I > 11*NPI/200 && I < 18*NPI/200 && J > 2*NPJ/5 && J < 3*NPJ/5){
-//				SP[I][J] = -LARGE;
-//				Su[I][J] = LARGE*373.;
-//			}
-	
-				/*bluff body*/	
-//			if(I == A && J<D && J>C){
-//				aE[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-//			if(I == B && J<D && J>C){
-//				aW[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe ;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-//			if(I > A && I<B && J==C){
-//				aN[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-//			if(I > A && I<B && J==D){
-//				aS[I][J] = 0;
-//				SP[I][j] = -rho[I][J] * pow(Cmu,0.25) * sqrt(k[I][J]) * Cp[I][J]/(Tplus[I][J]) * AREAe;
-//				Su[I][J] =  rho[I][J]*pow(Cmu,0.25)*sqrt(k[I][J])*Cp[I][J]*T[I][J]/(Tplus[I][J])*AREAe;
-//			}
-			
 			if((I>A && I<B && J<D && J>C)||(I>AA && I<BB && J<DD && J>CC)||(I>A2 && I<B2 && J<D2 && J>C2)||(I>AA2 && I<BB2 && J<DD2 && J>CC2)){
 				aN[i][J]= 0;
 				aW[i][J]= 0;
 				aS[i][J]= 0;
 				aE[i][J]= 0;
+				SP[I][J] = -LARGE;
 
 			}
 			/* bluff body */
-			
 			
 			/* eq. 8.31 with time dependent terms (see also eq. 5.14): */
 
