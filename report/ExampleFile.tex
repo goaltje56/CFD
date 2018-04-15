@@ -74,7 +74,7 @@ A complete list of symbols used, with dimensions, is required.
 Within industrial applications, mixing of fluids is a well known phenomenon. The mixing of fluids can be initiated by a propeller, driven by a motor, or by obstacles in a flow, as well as a difference in concentration. A simple example of mixing due to concentration difference is the mixing of two paint colours. Starting with half a tank of blue paint and the other half yellow paint, will result in a completely green paint.\\
 This study focusses on the quality of mixing. Mainly the influence of the bluff-body size and its influence on the mixing quality will be discussed, as well as the influence of the turbulent intensity at the inlet. The mixing quality can be measured at the outlet of the geometry by looking at the value of the mixture fraction.
 
-Computational Fluid Dynamics (CFD) is used to solve the system of equations. For this particular problem, the mass, momentum \textcolor{cyan}{energy?} and transport equations are solved. The simulations are performed for fully developed turbulent and incompressible flows. The turbulence is modelled by means of a $\kappa-\epsilon$ model.\\
+Computational Fluid Dynamics (CFD) is used to solve the system of equations. For this particular problem, the mass, momentum and transport equations are solved. The simulations are performed for fully developed turbulent and incompressible flows. The turbulence is modelled by means of a $\kappa-\epsilon$ model.\\
 \newline
 The expectation is that in a turbulent flow better mixing will be achieved without a bluff body. Prospected is that the bluff body will cause a decrease in turbulence and therefore contribute negative to the mixing. 
 SOME PIECE ABOUT EXPECTATIONS??\\
@@ -153,7 +153,7 @@ The $\kappa-\epsilon$ model is used to close the system of equations. This model
 
 
 \subsubsection{$\kappa-\epsilon$ turbulence model}
-The standard  $\kappa-\epsilon$ model introduces two extra transport equations to be solved. one for the turbulent kinetic energy, $\kappa$, and one for the viscous dissipation of turbulent kinetic energy, $\epsilon$.  $\kappa$ and $\epsilon$ are used to introduce a velocity \textcolor{red}{length?} scale, $\theta$ and large-scale turbulence length scale $\ell$. The velocity textcolor{red}{length?} scale is calculated upon use of Equation \ref{velScale}, and the turbulence length-scale is calculated with use of Equation \ref{turbScale}.\vspace{2mm}
+The standard  $\kappa-\epsilon$ model introduces two extra transport equations to be solved. one for the turbulent kinetic energy, $\kappa$, and one for the viscous dissipation of turbulent kinetic energy, $\epsilon$.  $\kappa$ and $\epsilon$ are used to introduce a velocity scale, $\theta$ and large-scale turbulence length scale $\ell$. The velocity scale is calculated upon use of Equation \ref{velScale}, and the turbulence length-scale is calculated with use of Equation \ref{turbScale}.\vspace{2mm}
 
 \emph{Velocity- and turbulence length-scale}
 \begin{align}
@@ -292,16 +292,23 @@ The velocity boundary conditions at the walls of the bluff body are treated in t
 
 
 \section{Results}
-The results of using the \LaTeX template is a great looking paper.
-In Figures \ref{fig:Geometry} and \ref{fig:Geometry} it can be seen how figures are easily included.
-In Table \ref{tab:label} it is seen how we can include a table.
-The table is constructed in the file table.tex, where also the table caption and label are defined.
+This section will cover the results obtained for the simulated cases. Besides the visualization of the simulations, the results well be analysed and discussed. Once all results are treated, a conclusion and discussion will follow. But first of all a grid convergence is performed to choose the right grid.\\
+\subsubsection{Grid convergence}
+Choosing a simulation grid is a trade of between simulation quality and simulation speed. Therefore, choosing the right grid is of great importance for the outcome. To detect the grid convergence the maximum analytical inlet velocity is compared to the numerical maximum inlet velocity. This shows how well the analytical formula is discretized and thus is able to describe the equation in a decent manner. The error, hence the absolute difference between the maximum analytical inlet velocity and the numerical maximum inlet velocity. The grid is refined from NPI=10 and NPJ=20, to NPI = 160 and NPJ = 320 in steps of a factor 2. For every grid the error is determined and plotted versus the refinement number.
 
-\InsFig{convergence_x10_y20}{Turbulent inlet profile}{conv_1}
-\InsFig{convergence_x20_y40}{Turbulent inlet profile}{conv_2}
-\InsFig{convergence_x40_y80}{Turbulent inlet profile}{conv_3}
-\InsFig{convergence_x80_y160}{Turbulent inlet profile}{conv_4}
-\InsFig{Re_finest}{Reynolds number}{Re}
+\InsFig{GridConv}{Grid convergence}{gridconv}
+
+Figure \ref{fig:gridconv} shows the refinement number on the horizontal axis, with 1 corresponding the the coarsest grid (NPI=10 and NPJ=20) and 5 to the finest grid. It can be seen from the graph that for all of the grids, th error is very small. The error increases for the first three grids, after which the error converges to zero. However, the grids corresponding to refinement 4 and 5 were computationally too expensive. Therefore, refinement 3, corresponding to a grid of NPI=40 and NPJ=80 is chosen.
+
+\subsubsection{Simulation results}
+Now, after all the cases are simulated on the previously chosen grid. The results will be discussed in this section. First the influence of the velocity and turbulence entrance intensity will be discussed. Thereafter, the results with bluff-body are discussed, looking at the influence of bluff body size on the mixing.\\
+The quality of mixing is evaluated at the exit of the domain. Since a fraction of 1 enters at the bottom half, and a fraction of 0 at the top half. Figure \ref{fig:fraction} shows an example of the mixture fraction inside the simulation domain. The figure shows the seperated inlet of both fractions. The mixture at the outlet of the domain, shows that the turbulence and diffusion have mixed the two fractions. As a measure of the quality of mixing the value of the mixture fraction along the y-axis is visualized in a graph. The best possible mixing at the exit would be a uniform mixture fraction value of 0.5, representing fully mixed value.\\
+First of all the influence of the entrance velocity is visualized. Then the influence of the turbulence entrance intensity is presented, after which the bluff-body results are shown.
+
+\InsFig{mixtfrac}{mixture fraction}{fraction}
+
+
+
 \newpage
 \InsTab{Table}
 
