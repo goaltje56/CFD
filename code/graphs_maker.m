@@ -2,7 +2,15 @@ clc
 close all
 clear all
 
-output = load('output.dat');
+factor = [1 5 10];
+% pp = [];
+% max_v = [];
+% max_v_analytical = [];
+for a = 1:length(factor)
+
+name = sprintf('BluffBod_20_45_Uin_%1.0f_Ti_0_01.dat',factor(a))
+
+output = load(name);
 nx = 40;
 ny = 80;
 %% columns
@@ -24,7 +32,7 @@ yplus2  = output([ny+1:end],15);
 tw      = output([ny+1:end],16);
 twx      = output([ny+1:end],17);
 mueff      = output([ny+1:end],18);
-T      = output([ny+1:end],19);
+% T      = output([ny+1:end],19);
 
 
 for ii = 1:length(u)
@@ -59,7 +67,7 @@ Remat       = reshape(Re,[ny,nx]);
 mueffmat      = reshape(mueff,[ny,nx]);
 Imat       = reshape(I,[ny,nx]);
 vel_magmat       = reshape(vel_mag,[ny,nx]);
-Tmat         = reshape(T,[ny,nx]);
+% Tmat         = reshape(T,[ny,nx]);
 
 
 velmag = sqrt(umat.^2 + vmat.^2);
@@ -77,37 +85,15 @@ grid on
 shading interp
 colorbar
 
-R=0;
-R2=0.1;
-r=linspace(0,0.1,80);
-
-uT=10*(1-r/0.1).^(1/7);
-uT2 = 10*(r/0.1).^(1/7);
 
 figure(2)
-plot(ymat(:,1),umat(:,1),'LineWidth',2)
 hold on
-% plot(ymat(:,1),umat(:,end/2))
-plot(ymat(:,1),umat(:,end),'LineWidth',2)
-plot(r+0.1,uT, 'k','LineWidth',2)
-plot(r,uT2, 'k','LineWidth',2)
-title('velocity in axial direction [m/s]', 'FontSize', 15)
-% axis([0 0.2 0.2 1.1]);
+plot(ymat(:,1),fmat(:,end),'LineWidth',2)
 set(gca, 'box', 'on', 'LineWidth', 2, 'FontSize', 15)
-legend('Entrance vel','exit vel','analytical','Location','Southwest')%, 'FontSize', 15);%,'midway vel'
+title('Mixture fraction as function of height', 'FontSize', 15)
+ylabel('mixture fraction [-]', 'FontSize', 15)
+xlabel('height [m]', 'FontSize', 15)
 
-figure(3)
-plot(xmat(:,1),velmag(end/2,:))
-title('Centerline velocity magnitude [m/s]')
-% for i=1:nx
-%     for j=1:ny
-% twtest(i,j) = mu(i,j) * 0.5*(u(i,j)+u(i+1,j))...
-%     /(y-y);
-%     end
-% end
-
-figure(4)
-contourf(xmat,ymat,Tmat,'.','Linewidth',1)
-s=colorbar
-colormap('jet(1000)')
-% set(s,'Location','southoutside')
+grid on
+end
+legend('u = 1 [m/s]','u = 5 [m/s]','u = 10 [m/s]','Location','NorthEast')
