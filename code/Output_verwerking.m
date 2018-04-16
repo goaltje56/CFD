@@ -108,7 +108,7 @@ title('Centerline velocity magnitude [m/s]')
 %     end
 % end
 
-figure(4)
+figure()
 contourf(xmat,ymat,fmat,'.','Linewidth',1)
 s=colorbar
 colormap('jet(1000)')

@@ -171,12 +171,12 @@ void init(void)
 		i = I;
 		
 		for(J = 0; J<= (NPJ/2); J++){
-			f[I][J] = 1.;		
+			f[I][J] = 1;		
 			u      [i][J] = U_IN*pow(y[J]/(YMAX/2),.143);     /* Velocity in x-direction */
 			}
 		for(J>(NPJ/2);J<=NPJ;J++){	
 			u 		[i][J] = U_IN*pow(2-y[J]/(YMAX/2),.143);
-			f[I][J] = 0;		
+			f[I][J] = 1;		
 		}
 		for (J = 0; J <= NPJ + 1; J++) {
 			j = J;
@@ -199,7 +199,7 @@ void init(void)
 			mu     [I][J] = 2.E-5;    /* Viscosity */
 			Cp     [I][J] = 1013.;     /* J/(K*kg) Heat capacity - assumed constant for this problem */
 			Gamma  [I][J] = 0.025/Cp[I][J]; /* Thermal conductivity divided by heat capacity */
-			Gamma_f  [I][J] = 1; /* Thermal conductivity divided by heat capacity */
+			Gamma_f  [I][J] = 100; /* Thermal conductivity divided by heat capacity */
 
 			u_old  [i][J] = u[i][J];  /* Velocity in x-direction old timestep */
 			v_old  [I][j] = v[I][j];  /* Velocity in y-direction old timestep */
@@ -269,7 +269,7 @@ void bound(void)
 	
 	for (I = 0; I <= NPI + 1; I++) {
 		for(J=0; J<=NPJ; J++){
-			if(I>=A && I <= B && J >= C && J <= D){//||(I>=AA && I <= BB && J >= CC && J <= DD)||(I>=A2 && I <= B2 && J >= C2 && J <= D2)||(I>=AA2 && I <= BB2 && J >= CC2 && J <= DD2)){
+			if(I>=(A-1) && I <= B && J >= C && J <= D){//||(I>=AA && I <= BB && J >= CC && J <= DD)||(I>=A2 && I <= B2 && J >= C2 && J <= D2)||(I>=AA2 && I <= BB2 && J >= CC2 && J <= DD2)){
 			T[I][J]     = 700.; /* Temperature in Kelvin */
 			}
 		}
@@ -1077,12 +1077,12 @@ void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			aN[I][J] = max3(-Fn, Dn - 0.5*Fn, 0.);
 			aPold    = rho[I][J]*AREAe*AREAn/Dt;
 
-			if(I>A && I<B && J<D && J>C){//||(I>AA && I<BB && J<DD && J>CC)||(I>A2 && I<B2 && J<D2 && J>C2)||(I>AA2 && I<BB2 && J<DD2 && J>CC2)){
+			if(I>=A && I<=B && J<=D && J>=C){//||(I>AA && I<BB && J<DD && J>CC)||(I>A2 && I<B2 && J<D2 && J>C2)||(I>AA2 && I<BB2 && J<DD2 && J>CC2)){
 				aN[i][J]= 0;
 				aW[i][J]= 0;
 				aS[i][J]= 0;
 				aE[i][J]= 0;
-				SP[I][J] = -LARGE;
+				SP[I][J] = 0;
 
 			}
 			/* bluff body */
@@ -1478,7 +1478,7 @@ void thermal_diffusivity(void)
 
 	for (I = 0; I <= NPI; I++)
 		for (J = 1; J <= NPJ + 1; J++)
-            Gamma_f[I][J] = 1 + mut[I][J];
+            Gamma_f[I][J] = 100 + mut[I][J];
 
 } /* thermal_diffusivity */
 
