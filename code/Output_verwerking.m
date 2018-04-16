@@ -31,6 +31,7 @@ for ii = 1:length(u)
     vel_mag(ii) = sqrt(v(ii)^2+u(ii)^2);
     Re(:,ii) = rho(ii)*vel_mag(ii)*0.2/mu(ii);
     I(:,ii) = 0.16*Re(ii)^(-1/8);
+    Pe(:,ii) = rho(ii)* 10 * 10 / gamma(ii); 
 end
 
 
@@ -60,6 +61,7 @@ mueffmat      = reshape(mueff,[ny,nx]);
 Imat       = reshape(I,[ny,nx]);
 vel_magmat       = reshape(vel_mag,[ny,nx]);
 Tmat         = reshape(T,[ny,nx]);
+Pemat         = reshape(Pe,[ny,nx]);
 
 
 velmag = sqrt(umat.^2 + vmat.^2);
@@ -107,7 +109,7 @@ title('Centerline velocity magnitude [m/s]')
 % end
 
 figure(4)
-contourf(xmat,ymat,Tmat,'.','Linewidth',1)
+contourf(xmat,ymat,fmat,'.','Linewidth',1)
 s=colorbar
 colormap('jet(1000)')
 % set(s,'Location','southoutside')

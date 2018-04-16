@@ -199,6 +199,7 @@ void init(void)
 			mu     [I][J] = 2.E-5;    /* Viscosity */
 			Cp     [I][J] = 1013.;     /* J/(K*kg) Heat capacity - assumed constant for this problem */
 			Gamma  [I][J] = 0.025/Cp[I][J]; /* Thermal conductivity divided by heat capacity */
+			Gamma_f  [I][J] = 1; /* Thermal conductivity divided by heat capacity */
 
 			u_old  [i][J] = u[i][J];  /* Velocity in x-direction old timestep */
 			v_old  [I][j] = v[I][j];  /* Velocity in y-direction old timestep */
@@ -1057,10 +1058,10 @@ void fcoeff(double **aE, double **aW, double **aN, double **aS, double **aP, dou
 			/* The conductivity, Gamma, at the interface is calculated */
 			/* with the use of a harmonic mean. */
 
-			Dw = Gamma[I-1][J  ]*Gamma[I  ][J  ]/(Gamma[I-1][J  ]*(x[I  ] - x_u[i  ]) + Gamma[I  ][J  ]*(x_u[i  ] - x[I-1]))*AREAw;
-			De = Gamma[I  ][J  ]*Gamma[I+1][J  ]/(Gamma[I  ][J  ]*(x[I+1] - x_u[i+1]) + Gamma[I+1][J  ]*(x_u[i+1] - x[I  ]))*AREAe;
-			Ds = Gamma[I  ][J-1]*Gamma[I  ][J  ]/(Gamma[I  ][J-1]*(y[J  ] - y_v[j  ]) + Gamma[I  ][J  ]*(y_v[j  ] - y[J-1]))*AREAs;
-			Dn = Gamma[I  ][J  ]*Gamma[I  ][J+1]/(Gamma[I  ][J  ]*(y[J+1] - y_v[j+1]) + Gamma[I  ][J+1]*(y_v[j+1] - y[J  ]))*AREAn;
+			Dw = Gamma_f[I-1][J  ]*Gamma_f[I  ][J  ]/(Gamma_f[I-1][J  ]*(x[I  ] - x_u[i  ]) + Gamma_f[I  ][J  ]*(x_u[i  ] - x[I-1]))*AREAw;
+			De = Gamma_f[I  ][J  ]*Gamma_f[I+1][J  ]/(Gamma_f[I  ][J  ]*(x[I+1] - x_u[i+1]) + Gamma_f[I+1][J  ]*(x_u[i+1] - x[I  ]))*AREAe;
+			Ds = Gamma_f[I  ][J-1]*Gamma_f[I  ][J  ]/(Gamma_f[I  ][J-1]*(y[J  ] - y_v[j  ]) + Gamma_f[I  ][J  ]*(y_v[j  ] - y[J-1]))*AREAs;
+			Dn = Gamma_f[I  ][J  ]*Gamma_f[I  ][J+1]/(Gamma_f[I  ][J  ]*(y[J+1] - y_v[j+1]) + Gamma_f[I  ][J+1]*(y_v[j+1] - y[J  ]))*AREAn;
 
 			/* The source terms */
 
@@ -1477,7 +1478,7 @@ void thermal_diffusivity(void)
 
 	for (I = 0; I <= NPI; I++)
 		for (J = 1; J <= NPJ + 1; J++)
-            Gamma[I][J] = 0.025/Cp[I][J] + mut[I][J];
+            Gamma_f[I][J] = 1 + mut[I][J];
 
 } /* thermal_diffusivity */
 
@@ -1514,7 +1515,7 @@ void output(void)
 			ugrid = 0.5*(u[i][J]+u[i+1][J  ]);
 			vgrid = 0.5*(v[I][j]+v[I  ][j+1]);
 			fprintf(fp, "%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\t%11.5e\n",
-			             x[I], y[J], ugrid, vgrid, p[I][J], f[I][J], rho[I][J], mu[I][J], Gamma[I][J], k[I][J], eps[I][J], uplus[I][J], yplus[I][J], yplus1[I][J], yplus2[I][J], tw[I][J], twx[I][J], mueff[I][J], T[I][J]);
+			             x[I], y[J], ugrid, vgrid, p[I][J], f[I][J], rho[I][J], mu[I][J], Gamma_f[I][J], k[I][J], eps[I][J], uplus[I][J], yplus[I][J], yplus1[I][J], yplus2[I][J], tw[I][J], twx[I][J], mueff[I][J], T[I][J]);
 //			             1     2     3      4      5        6        7          8         9            10       11         12           13           14            15				16		17			18			19
 		} /* for J */
 		fprintf(fp, "\n");
@@ -1658,6 +1659,7 @@ void memalloc(void)
 	mut    = double_2D_matrix(NPI + 2, NPJ + 2);
 	mueff  = double_2D_matrix(NPI + 2, NPJ + 2);
 	Gamma  = double_2D_matrix(NPI + 2, NPJ + 2);
+	Gamma_f  = double_2D_matrix(NPI + 2, NPJ + 2);
 	Cp     = double_2D_matrix(NPI + 2, NPJ + 2);
 	k      = double_2D_matrix(NPI + 2, NPJ + 2);
 	eps    = double_2D_matrix(NPI + 2, NPJ + 2);
