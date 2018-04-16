@@ -2,7 +2,7 @@ clc
 close all
 clear all
 
-output = load('output.dat');
+output = load('Temp700_u10_Ti0_03_gamma_f100.dat');
 nx = 40;
 ny = 80;
 %% columns

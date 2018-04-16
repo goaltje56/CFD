@@ -2,13 +2,13 @@ clc
 close all
 clear all
 
-factor = [1 5 10];
+factor = [1 3 6];
 % pp = [];
 % max_v = [];
 % max_v_analytical = [];
 for a = 1:length(factor)
 
-name = sprintf('BluffBod_20_45_Uin_%1.0f_Ti_0_01.dat',factor(a))
+name = sprintf('Temp700_u10_Ti0_0%1.0f_gamma_f100.dat',factor(a))
 
 output = load(name);
 nx = 40;
@@ -96,4 +96,4 @@ xlabel('height [m]', 'FontSize', 15)
 
 grid on
 end
-legend('u = 1 [m/s]','u = 5 [m/s]','u = 10 [m/s]','Location','NorthEast')
+legend('Ti = 1 %','Ti = 3%','Ti = 6%','Location','NorthEast')
