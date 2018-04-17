@@ -2,9 +2,9 @@ clc
 close all
 clear all
 
-output = load('Temp700_u10_Ti0_03_gamma_f100.dat');
-nx = 40;
-ny = 80;
+output = load('output.dat');
+nx = 50;
+ny = 40;
 %% columns
 x       = output([ny+1:end],1);
 y       = output([ny+1:end],2);
@@ -83,8 +83,8 @@ R=0;
 R2=0.1;
 r=linspace(0,0.1,80);
 
-uT=10*(1-r/0.1).^(1/7);
-uT2 = 10*(r/0.1).^(1/7);
+uT=1*(1-r/0.1).^(1/7);
+uT2 = 1*(r/0.1).^(1/7);
 
 figure(2)
 plot(ymat(:,1),umat(:,1),'LineWidth',2)
