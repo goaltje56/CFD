@@ -3,8 +3,8 @@ close all
 clear all
 
 output = load('output.dat');
-nx = 50;
-ny = 40;
+nx = 40;
+ny = 80;
 %% columns
 x       = output([ny+1:end],1);
 y       = output([ny+1:end],2);
@@ -74,7 +74,7 @@ grid minor
 shading interp
 colorbar
 subplot(2,1,2)
-contourf(xmat,ymat,vmat,30 )
+contourf(xmat,ymat,pmat,30 )
 grid on
 shading interp
 colorbar
@@ -83,8 +83,8 @@ R=0;
 R2=0.1;
 r=linspace(0,0.1,80);
 
-uT=1*(1-r/0.1).^(1/7);
-uT2 = 1*(r/0.1).^(1/7);
+uT=0.5*(1-r/0.1).^(1/7);
+uT2 = 0.5*(r/0.1).^(1/7);
 
 figure(2)
 plot(ymat(:,1),umat(:,1),'LineWidth',2)

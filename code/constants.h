@@ -1,5 +1,5 @@
-#define NPI        50       /* number of grid cells in x-direction [-] */
-#define NPJ        40        /* number of grid cells in y-direction [-] */
+#define NPI        40       /* number of grid cells in x-direction [-] */
+#define NPJ        80        /* number of grid cells in y-direction [-] */
 #define XMAX       0.5      /* width of the domain [m] */ 
 #define YMAX       0.2       /* height of the domain [m] */
 #define Rbluff	   0.01      /* radius of the bluff body in the domain [m] */
@@ -17,7 +17,7 @@
 #define LARGE      1E30      /* arbitrary very large value [-] */
 #define SMALL      1E-30     /* arbitrary very small value [-] */
 #define P_ATM      101000.   /* athmospheric pressure [Pa] */
-#define U_IN       0.5      /* in flow velocity [m/s] */
+#define U_IN       1      /* in flow velocity [m/s] */
 
 #define Cmu        0.09
 #define sigmak       1.
@@ -27,6 +27,7 @@
 #define kappa      0.4187
 #define ERough     9.793
 #define Ti         0.01
+#define Dif_f	   0.0000100	/* difusivity of species */
 
 //#define A			4			/*this are the points with x=10 y=20 */
 //#define B			6
