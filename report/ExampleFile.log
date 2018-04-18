@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2017.12.20)  18 APR 2018 17:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2017.12.20)  18 APR 2018 19:35
 entering extended mode
 **./ExampleFile.tex
 (ExampleFile.tex
@@ -645,17 +645,12 @@ Package epstopdf Info: Source file: <GridConv.eps>
 (epstopdf)                    date: 2018-04-18 17:22:35
 (epstopdf)                    size: 17046 bytes
 (epstopdf)             Output file: <GridConv-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-04-15 20:24:00
-(epstopdf)                    size: 4170 bytes
+(epstopdf)                    date: 2018-04-18 17:22:41
+(epstopdf)                    size: 3827 bytes
 (epstopdf)             Command: <epstopdf --outfile=GridConv-eps-converted-to.p
 df GridConv.eps>
 (epstopdf)             \includegraphics on input line 299.
-runsystem(epstopdf --outfile=GridConv-eps-converted-to.pdf GridConv.eps)...exec
-uted (allowed).
-
-Package epstopdf Info: Result file: <GridConv-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-04-18 17:22:41
-(epstopdf)                    size: 3827 bytes.
+Package epstopdf Info: Output file is already uptodate.
 <GridConv-eps-converted-to.pdf, id=191, pagebox=cropbox, 421.575pt x 316.18124p
 t>
 File: GridConv-eps-converted-to.pdf Graphic file (type pdf)
@@ -707,8 +702,8 @@ Package pdftex.def Info: Requested size: 241.84842pt x 90.42572pt on input line
 [5 <./GridConv-eps-converted-to.pdf> <./mixtfrac-eps-converted-to.pdf> <./mixtf
 racBluffbod-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Velocity_Ti0_01_noBluff.eps>
-(epstopdf)                    date: 2018-04-16 10:10:38
-(epstopdf)                    size: 21131 bytes
+(epstopdf)                    date: 2018-04-18 19:35:22
+(epstopdf)                    size: 21467 bytes
 (epstopdf)             Output file: <Velocity_Ti0_01_noBluff-eps-converted-to.p
 df>
 (epstopdf)                    date: 2018-04-16 10:10:41
@@ -716,7 +711,13 @@ df>
 (epstopdf)             Command: <epstopdf --outfile=Velocity_Ti0_01_noBluff-eps
 -converted-to.pdf Velocity_Ti0_01_noBluff.eps>
 (epstopdf)             \includegraphics on input line 315.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=Velocity_Ti0_01_noBluff-eps-converted-to.pdf Veloc
+ity_Ti0_01_noBluff.eps)...executed (allowed).
+
+Package epstopdf Info: Result file: <Velocity_Ti0_01_noBluff-eps-converted-to.p
+df>
+(epstopdf)                    date: 2018-04-18 19:35:47
+(epstopdf)                    size: 4883 bytes.
 <Velocity_Ti0_01_noBluff-eps-converted-to.pdf, id=223, pagebox=cropbox, 421.575
 pt x 316.18124pt>
 File: Velocity_Ti0_01_noBluff-eps-converted-to.pdf Graphic file (type pdf)
@@ -891,7 +892,7 @@ pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Program Fi
 les/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fo
 nts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/tim
 es/utmri8a.pfb>
-Output written on ExampleFile.pdf (8 pages, 322691 bytes).
+Output written on ExampleFile.pdf (8 pages, 322343 bytes).
 PDF statistics:
  342 PDF objects out of 1000 (max. 8388607)
  66 named destinations out of 1000 (max. 500000)
