@@ -77,11 +77,9 @@ This study focusses on the quality of mixing. Mainly the influence of the bluff-
 Computational Fluid Dynamics (CFD) is used to solve the system of equations. For this particular problem, the mass, momentum and transport equations are solved. The simulations are performed for fully developed turbulent and incompressible flows. The turbulence is modelled by means of a $\kappa-\epsilon$ model.\\
 \newline
 The expectation is that in a turbulent flow better mixing will be achieved without a bluff body. Prospected is that the bluff body will cause a decrease in turbulence and therefore contribute negative to the mixing. 
-SOME PIECE ABOUT EXPECTATIONS??\\
 \newline
 The first part of this article is concerns the theory and the numerical solver used to attain the solution. Then the CFD model is treated, after which the geometry and boundary conditions applied to the problem are discussed. Subsequently the mesh convergence and executed simulations are explained. Finally, the results of the simulations are displayed with a discussion and conclusion.
 \newpage
-
 
 
 \section{Physics}
@@ -116,7 +114,7 @@ For a two dimensional problem, the conservation of momentum needs to be solved i
 \begin{split}
 \label{MomBal}
 &\frac{D( \rho u) }{D t} =-\frac{\partial P}{\partial x} + div(\mu \hspace{1mm} grad\hspace{1mm}u)+S_{Mx}\\ 
-&\frac{D( \rho u) }{D t} =-\frac{\partial P}{\partial x} + div(\mu \hspace{1mm} grad\hspace{1mm}u)+S_{Mx}
+&\frac{D( \rho v) }{D t} =-\frac{\partial P}{\partial y} + div(\mu \hspace{1mm} grad\hspace{1mm}v)+S_{My}\\ 
 \end{split}
 \end{equation}\
 The last important equation is the transport of fractions, and can be computed upon use of Equation \ref{fractrans}.\vspace{2mm}
@@ -124,10 +122,9 @@ The last important equation is the transport of fractions, and can be computed u
 \emph{Species fraction transport}
 \begin{equation}
 \label{fractrans}
-\rho C_p\frac{D f }{D t} = div(k \hspace{1mm}grad\hspace{1mm}f) +S_i 
+\frac{\partial f\rho }{\partial t} +div( \rho \boldmath{u} f) = div(D \hspace{1mm}grad\hspace{1mm}f) +S_i 
 \end{equation}
-DEZE MOET NOG IETS ANDERS!!!!
-The fraction transport is introduced specifically for this study in order to keep track of the mixing of the flow. This variable can have any value between 0 and 1. Considering only 2 species, a value of 1 means that the fluid is purely specie 1 and a value of 0 is purely the other specie. \\ \\
+Here D, is the diffusion coefficient of the fluid. The fraction transport is introduced specifically for this study in order to keep track of the mixing of the flow. This variable can have any value between 0 and 1. Considering only 2 species, a value of 1 means that the fluid is purely specie 1 and a value of 0 is purely the other specie. \\ \\
 Since this study regards a turbulent flow, the mass and momentum equations have to be solved in a different manner. This is done by means of the Reynolds average approach. In the Reynolds average approach the mean velocity is determined and the turbulence is described by a fluctuation around the mean velocity. Therefore, components in the convection-diffusion and conservation equations are decomposed in a mean and a fluctuating variable. The decomposed variables are given in Equation \ref{decomposed}.\vspace{2mm}
 
 \emph{Decomposed variables}
@@ -194,7 +191,7 @@ C_{\mu}=0.09 \hspace{4mm} \sigma_{\kappa}=1.00\hspace{4mm}\sigma_{\epsilon}=1.30
 
 \subsubsection{discretization of governing equations}
 To solve the turbulence model, all of the partial differential equations (PDE's) need to be solved. Solving a PDE takes a few steps. First of all let us consider a two dimensional grid consisting of several grid cells. To find the value for $\phi$ from Equation \ref{unsteadConvDiff} at a centre point P of the grid cell, one needs the values of the neighbouring cells. In CFD these values are called north(N), west(W), south(S) and east(E). Thereafter, Equation \ref{unsteadConvDiff} is integrated over the control volume, yielding the results shown in Equation \ref{intergrated}.\vspace{2mm}
-DEZE FUNCTIE NOG EENS NAKIJKEN WANT DIE IS MOEILIJK\\
+
 \emph{Intergrated diffusion convection equation}
 \begin{equation}
 \begin{split}
@@ -210,15 +207,14 @@ Now let us introduce variables $F$ and $D$ to represent the convective mass flux
 &F = \rho u\\
 &D=\frac{\Gamma}{\partial x}
 \end{align}
-Substitution variables $F$ and $D$ into Equation \ref{intergrated} forms Equation \ref{Substituted} after some rearranging \cite{Versteeg2007}. \\OOK DEZE FORMULE NOG CHECKEN!!!
-
+Substitution variables $F$ and $D$ into Equation \ref{intergrated} forms Equation \ref{Substituted} after some rearranging \cite{Versteeg2007}.
 \begin{equation}
 \label{Substituted}
 \frac{\rho_P^0 \Delta V}{\Delta t}\phi_P=a_W\phi_W+a_E\phi_E+a_S\phi_S+a_N\phi_N +\Delta F
 \end{equation}
 The coefficients of $a$ are dependent on the differencing scheme. The discretization scheme has some properties. First property is the conservativeness which means the flux $\phi$ leaving a control volume has to be equal to the flux $\phi$ entering the control volume through the same face. By using a hybrid differencing scheme, the conservativeness is automatically satisfied. The second property is the boundedness. The boundedness describes the value of $\phi$ in case there is no source term. In that case, the nodal value of $\phi$ must be equal to the value of $\phi$ at the boundary. Besides the restricted value of $\phi$, the coefficients $a$ of the discretized equation must have equal signs. The last important property is the transportiveness. This requires that the transportiveness changes according to the magnitude of the P\`{e}clet number ($Pe=F/D$). Hence, if Pe is zero, $\phi$ equally diffuses in all directions. The hybrid differencing scheme satisfies the three properties. However, this comes at the price of only first order accuracy \cite{Versteeg2007}. The obtained values for $F$ and $D$ determine the values of the $a$ coefficients. They can be determined as shown in Table \ref{tab:coefsa}.
 \InsTab{coefficients}\\
-The discretized equation can now be solved using the transient SIMPLE algorithm. SIMPLE stands for Semi-Implicit Method for Pressure-Linked Equations. In essential the algorithm is a guess and correct procedure for pressure calculations in a staggered grid which is used \cite{Versteeg2007}. The transient SIMPLE algortithm is used due to the unsteady convection-diffusion equations used to describe the problem. The difference with the regular SIMPLE algorithm is the time $t$, discretized in time steps, $\Delta t$ for which the equations are solved. The transient SIMPLE algortithm works in the following manner. First the variables $u$, $v$, $p$ and $\phi$ are initialized and a time step $\Delta t$ is defined. The time itiration starts at $t_0$ and continues untill $t>t_{max}$. VERDERE UITLEG NODIG, EVEN GOED BEKIJKEN HOE DIE SOLVER WERKT
+The discretized equation can now be solved using the transient SIMPLE algorithm. SIMPLE stands for Semi-Implicit Method for Pressure-Linked Equations. In essential the algorithm is a guess and correct procedure for pressure calculations in a staggered grid which is used \cite{Versteeg2007}. The transient SIMPLE algortithm is used due to the unsteady convection-diffusion equations used to describe the problem. The difference with the regular SIMPLE algorithm is the time $t$, discretized in time steps, $\Delta t$ for which the equations are solved. The transient SIMPLE algortithm works in the following manner. First the variables $u$, $v$, $p$ and $\phi$ are initialized and a time step $\Delta t$ is defined. The time itiration starts at $t_0$ and continues untill $t>t_{max}$.
 
 \section{CFD problem}
 This chapter will describe the entire CFD model used during simulations. First of all the geometry will be introduces, after which the applied boundary conditions are explained.
@@ -228,11 +224,9 @@ Figure \ref{fig:Geometry} shows the geometry used during the research. The recta
 
 \InsFig{FlowGeometry}{Schematic diagram of geometry.}{Geometry}
 
-For this research numerous cases are investigated. Since the main purpose is to find the influence of a bluff body on the mixing in a turbulent flow. The geometry of the bluff-body is varied from. The size of the bluff body is defined as $h/D$. The size is varied in three steps, linearly scaling from from \textbf{h/D = XX} to \textbf{h/D = XX2}. These results are compared to a flow without a bluff-body.\\
+For this research numerous cases are investigated. Since the main purpose is to find the influence of a bluff body on the mixing in a turbulent flow. The geometry of the bluff-body is varied from. The size of the bluff body is defined as $h/D$. The size is varied in three steps. These results are compared to a flow without a bluff-body.\\
 Besides varying the bluff-body size, the entrance turbulence intensity $T_i$ and the inlet velocity $U_{in}$ are varied. 
-
-
-Throughout the simulations the viscosity, turbulence entrance intensity and length scale and the density are not altered.
+Throughout the simulations the viscosity, turbulence entrance intensity and length scale and the density are not altered. The diffusion coefficient for species transport is chosen to be $D=10^{-5}$, corresponding to diffusion coefficients in gasses. Diffusion coefficients for liquids are typically four orders lower. Therefore, liquids would need a longer domain for reaching the same quality of mixing as gases hence a more computational expensive simulation. 
 
 
 \subsubsection{Boundary conditions}
@@ -294,40 +288,54 @@ The velocity boundary conditions at the walls of the bluff body are treated in t
 \section{Results}
 This section will cover the results obtained for the simulated cases. Besides the visualization of the simulations, the results well be analysed and discussed. Once all results are treated, a conclusion and discussion will follow. But first of all a grid convergence is performed to choose the right grid.\\
 \subsubsection{Grid convergence}
-Choosing a simulation grid is a trade of between simulation quality and simulation speed. Therefore, choosing the right grid is of great importance for the outcome. To detect the grid convergence the maximum analytical inlet velocity is compared to the numerical maximum inlet velocity. This shows how well the analytical formula is discretized and thus is able to describe the equation in a decent manner. The error, hence the absolute difference between the maximum analytical inlet velocity and the numerical maximum inlet velocity. The grid is refined from NPI=10 and NPJ=20, to NPI = 160 and NPJ = 320 in steps of a factor 2. For every grid the error is determined and plotted versus the refinement number.
+Choosing a simulation grid is a trade of between simulation quality and simulation speed. Therefore, choosing the right grid is of great importance for the result of the simulation. To detect the grid convergence the maximum analytical inlet velocity is compared to the numerical maximum inlet velocity. This shows how well the analytical formula is discretized and thus is able to describe the equation in a decent manner. To show the quality of discretisation the error is computed. The error is the absolute difference between the maximum analytical inlet velocity and the numerical maximum inlet velocity. The grid is refined from NPI=10 and NPJ=20, to NPI = 160 and NPJ = 320 in steps of a factor 2. For every grid the error is determined and plotted versus the refinement number.
 
 \InsFig{GridConv}{Grid convergence}{gridconv}
 
-Figure \ref{fig:gridconv} shows the refinement number on the horizontal axis, with 1 corresponding the the coarsest grid (NPI=10 and NPJ=20) and 5 to the finest grid. It can be seen from the graph that for all of the grids, th error is very small. The error increases for the first three grids, after which the error converges to zero. However, the grids corresponding to refinement 4 and 5 were computationally too expensive. Therefore, refinement 3, corresponding to a grid of NPI=40 and NPJ=80 is chosen.
+Figure \ref{fig:gridconv} shows the refinement number on the horizontal axis, with 1 corresponding the the coarsest grid (NPI=10 and NPJ=20) and 5 to the finest grid. It can be seen from the graph that for all of the grids, th error is very small. The figure shows a clear converging result towards the more refined grids. This shows that the fifth refinement comes the closest to the analytical expression. However, the grids corresponding to refinement 4 and 5 were computationally too expensive. Therefore, refinement 3, corresponding to a grid of NPI=40 and NPJ=80 is chosen.\\
+Important to note is that the total simulation time for all results is set to 1.0s, using a time step of $\Delta t=1.0 \cdot 10^{-2}$. This value satisfies the time step condition which is determined with $\Delta t = (\rho (\Delta x)^2)/(\Gamma_i)$, with $\Delta x$ the grid spacing and $\Gamma_i$ the transport value for equation $i$
 
 \subsubsection{Simulation results}
 Now, after all the cases are simulated on the previously chosen grid. The results will be discussed in this section. First the influence of the velocity and turbulence entrance intensity will be discussed. Thereafter, the results with bluff-body are discussed, looking at the influence of bluff-body size on the mixing.\\
-The quality of mixing is evaluated at the exit of the domain. Since a fraction of 1 enters at the bottom half, and a fraction of 0 at the top half. Figure \ref{fig:fraction} shows an example of the mixture fraction inside the simulation domain without bluff-body. Figure \ref{fig:fracionBluff} shows the mixture fraction in the domain with a bluff-body. The figures show the seperated inlet of both fractions. The mixture at the outlet of the domain, shows that the turbulence and diffusion have mixed the two fractions. As a measure of the quality of mixing the value of the mixture fraction along the y-axis is visualized in a graph. The best possible mixing at the exit would be a uniform mixture fraction value of 0.5, representing fully mixed value.\\
-First of all the influence of the entrance velocity is visualized. Then the influence of the turbulence entrance intensity is presented, after which the bluff-body results are shown.
+The quality of mixing is evaluated at the exit of the domain. A mixture fraction of 1 enters at the bottom half, and a fraction of 0 at the top half. Figure \ref{fig:fraction} shows an example of the mixture fraction inside the simulation domain without bluff-body. Figure \ref{fig:fractionBluff} shows the mixture fraction in the domain with a bluff-body. The figures show the separated inlet of both fractions. The mixture at the outlet of the domain, shows that the turbulence and diffusion have mixed the two fractions. For a measure of the quality of mixing, the value of the mixture fraction along the y-axis is visualized in a graph at the outlet of the domain. The best possible mixing at the outlet would be a uniform mixture fraction value of 0.5, representing fully mixed.\\
+First of all the influence of the entrance velocity is visualized. Then the influence of the turbulence entrance intensity is discussed, after which the bluff-body results are shown in the same sequence.
 
 \InsFig{mixtfrac}{mixture fraction}{fraction}
 \InsFig{mixtfracBluffbod}{mixture fraction with bluff-body}{fractionBluff}
 
 \subsubsection{Results without bluff-body}
-First of all the results without the bluff-body. As explained the turbulence intensity at the inlet is intensified from $T_i=0.01\%$, to $T_i=0.06\%$. For every intensity the inlet velocity is increased. The graphs are represented for every turbulence inlet intensity.\\
-Figure\ref{fig:fig1} shows the mixture fraction at the outlet of the geometry as a function of height. The graph corresponds to a turbulence inlet intensity of 1\%. The three differently coloured lines represent the three different inlet velocities of 1, 5 and 10 [m/s]. From the figure one can conclude that the lowest velocity yields the highest mixing quality. This is because for the lowest velocity the mixture fraction over the outlet is closest to perfectly mixed. The higher the inlet velocity, the lower the quality of mixing. However, the difference between 5 and 10 [m/s] is almost unnoticeable. The results can be explained by the residential time of a small volume of fluid inside the domain. For the lowest inlet velocity, a fluid volume resides longer inside the domain. Hence, experiencing more turbulence and therefore better mixing.
+First of all the results without the bluff-body. As explained The inlet velocity is treated first, for a constant turbulent entrance intensity. Figure \ref{fig:fig1} shows the mixture fraction at the outlet of the geometry as a function of height. The graph corresponds to a turbulence inlet intensity of 1\%. The three differently coloured lines represent the three different inlet velocities of 0.5, 1 and 5 [m/s]. As one increases the velocity further, the mixing quality will decrease too much since the residence time of a fluid element inside the domain is too short. From the figure one can conclude that the lowest velocity yields the highest mixing quality. This is because for the lowest velocity the mixture fraction over the outlet is closest to perfectly mixed. The higher the inlet velocity, the lower the quality of mixing. This result can be easily explained by the P\'eclet number (Pe). The Pe number is calculated by $Pe=(U_{in}L)/(D)$, where L is the length of the domain and D the diffusion coefficient. The Pe number represents the ratio of advaction of an element by the flow to the rate of diffusion. Thus, when keeping the diffusion coefficient constant, increasing the inlet velocity will increase the Pe number. A higher Pe number yields that the flow dominates the diffusion and will decrease the quality of mixing.
 
 \InsFig{Velocity_Ti0_01_noBluff}{mixture fraction at constant turbulent intensity of 1 \%}{fig1}
-After increasing the turbulence inlet intensity to 3\% and 6\%, as shown in Figures \ref{fig:fig2} and \ref{fig:fig3} the results look similar at first glance. Looking into the results in a more detailed manner shows that the quality of mixing for the higher inlet velocities, 5 and 10 [m/s] has increased. It can be noticed that if the turbulence intensity at the inlet increases, the results for all inlet velocities are converging. This can be explained by the fact that increasing the turbulence entrance intensity increases the velocity fluctuations, which enhances the mixing, resulting ing better mixing even at higher velocities.
-\InsFig{Velocity_Ti0_03_noBluff}{mixture fraction at constant turbulent intensity of 3 \%}{fig2}
-\InsFig{Velocity_Ti0_06_noBluff}{mixture fraction at constant turbulent intensity of 6 \%}{fig3}
-Overall, the turbulence intensity shows little influence on the quality of mixing. However, these simulations are executed with a Peclet (Pe) number of 100. This dimensionless number indicates that transport through flow is more important than transport through turbulent eddies. Decreasing the Pe number will increase the effects of turbulent mixing.\\
-HIER DAN HET STUK MET ANDER PE NUMBER????????
+When looking at the influence of the turbulence inlet intensity, the velocity at the inlet is taken as a constant value. Then the turbulence entrance intensity is varied from 1\% to 3\% and 6\%. Figures \ref{fig:fig2} and \ref{fig:fig3} show the results of the turbulent entrance intensity for constant inlet velocity.\\
+The results in both figures look very similar. At an inlet velocity of 0.5[m/s] the best mixing seems to be achieved at a turbulence entrance intensity of 1\%. However at an inlet velocity of 1[m/s] the best mixing is achieved at 6\% and 1\% turbulence entrance intensity. In general, the turbulence entrance intensity seems to have a negligible effect on the mixing quality of the two fractions.\\
+The reason that the entrance turbulence has little to none effect on the mixing is due to the fact that the entrance turbulence is only applied at the inlet.  And therefore influencing $\kappa$ only at the entrance, the influence inside the domain is mainly dominated by turbulent viscosity. KLOPT DIT????
+
+
+
+
+\InsFig{Turbulence_u1_noBluff}{mixture fraction at constant inlet velocity of 1[m/s] }{fig2}
+
+\InsFig{Turbulence_u0_5_noBluff}{mixture fraction at constant inlet velocity of 0.5[m/s]}{fig3}
+
 
 \subsubsection{Results with bluff-body }
-Since the aim is to find the influence of a bluff-body on the mixing quality, a bluff-body was added in the geometry and varied in size. While changing the size of the bluff-body, the turbulence entrance intensity is kept constant at 1\%. For every bluff-body size, the same velocities are simulated as done in the cases without bluff-body.
+Since the aim is to find the influence of a bluff-body on the mixing quality, a bluff-body was added in the geometry and varied in size. In order to look at influence of a bluff-body in a flow, it is important to look at the velocity magnitude. Figure \ref{fig:VelmagBluffBod} shows the velocity magnitude field, the influence of the bluff-body is clear. The bluff-body forces the fluid over the bluff body, creating a recirculation zone at the end of the bluff body.
 
-\InsFig{Velocity_Ti0_01_12_60}{mixture fraction at constant turbulent intensity of 1 \%, with large bluff body}{fig4}
-figure \ref{fig:fig4} shows the results for the first bluff-body, with $h/D=XXXXXXX $. Again, the mixture fraction is extracted at the outlet of the geometry. First thing to notice is the steep gradient at the top and bottom. It is clear that the mixing quality is higher with respect to the cases without bluff-body. This can be explained by two phenomena. The first is the Pe number, which causes the mixture to not mix properly in the case without bluff-body. The second phenomena is that the bluff-body introduces extra wakes, causing the fluid to mix better. Decreasing the size of the bluff-body to $h/D=XXXXXXX $ and $h/D=XXXXXXX $ as shown in Figures \ref{fig:fig5} and \ref{fig:fig6} shows little to none influence on the quality of mixing at the outlet of the geometry. This may be due to the Pe number having a value of 100. Again, decreasing should increase the quality of mixing.
-\InsFig{Velocity_Ti0_01_16_50}{mixture fraction at constant turbulent intensity of 1 \%, with medium bluff body}{fig5}
-\InsFig{Velocity_Ti0_01_20_45}{mixture fraction at constant turbulent intensity of 1 \%, with small bluff body}{fig6}
+\InsFig{VelmagBluffBod}{Velocity field with inlet velocity of 1[m/s]}{VelmagBluffBod}
+
+The size of the bluff-body is changed, while changing the size, the turbulence entrance intensity is kept constant at 1\%. For every bluff-body size, the same velocities are simulated as done in the cases without bluff-body.
+
+\InsFig{Velocity_Ti0_01_15_20_30_50}{mixture fraction at constant turbulent intensity of 1 \%, with large bluff body}{fig4}
+Figure \ref{fig:fig4} shows the results for the first bluff-body, with $h/D=0.25 $. Again, the mixture fraction is extracted at the outlet of the geometry. The graph indicates again that for this bluff-body the inlet velocity  of 0.5[m/s] accounts for the best mixing quality. Another important remark to Figure \ref{fig:fig4} regards to the case without bluff-body. When looking at the quality of mixing, the case with bluff-body shows an significant increase in mixing quality. Also, the inlet velocity seems to have less influence on the mixing. This can be explained by the velocity magnitude as shown in Figure \ref{fig:VelmagBluffBod}. The bluff-body introduces a recirculation zone, which accounts for a large amount of mixing of the fractions. This circulation zone is present for all inlet velocities. Consequently, the fractions will be mixed.
+
+
+T. Decreasing the size of the bluff-body to $h/D=XXXXXXX $ and $h/D=XXXXXXX $ as shown in Figures \ref{fig:fig5} and \ref{fig:fig6} shows little to none influence on the quality of mixing at the outlet of the geometry. This may be due to the Pe number having a value of 100. Again, decreasing should increase the quality of mixing.
+
 \newpage
 \InsTab{Table}
+\InsFig{Diff_noBluff}{Velocity field with inlet velocity of 1[m/s]}{VelmagBluffBod}
+
 
 \section{Conclusion}
 The conclusions are:
