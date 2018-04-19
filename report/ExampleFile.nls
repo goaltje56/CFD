@@ -11,33 +11,54 @@
 		\nompageref{1}
   \item [{$\mu$}]\begingroup Dynamic viscosity, $[\nicefrac{kg}{ms}]$\nomeqref {0}
 		\nompageref{1}
+  \item [{$\Gamma$}]\begingroup Diffusion/ conduction coefficient, $[\nicefrac{kg}{ms}]$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\tau$}]\begingroup Reynolds stress, $[\nicefrac{kg}{ms}]$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\Theta$}]\begingroup Velocity scale, $[\nicefrac{m}{s}]$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\epsilon$}]\begingroup Viscous dissipation of kinetic energy , $[\nicefrac{m^2}{s^3}]$\nomeqref {0}	\nompageref{1}		
 
 %%%%%%%%%%%%%%%%%%%%%
 %Roman symbols
 %%%%%%%%%%%%%%%%%%%%%
  \nomgroup{L}
 
-  \item [{$a $}]\begingroup PressureCharacteristic length, $[m]$.\nomeqref {0}
+  \item [{$a $}]\begingroup Pressure Characteristic length, $[m]$.\nomeqref {0}
 		\nompageref{1}
   \item [{$N $}]\begingroup Total amount, $[-]$.\nomeqref {0}
 		\nompageref{1}
-  \item [{$p $}]\begingroup Pressure, $[Pa]$.\nomeqref {0}
+  \item [{$P $}]\begingroup Pressure, $[Pa]$.\nomeqref {0}
 		\nompageref{1}
-  \item [{$\mathbf u$}]\begingroup VolumeVelocity, $[\nicefrac{m}{s}]$.\nomeqref {0}\nompageref{1}
-
-
-
-
+  \item [{$\mathbf u$}]\begingroup Volume Velocity, $[\nicefrac{m}{s}]$.\nomeqref {0}\nompageref{1}    \item [{$V $}]\begingroup Area, $[m^2]$.\nomeqref {0} \nompageref{1}
+  \item [{$V $}]\begingroup Volume, $[m^3]$.\nomeqref {0} \nompageref{1}
+  \item [{$D $}]\begingroup Characteristic length, $[m]$.\nomeqref {0} \nompageref{1}
+  \item [{$D $}]\begingroup Diffusion coefficient, $[\nicefrac{m^2}{s}]$.\nomeqref {0} \nompageref{1}
+  \item [{$t $}]\begingroup Time, $[s]$.\nomeqref {0} \nompageref{1}
+  \item [{$l $}]\begingroup Large Eddy length scale, $[\nicefrac{s^{1/2}}{m^{3/2}}]$.\nomeqref {0} \nompageref{1}
+  \item [{$k $}]\begingroup Large Turbulent kinetic energy, $[\nicefrac{m^2}{s^2}]$.\nomeqref {0} \nompageref{1} 
+  \item [{$Ti $}]\begingroup Turbulent intensity, $[-]$.\nomeqref {0} \nompageref{1} 
+  \item [{$NPI $}]\begingroup Number of grid cells in I direction, $[-]$.\nomeqref {0} \nompageref{1} 
+  \item [{$NPJ $}]\begingroup Number of grid cells in J direction, $[-]$.\nomeqref {0} \nompageref{1} 
+  \item [{$Pe $}]\begingroup Peclet number, $[-]$.\nomeqref {0} \nompageref{1}
+  \item [{$Re $}]\begingroup Reynolds Number, $[-]$.\nomeqref {0} \nompageref{1}
 %%%%%%%%%%%%%%%%%%%%%
 %subscripts
 %%%%%%%%%%%%%%%%%%%%%
  \nomgroup{S}
 
-  \item [{$G$}]\begingroup Gas.\nomeqref {0}
-		\nompageref{1}
   \item [{$i$}]\begingroup Index $i$.\nomeqref {0}
 		\nompageref{1}
   \item [{$j$}]\begingroup Index $j$.\nomeqref {0}
 		\nompageref{1}
+  \item [{$n$}]\begingroup North side of grid cell.\nomeqref {0}
+		\nompageref{1}
+  \item [{$s$}]\begingroup South side of grid cell. \nomeqref {0}
+		\nompageref{1}
+  \item [{$e$}]\begingroup East side of grid cell.\nomeqref {0}
+ 		\nompageref{1}
+  \item [{$w$}]\begingroup West side of grid cell. \nomeqref {0}
+		\nompageref{1}
+  
 
 \end{thenomenclature}

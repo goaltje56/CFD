@@ -2,7 +2,7 @@ clc
 close all
 clear all
 
-output = load('output.dat');
+output = load('Uin_0.5_bluff_15_20_30_50.dat');
 nx = 40;
 ny = 80;
 %% columns
@@ -109,7 +109,11 @@ title('Centerline velocity magnitude [m/s]')
 % end
 
 figure()
-contourf(xmat,ymat,fmat,'.','Linewidth',1)
+contourf(xmat,ymat,Remat,'.','Linewidth',1)
 s=colorbar
 colormap('jet(1000)')
+set(gca, 'box', 'on', 'LineWidth', 2, 'FontSize', 15)
+title('Peclet number [-]', 'FontSize', 15)
+ylabel('y [m]', 'FontSize', 15)
+xlabel('x [m]', 'FontSize', 15)
 % set(s,'Location','southoutside')

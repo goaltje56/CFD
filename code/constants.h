@@ -27,7 +27,7 @@
 #define kappa      0.4187
 #define ERough     9.793
 #define Ti         0.01
-#define Dif_f	   0.00000100	/* difusivity of species */
+#define Dif_f	   0.00100	/* difusivity of species */
 
 //#define A			4			/*this are the points with x=10 y=20 */
 //#define B			6

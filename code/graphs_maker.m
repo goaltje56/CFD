@@ -2,13 +2,13 @@ clc
 close all
 clear all
 
-factor = [0.000100 0.000010 0.000001];
+factor = [0.5 1 5];
 % pp = [];
 % max_v = [];
 % max_v_analytical = [];
 for a = 1:length(factor)
 
-name = sprintf('Diff_%1.6f_U1_Ti0_01_NoBLuff.dat',factor(a))
+name = sprintf('Uin_%1.1f_bluff_15_20_37_43.dat',factor(a))
 
 output = load(name);
 nx = 40;
@@ -96,4 +96,5 @@ xlabel('height [m]', 'FontSize', 15)
 
 grid on
 end
-legend('D = 10^{-4}','D = 10^{-5}','D = 10^{-6}','Location','NorthEast')
+% legend('D = 10^{-3}','D = 10^{-4}','D = 10^{-5}','D = 10^{-6}','Location','NorthEast')
+legend('U_{in} = 0.5 [m/s]','U_{in} = 1    [m/s]','U_{in} = 5    [m/s]','Location','NorthEast')
