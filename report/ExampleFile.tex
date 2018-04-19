@@ -124,7 +124,7 @@ The last important equation is the transport of fractions, and can be computed u
 \label{fractrans}
 \frac{\partial f\rho }{\partial t} +div( \rho \boldmath{u} f) = div(D \hspace{1mm}grad\hspace{1mm}f) +S_i 
 \end{equation}
-Here D, is the diffusion coefficient of the fluid. The fraction transport is introduced specifically for this study in order to keep track of the mixing of the flow. This variable can have any value between 0 and 1. Considering only 2 species, a value of 1 means that the fluid is purely specie 1 and a value of 0 is purely the other specie. \\ \\
+Here D, is the diffusion coefficient of the fluid in $[m^2/s]$. The fraction transport is introduced specifically for this study in order to keep track of the mixing of the flow. This variable can have any value between 0 and 1. Considering only 2 species, a value of 1 means that the fluid is purely specie 1 and a value of 0 is purely the other specie. \\ \\
 Since this study regards a turbulent flow, the mass and momentum equations have to be solved in a different manner. This is done by means of the Reynolds average approach. In the Reynolds average approach the mean velocity is determined and the turbulence is described by a fluctuation around the mean velocity. Therefore, components in the convection-diffusion and conservation equations are decomposed in a mean and a fluctuating variable. The decomposed variables are given in Equation \ref{decomposed}.\vspace{2mm}
 
 \emph{Decomposed variables}
@@ -326,25 +326,35 @@ Since the aim is to find the influence of a bluff-body on the mixing quality, a 
 
 The size of the bluff-body is changed, while changing the size, the turbulence entrance intensity is kept constant at 1\%. For every bluff-body size, the same velocities are simulated as done in the cases without bluff-body.
 
-\InsFig{Velocity_Ti0_01_15_20_30_50}{mixture fraction at constant turbulent intensity of 1 \%, with large bluff body}{fig4}
-Figure \ref{fig:fig4} shows the results for the first bluff-body, with $h/D=0.25 $. Again, the mixture fraction is extracted at the outlet of the geometry. The graph indicates again that for this bluff-body the inlet velocity  of 0.5[m/s] accounts for the best mixing quality. Another important remark to Figure \ref{fig:fig4} regards to the case without bluff-body. When looking at the quality of mixing, the case with bluff-body shows an significant increase in mixing quality. Also, the inlet velocity seems to have less influence on the mixing. This can be explained by the velocity magnitude as shown in Figure \ref{fig:VelmagBluffBod}. The bluff-body introduces a recirculation zone, which accounts for a large amount of mixing of the fractions. This circulation zone is present for all inlet velocities. Consequently, the fractions will be mixed.
-
-
-T. Decreasing the size of the bluff-body to $h/D=XXXXXXX $ and $h/D=XXXXXXX $ as shown in Figures \ref{fig:fig5} and \ref{fig:fig6} shows little to none influence on the quality of mixing at the outlet of the geometry. This may be due to the Pe number having a value of 100. Again, decreasing should increase the quality of mixing.
+\InsFig{Velocity_Ti0_01_15_20_30_50}{mixture fraction at constant turbulent intensity of 1 \%, with large bluff-body}{fig4}
+\InsFig{Velocity_Ti0_01_15_20_30_50}{mixture fraction at constant turbulent intensity of 1 \%, with medium bluff-body}{fig5}
+\InsFig{Velocity_Ti0_01_15_20_30_50}{mixture fraction at constant turbulent intensity of 1 \%, with small bluff-body}{fig6}
+Figure \ref{fig:fig4} shows the results for the first bluff-body, with $h/D=0.25 $. Again, the mixture fraction is extracted at the outlet of the geometry. The graph indicates again that for this bluff-body the inlet velocity  of 0.5[m/s] accounts for the best mixing quality. Another important remark to Figure \ref{fig:fig4} regards to the case without bluff-body. When looking at the quality of mixing, the case with bluff-body shows an significant increase in mixing quality. Also, the inlet velocity seems to have less influence on the mixing. This can be explained by the velocity magnitude as shown in Figure \ref{fig:VelmagBluffBod}. The bluff-body introduces a recirculation zone, which accounts for a large amount of mixing of the fractions. This circulation zone is present for all inlet velocities. Consequently, the fractions will be mixed.\\
+When the bluff-body is decreased to a size of $h/D=0.125$, similar results are obtained see Figure \ref{fig:fig5}. However, compared to the large bluff-body in Figure \ref{fig:fig4} the quality of mixing is lower. Again the mixing is enhanced by the insertion of the bluff-body. The influence of the bluff-body has decreased since the recirculation zone reduces with respect to the bluff-body size. Therefore, the influence of the mixing due to the recirculation behind the bluff-body reduces and thus mixing quality will be lower for smaller bluff-bodies.\\
+The smallest bluff-body has a size of $h/D=0.075$ and its results are displayed in Figure \ref{fig:fig6}. The results of the smallest bluff-body contradict the expectations. It was expected that the mixing quality decreased with respect to the medium and large bluff-body. This is expected due to the fact that the recirculation zone gets smaller as the bluff-body size decreases. However, the smallest bluff-body shows the best quality of mixing at the outlet. Analysing the results point out some inaccuracies in the velocity field. Since the bluff-body is placed in the middle of the height, the velocity field is expected to be symmetrical. However The results show an asymmetrical velocity field (see Figure \ref{fig:AsymVel}). The asymmetrical velocity field is most likely cause by a numerical imprecision. The imprecision is introduced at the boundary of the bluff-body. The imprecision may be present in the other bluff-bodies as well. However, due to the fact that the other bluff-bodies are larger the influence vanishes and the velocity profile is still symmetrical.\\
+The result as shown in Figure \ref{fig:fig6} shows that the mixing quality for the smallest bluff-body is high. However, this is caused by the asymmetric velocity field. The asymmetric velocity field enhances the mixing causing the quality at the outlet to be increased with respect to the larger bluff-bodies.
+\InsFig{AsymVel}{Velocity field with smallest bluff body}{AsymVel}
+\newline
+Now that the influence of inlet velocity, turbulence intensity and bluff body size are known it may be of interest to look at the influence of the diffusion coefficient. Increasing the diffusion coefficient would enhance mixing. Figure \ref{fig:diffusioncoeff} shows the graph of the fractions at the outlet of the geometry for different values of the diffusion coefficient. The figure shows that increasing the diffusion coefficient positively influences the mixing quality. This can be explained by the Pe number, since the fraction of transport by diffusion increases, the mixing quality is increased. Note however, that the diffusion coefficient in practice is a variable not to be manually chosen. In this study it is only chosen to change the diffusion coefficient to give an impression on the importance of the parameter itself. Figure \ref{fig:diffusioncoeff} indicates that defining the diffusion in a correct manner is highly important since it can greatly influence the outcome of the simulation.
 
 \newpage
-\InsTab{Table}
-\InsFig{Diff_noBluff}{Velocity field with inlet velocity of 1[m/s]}{VelmagBluffBod}
+
+\InsFig{Diff_noBluff}{influence of diffusion coefficient on the mixing}{diffusioncoeff}
 
 
 \section{Conclusion}
-The conclusions are:
+The goal of this study is to find the influence of a bluff-body in a turbulent flow on the quality of mixing. The mixing of fractions 0 and 1 entering at the top and bottom half of the geometry respectively is compared. The quality of mixing is evaluated at the outlet of the domain.  The results of the cases with bluff-body and without bluff-body is analysed by changing the important parameters such as the inlet velocity, turbulence intensity and diffusion coefficient.\\
+First of all the case without bluff-body. It is shown in the results that the quality of mixing is influenced the most by the inlet velocity. A decrease in influence would lead to the largest increase of mixing quality. This is explained by the Pe number, which decreases linearly with the inlet velocity. A lower Pe number tells that the influence of turbulent transport increases with respect to the transport of the flow.\\
+The Turbulence entrance intensity which is changed for a constant inlet velocity shows little to none influence on the quality of mixing at the outlet of the geometry. The is mostly due to the fact that the turbulence entrance intensity only affects the inlet of the domain. Therefore, influences at the outlet are not visible.\\
+The last parameter is the diffusion coefficient. Which shows to have an influence on the mixing quality. The smaller the diffusion coefficient the higher the quality of mixing at the outlet of the domain. However, in normal practices the diffusion coefficient is not to be altered. The diffusion coefficient is a property of a fluid of gas and thus known in prior. In this study it is changed in order to show its influence and importance on the results of the simulations.\\
+After introducing the bluff-body into the domain the bluff-body is ranged in size from $h/D=0.25 $ to $h/D=0.125 $ and $h/D=0.075$. For every bluff-body inlet velocity is increased in the same increments as done for the case without bluff-body. Comparing the overall mixing quality for all cases with and without bluff-body it becomes clear that the bluff-body enhances the quality of mixing significantly. The quality of mixing is enhanced by the recirculation zone introduced by the bluff-body. Since the recirculation zone decreases as the size of the bluff-body gets smaller the quality of mixing is expected to drop. This can indeed be confirmed when looking at the large and medium bluff-body. However, the smallest bluff-body seems to enhance the mixing when compared to the larger bluff-bodies. This is caused by a numerical imprecision which causes the velocity field to become asymmetric.
 \begin{enumerate}
   \item Trondheim is a nice city.
   \item CFD is great fun, and useful too.
 \end{enumerate}
 
-
+\section{Discussion}
+For further research it is highly recommended to investigate the cause of the imprecision at the border of the bluff-body. 
 %% %---------------------------
 %% %BIBLIOGRAPHY
 %% %---------------------------

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.2)  18 APR 2018 23:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.2)  19 APR 2018 12:01
 entering extended mode
 **./ExampleFile.tex
 (ExampleFile.tex
@@ -411,11 +411,7 @@ Package caption3 Info: TeX engine: e-TeX on input line 67.
 \c@ContinuedFloat=\count122
 Package caption Info: hyperref package is loaded.
 ))
-(ExampleFile.aux
-
-LaTeX Warning: Label `fig:VelmagBluffBod' multiply defined.
-
-)
+(ExampleFile.aux)
 \openout1 = `ExampleFile.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 48.
@@ -593,7 +589,7 @@ m/it/10 :\OT1/ptmcm/m/n/10 92[]
 (coefficients.tex
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 4.
-) [3] <FlowGeometry.pdf, id=155, 397.485pt x 181.67876pt>
+) [3] <FlowGeometry.pdf, id=159, 397.485pt x 181.67876pt>
 File: FlowGeometry.pdf Graphic file (type pdf)
 
 <use FlowGeometry.pdf>
@@ -610,7 +606,7 @@ f InletBC.eps>
 (epstopdf)             \includegraphics on input line 242.
 Package epstopdf Info: Output file is already uptodate.
 
-<InletBC-eps-converted-to.pdf, id=161, 421.575pt x 316.18124pt>
+<InletBC-eps-converted-to.pdf, id=165, 421.575pt x 316.18124pt>
 File: InletBC-eps-converted-to.pdf Graphic file (type pdf)
 
 <use InletBC-eps-converted-to.pdf>
@@ -646,7 +642,7 @@ Package epstopdf Info: Source file: <GridConv.eps>
 df GridConv.eps>
 (epstopdf)             \includegraphics on input line 293.
 Package epstopdf Info: Output file is already uptodate.
-<GridConv-eps-converted-to.pdf, id=191, 421.575pt x 316.18124pt>
+<GridConv-eps-converted-to.pdf, id=195, 421.575pt x 316.18124pt>
 File: GridConv-eps-converted-to.pdf Graphic file (type pdf)
 
 <use GridConv-eps-converted-to.pdf>
@@ -663,7 +659,7 @@ df mixtfrac.eps>
 (epstopdf)             \includegraphics on input line 303.
 Package epstopdf Info: Output file is already uptodate.
 
-<mixtfrac-eps-converted-to.pdf, id=195, 742.775pt x 252.945pt>
+<mixtfrac-eps-converted-to.pdf, id=199, 742.775pt x 252.945pt>
 File: mixtfrac-eps-converted-to.pdf Graphic file (type pdf)
 
 <use mixtfrac-eps-converted-to.pdf>
@@ -680,7 +676,7 @@ ted-to.pdf mixtfracBluffbod.eps>
 (epstopdf)             \includegraphics on input line 304.
 Package epstopdf Info: Output file is already uptodate.
 
-<mixtfracBluffbod-eps-converted-to.pdf, id=196, 735.74875pt x 265.99374pt>
+<mixtfracBluffbod-eps-converted-to.pdf, id=200, 735.74875pt x 265.99374pt>
 File: mixtfracBluffbod-eps-converted-to.pdf Graphic file (type pdf)
 
 <use mixtfracBluffbod-eps-converted-to.pdf>
@@ -701,7 +697,7 @@ df>
 (epstopdf)             \includegraphics on input line 309.
 Package epstopdf Info: Output file is already uptodate.
 
-<Velocity_Ti0_01_noBluff-eps-converted-to.pdf, id=223, 421.575pt x 316.18124pt>
+<Velocity_Ti0_01_noBluff-eps-converted-to.pdf, id=227, 421.575pt x 316.18124pt>
 File: Velocity_Ti0_01_noBluff-eps-converted-to.pdf Graphic file (type pdf)
 <use Velocity_Ti0_01_noBluff-eps-converted-to.pdf>
 Package pdftex.def Info: Velocity_Ti0_01_noBluff-eps-converted-to.pdf used on i
@@ -719,7 +715,7 @@ onverted-to.pdf Turbulence_u1_noBluff.eps>
 (epstopdf)             \includegraphics on input line 317.
 Package epstopdf Info: Output file is already uptodate.
 
-<Turbulence_u1_noBluff-eps-converted-to.pdf, id=226, 421.575pt x 316.18124pt>
+<Turbulence_u1_noBluff-eps-converted-to.pdf, id=230, 421.575pt x 316.18124pt>
 File: Turbulence_u1_noBluff-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Turbulence_u1_noBluff-eps-converted-to.pdf>
@@ -738,7 +734,7 @@ df>
 (epstopdf)             \includegraphics on input line 319.
 Package epstopdf Info: Output file is already uptodate.
 
-<Turbulence_u0_5_noBluff-eps-converted-to.pdf, id=227, 421.575pt x 316.18124pt>
+<Turbulence_u0_5_noBluff-eps-converted-to.pdf, id=231, 421.575pt x 316.18124pt>
 File: Turbulence_u0_5_noBluff-eps-converted-to.pdf Graphic file (type pdf)
 <use Turbulence_u0_5_noBluff-eps-converted-to.pdf>
 Package pdftex.def Info: Turbulence_u0_5_noBluff-eps-converted-to.pdf used on i
@@ -755,7 +751,7 @@ d-to.pdf VelmagBluffBod.eps>
 (epstopdf)             \includegraphics on input line 325.
 Package epstopdf Info: Output file is already uptodate.
 
-<VelmagBluffBod-eps-converted-to.pdf, id=229, 742.775pt x 266.9975pt>
+<VelmagBluffBod-eps-converted-to.pdf, id=233, 742.775pt x 266.9975pt>
 File: VelmagBluffBod-eps-converted-to.pdf Graphic file (type pdf)
 
 <use VelmagBluffBod-eps-converted-to.pdf>
@@ -774,37 +770,68 @@ to.pdf>
 (epstopdf)             \includegraphics on input line 329.
 Package epstopdf Info: Output file is already uptodate.
 
-<Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf, id=230, 421.575pt x 316.1812
+<Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf, id=234, 421.575pt x 316.1812
 4pt>
 File: Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf Graphic file (type pdf)
  <use Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf>
 Package pdftex.def Info: Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf used 
 on input line 329.
 (pdftex.def)             Requested size: 241.84842pt x 181.38788pt.
+Package epstopdf Info: Source file: <Velocity_Ti0_01_15_20_30_50.eps>
+(epstopdf)                    date: 2018-04-18 23:01:51
+(epstopdf)                    size: 22281 bytes
+(epstopdf)             Output file: <Velocity_Ti0_01_15_20_30_50-eps-converted-
+to.pdf>
+(epstopdf)                    date: 2018-04-18 23:03:53
+(epstopdf)                    size: 5186 bytes
+(epstopdf)             Command: <epstopdf --outfile=Velocity_Ti0_01_15_20_30_50
+-eps-converted-to.pdf Velocity_Ti0_01_15_20_30_50.eps>
+(epstopdf)             \includegraphics on input line 330.
+Package epstopdf Info: Output file is already uptodate.
+File: Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf Graphic file (type pdf)
+
+<use Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf>
+Package pdftex.def Info: Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf used 
+on input line 330.
+(pdftex.def)             Requested size: 241.84842pt x 181.38788pt.
+Package epstopdf Info: Source file: <Velocity_Ti0_01_15_20_30_50.eps>
+(epstopdf)                    date: 2018-04-18 23:01:51
+(epstopdf)                    size: 22281 bytes
+(epstopdf)             Output file: <Velocity_Ti0_01_15_20_30_50-eps-converted-
+to.pdf>
+(epstopdf)                    date: 2018-04-18 23:03:53
+(epstopdf)                    size: 5186 bytes
+(epstopdf)             Command: <epstopdf --outfile=Velocity_Ti0_01_15_20_30_50
+-eps-converted-to.pdf Velocity_Ti0_01_15_20_30_50.eps>
+(epstopdf)             \includegraphics on input line 331.
+Package epstopdf Info: Output file is already uptodate.
+File: Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf Graphic file (type pdf)
+
+<use Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf>
+Package pdftex.def Info: Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf used 
+on input line 331.
+(pdftex.def)             Requested size: 241.84842pt x 181.38788pt.
+Package epstopdf Info: Source file: <AsymVel.eps>
+(epstopdf)                    date: 2018-04-19 11:18:29
+(epstopdf)                    size: 210954 bytes
+(epstopdf)             Output file: <AsymVel-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-04-19 11:18:32
+(epstopdf)                    size: 17897 bytes
+(epstopdf)             Command: <epstopdf --outfile=AsymVel-eps-converted-to.pd
+f AsymVel.eps>
+(epstopdf)             \includegraphics on input line 336.
+Package epstopdf Info: Output file is already uptodate.
+
+<AsymVel-eps-converted-to.pdf, id=243, 611.28375pt x 203.76125pt>
+File: AsymVel-eps-converted-to.pdf Graphic file (type pdf)
+
+<use AsymVel-eps-converted-to.pdf>
+Package pdftex.def Info: AsymVel-eps-converted-to.pdf used on input line 336.
+(pdftex.def)             Requested size: 241.84842pt x 80.61383pt.
  [6 <./Velocity_Ti0_01_noBluff-eps-converted-to.pdf> <./Turbulence_u1_noBluff-e
 ps-converted-to.pdf> <./Turbulence_u0_5_noBluff-eps-converted-to.pdf> <./Velmag
-BluffBod-eps-converted-to.pdf>]
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 333.
-
-
-LaTeX Warning: Reference `fig:fig5' on page 7 undefined on input line 333.
-
-
-LaTeX Warning: Reference `fig:fig6' on page 7 undefined on input line 333.
-
-
-Underfull \hbox (badness 3803) in paragraph at lines 333--334
-[]\T1/ptm/m/n/10 T. De-creas-ing the size of the bluff-body to $\OML/ptmcm/m/it
-/10 h=D \OT1/ptmcm/m/n/10 =
- []
-
-(Table.tex
-Overfull \hbox (24.07143pt too wide) in paragraph at lines 6--36
- [][] 
- []
-
-)
+BluffBod-eps-converted-to.pdf>] [7 <./Velocity_Ti0_01_15_20_30_50-eps-converted
+-to.pdf> <./AsymVel-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Diff_noBluff.eps>
 (epstopdf)                    date: 2018-04-18 23:47:31
 (epstopdf)                    size: 21189 bytes
@@ -813,52 +840,48 @@ Package epstopdf Info: Source file: <Diff_noBluff.eps>
 (epstopdf)                    size: 4927 bytes
 (epstopdf)             Command: <epstopdf --outfile=Diff_noBluff-eps-converted-
 to.pdf Diff_noBluff.eps>
-(epstopdf)             \includegraphics on input line 337.
+(epstopdf)             \includegraphics on input line 342.
 Package epstopdf Info: Output file is already uptodate.
- <Diff_noBluff-eps-converted-to.pdf, id=262, 421.575pt x 316.18124pt>
+
+<Diff_noBluff-eps-converted-to.pdf, id=290, 421.575pt x 316.18124pt>
 File: Diff_noBluff-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Diff_noBluff-eps-converted-to.pdf>
 Package pdftex.def Info: Diff_noBluff-eps-converted-to.pdf used on input line 3
-37.
+42.
 (pdftex.def)             Requested size: 241.84842pt x 181.38788pt.
- (ExampleFile.bbl) [7 <./Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf> <./D
-iff_noBluff-eps-converted-to.pdf>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 360.
-
-[8
+ (ExampleFile.bbl) [8 <./Diff_noBluff-eps-converted-to.pdf>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 370.
+ [9
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 360.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 370.
  (ExampleFile.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 360.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 360.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 370.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 370.
 Package rerunfilecheck Info: File `ExampleFile.out' has not changed.
-(rerunfilecheck)             Checksum: C851E5AEAEFD28240A25AD238EB39921;916.
+(rerunfilecheck)             Checksum: BD78C2303C003A818FACC13016E77E7E;965.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 360.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 370.
  ) 
 Here is how much of TeX's memory you used:
- 8202 strings out of 493323
- 121642 string characters out of 3139060
+ 8208 strings out of 493323
+ 121821 string characters out of 3139060
  226887 words of memory out of 3000000
- 11466 multiletter control sequences out of 15000+200000
- 70893 words of font info for 107 fonts, out of 3000000 for 9000
+ 11470 multiletter control sequences out of 15000+200000
+ 69197 words of font info for 106 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  49i,19n,45p,1381b,437s stack positions out of 5000i,500n,10000p,200000b,50000s
-pdfTeX warning (dest): name{section*.56} has been referenced but does not exi
+pdfTeX warning (dest): name{section*.59} has been referenced but does not exi
 st, replaced by a fixed one
 
-pdfTeX warning (dest): name{section*.52} has been referenced but does not exist
+pdfTeX warning (dest): name{section*.57} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{section*.54} has been referenced but does not exist
 , replaced by a fixed one
 
 pdfTeX warning (dest): name{section*.37} has been referenced but does not exist
@@ -885,9 +908,9 @@ pfb><C:/Users/s129329/AppData/Roaming/MiKTeX/2.9/fonts/type1/urw/symbol/usyr.pf
 b><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Fil
 es/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fon
 ts/type1/urw/times/utmri8a.pfb>
-Output written on ExampleFile.pdf (8 pages, 477349 bytes).
+Output written on ExampleFile.pdf (9 pages, 498112 bytes).
 PDF statistics:
- 346 PDF objects out of 1000 (max. 8388607)
- 66 named destinations out of 1000 (max. 500000)
- 176 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 370 PDF objects out of 1000 (max. 8388607)
+ 70 named destinations out of 1000 (max. 500000)
+ 189 words of extra memory for PDF output out of 10000 (max. 10000000)
 
