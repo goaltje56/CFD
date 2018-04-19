@@ -200,7 +200,7 @@ void init(void)
 			mu     [I][J] = 2.E-5;    /* Viscosity */
 			Cp     [I][J] = 1013.;     /* J/(K*kg) Heat capacity - assumed constant for this problem */
 			Gamma  [I][J] = 0.025/Cp[I][J]; /* Thermal conductivity divided by heat capacity */
-			Gamma_f  [I][J] = 0.000000001; /* Thermal conductivity divided by heat capacity */
+			Gamma_f  [I][J] = Dif_f; /* Thermal conductivity divided by heat capacity */
 
 			u_old  [i][J] = u[i][J];  /* Velocity in x-direction old timestep */
 			v_old  [I][j] = v[I][j];  /* Velocity in y-direction old timestep */
@@ -1511,7 +1511,7 @@ void species_diffusivity(void)
 			if(I>=A && I<=B && J<=D && J>=C)
 				Gamma_f[I][J] = 0;
 			else
-            	Gamma_f[I][J] = 0.0000100 + mut[I][J];
+            	Gamma_f[I][J] = Dif_f + mut[I][J];
 
 } /* species_diffusivity */
 

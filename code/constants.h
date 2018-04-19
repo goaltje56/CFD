@@ -17,7 +17,7 @@
 #define LARGE      1E30      /* arbitrary very large value [-] */
 #define SMALL      1E-30     /* arbitrary very small value [-] */
 #define P_ATM      101000.   /* athmospheric pressure [Pa] */
-#define U_IN       0.5      /* in flow velocity [m/s] */
+#define U_IN       1     /* in flow velocity [m/s] */
 
 #define Cmu        0.09
 #define sigmak       1.
@@ -26,8 +26,8 @@
 #define C2eps      1.92
 #define kappa      0.4187
 #define ERough     9.793
-#define Ti         0.06
-#define Dif_f	   0.0000100	/* difusivity of species */
+#define Ti         0.01
+#define Dif_f	   0.00000100	/* difusivity of species */
 
 //#define A			4			/*this are the points with x=10 y=20 */
 //#define B			6
