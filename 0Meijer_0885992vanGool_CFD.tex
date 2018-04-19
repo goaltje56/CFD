@@ -1,0 +1,364 @@
+\documentclass{CFD2017}
+\usepackage{CFD2017}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%This template is created for complying with the author instructions for the
+%12th International Conference on CFD in Oil & Gas, Metallurgical and Process Industries
+%hosted by SINTEF/NTNU, Trondheim Norway
+%May 30th - June 1st, 2017
+%
+%Questions/comments regarding bugs/errors in the template and associated files are welcome.
+%Only limited support is given with respect to functionality, additional packages, or LaTeX in general.
+%Please refer to e.g. https://www.latex-project.org/help/ for general LaTeX assistance and guidelines.
+%
+%
+%Sverre G. Johnsen (sverre.g.johnsen@sintef.no)
+%SINTEF Materials and Chemistry
+
+
+%Required files:
+%   ExampleFile.tex
+%   ExampleFile.nls
+%   CFD2017.bst
+%   CFD2017.cls
+%   CFD2017.sty
+%   References.bib
+
+%Example-specific files:
+%   figure.eps
+%   Table.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\title{The influence of a bluff body in a turbulent flow on the mixing of fluids}
+\paperID{CFD 2018}
+\author{Toos}{van Gool} %{forename}{surname}
+\presenting  %the previous author is presenting the paper (name becomes underlined)
+\address{University of Technology, Department of Mechanical Engineering, Eindhoven, NETHERLANDS}%affiliation of the previous author
+\email{c.e.a.g.v.gool@student.tue.nl}%e-mail address of the previous author
+\author{Oscar}{Meijer}
+\address{University of Technology, Department of Mechanical Engineering, Eindhoven, NETHERLANDS}
+\email{o.c.meijer@student.tue.nl}
+
+
+
+
+\begin{document}
+\maketitle  %create the title page
+\headers   %create the page headers and footers
+
+
+\abstract{
+ The mixing quality of species is assumed to be higher in a turbulent flow. However, in some problems it might happen that the an object is standing in the turbulent flow. It is interesting to know what the effects are of such an object and which parameters are most sensitive to this disturbance of an flow which is already turbulent. Hence, this paper aims to find out the influence of a bluff body on the mixing quality in a turbulent flow. 
+}
+\keywords{
+  CFD, Turbulence, Bluff body, Reynolds averaging,  Mixing}
+\normalfont\normalsize
+
+
+
+%\section{Nomenclature}
+Below a complete list is provided of symbols used, with dimensions.
+%the nomenclature needs to be entered into the file ExampleFile.nls
+
+\printnomenclature[0.7cm]
+
+\vskip .1em
+
+
+\section{Introduction}
+Within industrial applications, mixing of fluids is a well known phenomenon. The mixing of fluids can be initiated by a propeller, driven by a motor, or by obstacles in a flow, as well as a difference in concentration. A simple example of mixing due to concentration difference is the mixing of two paint colours. Starting with half a tank of blue paint and the other half yellow paint, will result in a completely green paint.\\
+This study focusses on the quality of mixing. Mainly the influence of the bluff-body size and its influence on the mixing quality will be discussed, as well as the influence of the turbulent intensity at the inlet. The mixing quality can be measured at the outlet of the geometry by looking at the value of the mixture fraction.
+
+Computational Fluid Dynamics (CFD) is used to solve the system of equations. For this particular problem, the mass, momentum and transport equations are solved. The simulations are performed for fully developed turbulent and incompressible flows. The turbulence is modelled by means of a $\kappa-\epsilon$ model.\\
+\newline
+The expectation is that in a turbulent flow better mixing will be achieved without a bluff body. Prospected is that the bluff body will cause a decrease in turbulence and therefore contribute negative to the mixing. 
+\newline
+The first part of this article concerns the theory and the numerical solver used to attain the solution. Then the CFD model is treated, after which the geometry and boundary conditions applied to the problem are discussed. Subsequently the mesh convergence and executed simulations are explained. Finally, the results of the simulations are displayed with a discussion and conclusion.
+\newpage
+
+
+\section{Physics}
+This chapter covers the theory to describe the CFD model. Once the theory is explained, the discretization of the governing equations is provided. The used solver is explained at the end of this chapter.
+
+\subsection{Turbulent flow}
+A flow in a channel can be characterized by the Reynolds number, a dimensionless number which represents the ratio of viscous and inertial forces in the flow. The Reynolds number can be calculated upon use of Equation \ref{Reynolds}\cite{Versteeg2007}. Here $\rho$ is the fluid density in $[kg\cdot m^{-1}]$, $u$ is the velocity in $[m\cdot s^{-1}]$, $D$ is the characteristic length in $[m]$ and $\mu$ is the fluids dynamic viscosity in $[kg\cdot m^{-1}\cdot s^{-1}]$
+
+\begin{equation}
+\label{Reynolds}
+Re = \frac{\rho \boldsymbol{u} D}{\mu}
+\end{equation}
+The flow is considered turbulent if the Reynolds number exceeds a value of 2300. A turbulent flow is contemplated as chaotic, containing flow instabilities such as eddies. These eddies cause local fluctuations in the velocity field. Therefore, the normal steady convection and diffusion equations can not be used to solve turbulent flows. To solve the turbulent flow equations one needs to introduce a general equation for unsteady convection and diffusion\cite{Versteeg2007}.\vspace{2mm}
+
+\emph{Unsteady convection-diffusion}
+\begin{equation}
+\label{unsteadConvDiff}
+\frac{\partial \rho \phi}{\partial t} + div(\rho\phi\mathbf u)= div(\Gamma grad \phi)+S_{\phi}
+\end{equation}
+Equation \ref{unsteadConvDiff} consists of four parts. The first part is a time dependent term, the second part represents the convection, the third part the diffusion and the last part of the equation is the sink and or source term. $\phi$ is the transport term, $\Gamma$ is the diffusion or conduction coefficient. The transport term changes according to the equation to be solved. \\
+The conservation of mass, momentum and fraction play a major role in a CFD code. In this paper, all conservation equations are derived for the case of an incompressible flow. The conservation of mass can be extracted from Equation \ref{unsteadConvDiff}, and results in \cite{slides}:\vspace{2mm}
+
+\emph{Mass balance}
+\begin{equation}
+\label{MassBal}
+\frac{\partial \rho }{\partial t} + div(\rho\mathbf u)= 0
+\end{equation}
+For a two dimensional problem, the conservation of momentum needs to be solved in two directions, $x$ and $y$. The general form for the momentum conservation is treated as:\vspace{2mm}
+
+\emph{Momentum balance}
+\begin{equation}
+\begin{split}
+\label{MomBal}
+&\frac{D( \rho u) }{D t} =-\frac{\partial P}{\partial x} + div(\mu \hspace{1mm} grad\hspace{1mm}u)+S_{Mx}\\ 
+&\frac{D( \rho v) }{D t} =-\frac{\partial P}{\partial y} + div(\mu \hspace{1mm} grad\hspace{1mm}v)+S_{My}\\ 
+\end{split}
+\end{equation}
+The last important equation is the transport of fractions, and can be computed upon use of Equation \ref{fractrans}.\vspace{2mm}
+
+\emph{Species fraction transport}
+\begin{equation}
+\label{fractrans}
+\frac{\partial f\rho }{\partial t} +div( \rho \boldmath{u} f) = div(D \hspace{1mm}grad\hspace{1mm}f) +S_i 
+\end{equation}
+Here D, is the diffusion coefficient of the fluid in $[m^2/s]$. The fraction transport is introduced specifically for this study in order to keep track of the mixing of the flow. This variable can have any value between 0 and 1. Considering only 2 species, a value of 1 means that the fluid is purely specie 1 and a value of 0 is purely the other specie. \\ \\
+Since this study regards a turbulent flow, the mass and momentum equations have to be solved in a special manner. This is done by means of the Reynolds average approach. In the Reynolds average approach the mean velocity is determined and the turbulence is described by a fluctuation around the mean velocity. Therefore, components in the convection-diffusion and conservation equations are decomposed in a mean and a fluctuating component. The decomposed variables are given in Equation \ref{decomposed}.\vspace{2mm}
+
+\emph{Decomposed variables}
+\begin{equation}
+\label{decomposed}
+u=U+u'; \hspace{4mm} v = V+v'; \hspace{4mm} w=W+w'; \hspace{4mm} p=P+p' 
+\end{equation}
+In here, $U$, $V$ and $W$ are the mean velocities in $x$, $y$ and $z$ direction respectively. $P$ is the average pressure. The apostrophe terms are the fluctuating components. The average term is given by Equation \ref{Uavg}.\vspace{2mm}
+
+\emph{Average velocity}
+\begin{equation}
+\label{Uavg}
+U = \frac{1}{\Delta t}\int_{0}^{\Delta t}u(t)dt
+\end{equation}
+The other average terms are calculated in the same manner. After computing the decomposed variables, they are substituted into the system of equations. The time averaged part in Equation \ref{Uavg} transforms the regular Navier-Stokes equations into time averaged Navier-Stokes equations, also called Reynolds averaged Navier-Stokes equations (RANS). By using RANS, a new definition is introduced called Reynolds stresses. The Reynolds stresses are present in all directions, and are calculated by Equation \ref{ReStress} \cite{slides}. \vspace{2mm}
+
+\emph{Reynolds stresses}
+\begin{equation}
+\label{ReStress}
+\tau_{ij}=-\rho\overline{u_i'u_j'}
+\end{equation}
+The $\kappa-\epsilon$ model is used to close the system of equations. This model is chosen above the Prandtl mixing length model and the Reynolds stress model and algebraic stress model due to its simple implementation and widely proven validation \cite{Versteeg2007}.
+
+
+\subsubsection{$\kappa-\epsilon$ turbulence model}
+The standard  $\kappa-\epsilon$ model introduces two extra transport equations to be solved. one for the turbulent kinetic energy, $\kappa$, and one for the viscous dissipation of turbulent kinetic energy, $\epsilon$.  $\kappa$ and $\epsilon$ are used to introduce a velocity scale, $\theta$ and large-scale turbulence length scale $\ell$. The velocity scale is calculated upon use of Equation \ref{velScale}, and the turbulence length-scale is calculated with use of Equation \ref{turbScale}.\vspace{2mm}
+
+\emph{Velocity- and turbulence length-scale}
+\begin{align}
+&\theta = \kappa^{1/2} \label{velScale}\\
+&\ell=\frac{\kappa^{3/2}}{\epsilon} \label{turbScale}
+\end{align}
+Equation \ref{turbScale} shows that one is able to use the small eddy variable $\epsilon$ to describe the large eddy scale, $\ell$. This is only permitted if, and only if, the rate at which large eddies extract energy from the mean flow matches the rate of transfer of energy across the energy spectrum to small, dissipating, eddies if the flow does not change rapidly. \cite{Versteeg2007}.\\
+
+The turbulent viscosity, the eddy viscosity is introduced by Equation \ref{eddyvisc}, where $C_{\mu}$ is a dimensionless constant.\vspace{2mm}
+
+\emph{Turbulent viscosity}
+\begin{equation}
+\label{eddyvisc}
+\mu_t=C\rho \theta \ell=C_{\mu}\rho\frac{\kappa^2}{\epsilon}
+\end{equation}
+
+One is now able to describe the equations for both $\kappa$ and $\epsilon$, shown in Equation \ref{kappa} and \ref{eps} respectively.\vspace{2mm}
+
+\emph{$\kappa$- and $\epsilon$-transport equation}
+
+\begin{align}
+&\frac{\partial \rho \kappa}{\partial t} + div(\rho \kappa \mathbf{U}) = div\bigg[\frac{\mu_t}{\sigma_{\kappa}}grad\hspace{1mm}\kappa\bigg] +2\mu_tS_{ij}\cdot S_{ij}-\rho\epsilon \label{kappa}\\
+\begin{split}
+&\frac{\partial \rho \epsilon}{\partial t} + div(\rho \epsilon \mathbf{U}) = div\bigg[\frac{\mu_t}{\sigma_{\epsilon}}grad\hspace{1mm}\epsilon\bigg] +\\
+&C_{l\epsilon} \frac{\epsilon}{\kappa}2\mu_tS_{ij}\cdot S_{ij}-\rho C_{2\epsilon}\frac{\epsilon^2}{\kappa} \label{eps}
+\end{split}
+\end{align}
+
+In both equations, the first term represents the rate of change in $\kappa$ and $\epsilon$ respectively. Within the first term $\mathbf{U}$ is the average velocity magnitude. The second and third term represent the transport driven by convection and diffusion for $\kappa$ and $\epsilon$. The fourth and fifth term are the rate of production and rate of destruction of $\kappa$ and $\epsilon$.\\
+In Equations \ref{kappa},\ref{eps} five dimensionless constants are used. The standard $\kappa-\epsilon$ model uses values for these constants that have been determined through comprehensive data fitting for a wide range of turbulent flows \cite{Versteeg2007}:\vspace{2mm}
+
+\emph{Dimensionless constants:}
+\begin{equation*}
+\label{dimConst}
+C_{\mu}=0.09 \hspace{4mm} \sigma_{\kappa}=1.00\hspace{4mm}\sigma_{\epsilon}=1.30\hspace{4mm}C_{l\epsilon}=1.44\hspace{4mm}C_{2\epsilon}=1.92
+\end{equation*}
+
+
+\subsubsection{discretization of governing equations}
+To solve the turbulent model, all of the partial differential equations (PDE's) need to be solved. Solving a PDE takes a few steps. First of all let us consider a two dimensional grid consisting of several grid cells. To find the value for $\phi$ from Equation \ref{unsteadConvDiff} at a centre point P of the grid cell, one needs the values of the neighbouring cells. In CFD these values are called north(N), west(W), south(S) and east(E). Thereafter, Equation \ref{unsteadConvDiff} is integrated over the control volume, yielding the results shown in Equation \ref{intergrated}.\vspace{2mm}
+
+\emph{Intergrated diffusion convection equation}
+\begin{equation}
+\begin{split}
+\label{intergrated}
+&\frac{(\rho_p^0)\phi}{\Delta t}\Delta V +[(\rho u A \phi)_e -(\rho u A \phi)_w]+[(\rho u A \phi)_n -\\
+&(\rho u A \phi)_s]=\bigg[\bigg(\Gamma A \frac{\partial \phi}{\partial x}\bigg)_e -\bigg(\Gamma A \frac{\partial \phi}{\partial x}\bigg)_w\bigg] +\\
+&\bigg[\bigg(\Gamma A \frac{\partial \phi}{\partial x}\bigg)_n -\bigg(\Gamma A \frac{\partial \phi}{\partial x}\bigg)_s\bigg] + S_u + S_p\phi_p^0
+\end{split}
+\end{equation}
+Now let us introduce variables $F$ and $D$ to represent the convective mass flux per unit area and the diffusive conductance at the cell faces \cite{Versteeg2007}.\vspace{2mm}
+
+\begin{align}
+&F = \rho u\\
+&D=\frac{\Gamma}{\partial x}
+\end{align}
+Substitution variables $F$ and $D$ into Equation \ref{intergrated} forms Equation \ref{Substituted} after some rearranging \cite{Versteeg2007}.
+\begin{equation}
+\label{Substituted}
+\frac{\rho_P^0 \Delta V}{\Delta t}\phi_P=a_W\phi_W+a_E\phi_E+a_S\phi_S+a_N\phi_N +\Delta F
+\end{equation}
+The coefficients of $a$ are dependent on the differencing scheme. The discretization scheme has some important properties. First property is the conservativeness which means the flux $\phi$ leaving a control volume has to be equal to the flux $\phi$ entering the control volume through the same face. By using a hybrid differencing scheme, the conservativeness is automatically satisfied. The second property is the boundedness. The boundedness describes the value of $\phi$ in case there is no source term. In that case, the nodal value of $\phi$ must be equal to the value of $\phi$ at the boundary. Besides the restricted value of $\phi$, the coefficients $a$ of the discretized equation must have equal signs. The last important property is the transportiveness. This requires that the transportiveness changes according to the magnitude of the P\`{e}clet number ($Pe=F/D$). Hence, if Pe is zero, $\phi$ equally diffuses in all directions. The hybrid differencing scheme satisfies the three properties. However, this comes at the price of only first order accuracy \cite{Versteeg2007}. The obtained values for $F$ and $D$ determine the values of the $a$ coefficients. They can be determined as shown in Table \ref{tab:coefsa}.
+\InsTab{coefficients}\\
+The discretized equation can now be solved using the transient SIMPLE algorithm. SIMPLE stands for Semi-Implicit Method for Pressure-Linked Equations. In essence, the algorithm is a iterative procedure for pressure calculations in a staggered grid which is used \cite{Versteeg2007}. The transient SIMPLE algorithm is used due to the unsteady convection-diffusion equations used to describe the problem. The difference with the regular SIMPLE algorithm is the time $t$, discretized in time steps, $\Delta t$ for which the equations are solved. The transient SIMPLE algorithm works in the following manner. First the variables $u$, $v$, $p$ and $\phi$ are initialized and a time step $\Delta t$ is defined. The time iteration starts at $t_0$ and continues until $t>t_{max}$.
+
+\section{CFD problem}
+This chapter will describe the entire CFD model used during simulations. First of all the geometry will be introduced, after which the applied boundary conditions are explained.
+
+\subsubsection{Geometry and Cases}
+Figure \ref{fig:Geometry} shows the geometry used during this research. The rectangular domain with dimensions length, $L$ and width $D$, contains a bluff-body with height and width $h$ and $b$ respectively.
+
+\InsFig{FlowGeometry}{Schematic diagram of geometry.}{Geometry}
+
+For this research numerous cases are investigated. Since the main purpose is to find the influence of a bluff body on the mixing in a turbulent flow, the mixing quality is checked for various bluff body geometries. The size of the bluff body is defined as $h/D$. The size is varied in three steps. These results are compared to a flow without a bluff-body.\\
+Besides varying the bluff-body size, the entrance turbulence intensity $T_i$ and the inlet velocity $U_{in}$ are varied. 
+Throughout the simulations the viscosity, turbulence entrance intensity and length scale and the density are not altered. The diffusion coefficient for species transport is chosen to be $D=10^{-5}$, corresponding to diffusion coefficients in gasses. Diffusion coefficients for liquids are typically four orders lower. Therefore, liquids would need a longer domain in order to reach the same quality of mixing as gases hence a more computational expensive simulation. 
+
+
+\subsubsection{Boundary conditions}
+In this section the boundary conditions which prescribe the CFD problem are introduced. Since this study focusses on turbulent flows only, the applied boundary conditions are solely turbulent. First of all a fully developed turbulent profile enters the geometry at the left side. This boundary condition is applied to reduce computational time. Without the fully developed inlet profile, the flow needs an entrance length and some time to adapt to a fully developed profile, which demands computational power. The inlet boundary condition can be applied with help of Equation \ref{inletBC}, called the power law velocity profile. \vspace{2mm}
+
+\emph{Power law velocity profile}
+\begin{equation}
+\label{inletBC}
+u(y) = \begin{cases} U_{IN}\cdot \big[\frac{y}{D/2}\big]^{1/n}, & \mbox{if } y\leq\frac{D}{2} \\ U_{IN}\cdot \big[2-\frac{y}{D/2}\big]^{1/n}, & \mbox{if } y>\frac{D}{2}\end{cases}
+\end{equation}
+The equation is constructed of a lower and upper half since the geometry has its origin in the lower left corner. In the equation $D$ is defined as the maximum height in the channel, $U_{IN}$ is the maximum inlet velocity. The height of the profile can be altered by a change in $U_{IN}$. The power $n$ is chosen to be 7, which is a value suited for a wide range of turbulent flows \cite{Morrison}. Figure \ref{fig:Inlet} shows the analytical inlet, as presented in Equation \ref{inletBC}, the inlet profile as extracted from the simulation and the profile at the exit of the geometry as extracted from the simulation.
+
+\InsFig{InletBC}{Schematic diagram of geometry.}{Inlet}
+
+One can clearly see the agreement of the analytical expression for the inlet profile with the numerical result at the inlet. The outlet however, shows a slight deviation from the inlet condition. This is due to the fact that the analytical expression is an approximation of the turbulent profile.\\
+The second prescribed condition is the kinetic energy and dissipation rate at the inlet of the geometry. The inlet values can be calculated upon use of Equation \ref{kepsBC}.
+
+\begin{equation}
+\label{kepsBC}
+\kappa_{IN}=\frac{2}{3}(U_{IN}T_i)^2,\hspace{4mm}\epsilon_{IN}=C_{\mu}^0.25\frac{\kappa_{IN}^{1/3}}{0.035 D}
+\end{equation}
+In these equations $T_i$ is the turbulent intensity, set to a value of 1\%. The value for $T_i$ for the inlet boundary is in general taken between 1\% and 6\% \cite{Versteeg2007}.\\
+Since the focus is of this problem is about the mixing quality of a turbulent flow, an important initial condition is the fractions inside the geometry. Initially the entire bottom half of the domain has a fraction $f=1$ and the top half $f=0$. If the fluid were to be perfectly mixed at the exit, the exit fraction would be $f=0.5$. Therefore, the fraction is a direct measure for the mixing quality.\\
+
+At both top and bottom walls of the geometry the axial velocity is set to $u=0[m\cdot s^{-1}]$. Since the flow is turbulent not only the value at the boundary itself should be restricted, but also the so called near wall region. These regions need wall functions to describe the flow near the walls. Closest to the walls there is a viscous sub-layer. Within this layer the eddies decrease in size and dissipate their energy due to viscous forces dominating in this area. When one looks more towards the centre of the geometry a log-law layer appears. In order to implement such conditions one needs to introduce $y^+$ and $u^+$, as seen in Equation \ref{yplusuplus} \cite{Versteeg2007}.
+
+\begin{equation}
+\label{yplusuplus}
+y^+=\frac{\rho u_{\tau}y}{\mu},\hspace{4mm}u^+=\frac{U}{ u_{\tau}}
+\end{equation}
+In this equation, $ u_{\tau}$ represents the friction velocity and $U$ is the average mean flow velocity. The friction velocity is calculated with Equation \ref{fricvel}
+\begin{equation}
+\label{fricvel}
+u_{\tau}=\big(\frac{\tau_w}{\rho}\big)^{1/2}
+\end{equation}
+$\tau_w$ is the shear stress in the boundary layer in $[Pa]$. In the viscous sub-layer, which is defined in the layer where $y^+\leq 11.63$, the value of $u^+$ is equal to the value of $y^+$. The shear stress in this region can be evaluated by Equation \ref{subtau}
+
+\begin{equation}
+\label{subtau}
+\tau_w = \mu \frac{\partial u}{\partial y}
+\end{equation}
+If the value of the dimensionless height $y^+$ grows beyond $11.63$ one enters the log-law regime. Within this layer $u^+$ is calculated with Equation\ref{ulog}, where the values for $\kappa$ and $E$ are $0.4187$ and $9.793$ respectively.
+\begin{equation}
+\label{ulog}
+u^+=\frac{1}{\kappa}ln(Ey^+)
+\end{equation}
+The shear stress in the log-law area, used to calculate $y^+$, is determined upon us of Equation \ref{taulog}
+\begin{equation}
+\label{taulog}
+\tau_w = \frac{\rho C_{\mu}^{0.25}\kappa^{1/2}\partial u}{u^+}
+\end{equation}
+
+
+At the exit of the geometry the gradient of velocity and temperature in both $u$ and $y$ directions are set to zero. This is done in order to comply with the mass balance equation since otherwise mass may disappear through the exit.\\
+
+The velocity boundary conditions at the walls of the bluff body are treated in the same manner as explained in the previous section. Additional to that, the velocities inside the bluff body are set to zero values by prescribing $S_p=-10^{30}$. Additionally, at each of the faces of the bluff body, the $a$ coefficient is set to zero. \\
+
+
+\section{Results}
+This section will cover the simulation results. Besides the visualization of the simulations, the results well be analysed and discussed. Once all results are treated, a conclusion and discussion will follow. But first of all a grid convergence is performed to choose the right grid.\\
+\subsubsection{Grid convergence}
+Choosing a simulation grid is a trade of between simulation quality and simulation speed. Therefore, choosing the right grid is of great importance for the result of the simulation. To detect the grid convergence the maximum analytical inlet velocity is compared to the numerical maximum inlet velocity. This shows how well the analytical formula is discretized and thus is able to describe the equation in a decent manner. To show the quality of discretisation the error is computed. The error is the absolute difference between the maximum analytical inlet velocity and the numerical maximum inlet velocity. The grid is refined from NPI = 10 and NPJ = 20, to NPI = 160 and NPJ = 320 with a refinement factor of 2. For every grid the error is determined and plotted versus the refinement number.
+
+\InsFig{GridConv}{Grid convergence}{gridconv}
+
+Figure \ref{fig:gridconv} shows the refinement number on the horizontal axis, with 1 corresponding the the coarsest grid (NPI = 10 and NPJ = 20) and 5 to the finest grid. It can be seen from the graph that for all grids, the error is very small. The figure shows a clear converging result towards the more refined grids and that the fifth refinement comes the closest to the analytical expression. However, the grids corresponding to refinement 4 and 5 were computationally too expensive. Therefore, refinement 3, corresponding to a grid of NPI = 40 and NPJ = 80 is chosen and all the results are generated on this grid.\\
+Important to note is that the total simulation time for all results is set to 1.0s, using a time step of $\Delta t=1.0 \cdot 10^{-2}$. This value satisfies the time step condition which is determined with $\Delta t = (\rho (\Delta x)^2)/(\Gamma_i)$, with $\Delta x$ the grid spacing and $\Gamma_i$ the transport value for equation $i$
+
+\subsubsection{Simulation results}
+The results will be discussed in this section. First the influence of the velocity and turbulence entrance intensity will be discussed. Thereafter, the results with bluff-body are discussed, looking at the influence of bluff-body size on the mixing quality.\\
+The quality of mixing is evaluated at the exit of the domain. A mixture fraction of 1 enters at the bottom half, and a fraction of 0 at the top half. Figure \ref{fig:fraction} shows an example of the mixture fraction inside the simulation domain without bluff-body. Figure \ref{fig:fractionBluff} shows the mixture fraction in the domain with a bluff-body. In these figures the separated inlet of both fractions are visible. The mixture at the outlet of the domain, shows that the two fractions have mixed which is due to turbulence and diffusion. For a measure of the quality of mixing, the value of the mixture fraction along the y-axis is visualized in a graph at the outlet of the domain. The best possible mixing at the outlet would be a uniform mixture fraction value of 0.5, representing fully mixed.\\
+First of all the influence of the entrance velocity is visualized. Then the influence of the turbulence entrance intensity is discussed, after which the bluff-body results are shown in the same sequence.
+
+\InsFig{mixtfrac}{mixture fraction}{fraction}
+\InsFig{mixtfracBluffbod}{mixture fraction with bluff-body}{fractionBluff}
+
+\subsubsection{Results without bluff-body}
+First of all the results without the bluff-body will be treated as mentioned in the previous section. The influence of inlet velocity is treated first, for a constant turbulent entrance intensity. Figure \ref{fig:fig1} shows the mixture fraction at the outlet of the geometry as a function of height. The graph corresponds to a turbulence inlet intensity of 1\%. The three different coloured lines represent the three different inlet velocities of 0.5, 1 and 5 [m/s]. As one increases the velocity further, the mixing quality will decrease too much since the residence time of a fluid element inside the domain is too short. From the figure one can conclude that the lowest velocity yields the highest mixing quality since this yields a mixture fraction over the outlet closest to perfectly mixed. The higher the inlet velocity, the lower the quality of mixing. This result can be easily explained by the P\'eclet number (Pe). The Pe number is calculated by $Pe=(U_{in}L)/(D)$, where L is the length of the domain and D the diffusion coefficient. The Pe number represents the ratio of advection of an element by the flow to the rate of diffusion. Thus, when keeping the diffusion coefficient constant, increasing the inlet velocity will increase the Pe number. A higher Pe number yields that the flow dominates the diffusion and will decrease the quality of mixing.
+
+\InsFig{Velocity_Ti0_01_noBluff}{mixture fraction at constant turbulent intensity of 1 \%}{fig1}
+When looking at the influence of the turbulent intensity at the inlet, the velocity at the inlet is taken as a constant value. Then the turbulence entrance intensity is varied from 1\% to 3\% and 6\%. Figures \ref{fig:fig2} and \ref{fig:fig3} show the results of the turbulent entrance intensity for constant inlet velocity.\\
+The results in both figures look very similar. At an inlet velocity of 0.5[m/s] the best mixing seems to be achieved at a turbulence entrance intensity of 1\%. However at an inlet velocity of 1[m/s] the best mixing is achieved at 6\% and 1\% turbulence entrance intensity. In general, the turbulence entrance intensity seems to have a negligible effect on the mixing quality of the two fractions.\\
+The reason that the entrance turbulence has little to none effect on the mixing is due to the fact that the entrance turbulence is only applied at the inlet and the high Peclet number as shown in Figure \ref{fig:fig7}.  Therefore Ti has only minor influence on $\kappa$ at the entrance, the influence inside the domain is mainly dominated by turbulent viscosity and the flow velocity. 
+
+\InsFig{Peclet}{Contour plot of Peclet number}{fig7}
+
+
+\InsFig{Turbulence_u1_noBluff}{Mixture fraction at constant inlet velocity of 1[m/s] }{fig2}
+
+\InsFig{Turbulence_u0_5_noBluff}{Mixture fraction at constant inlet velocity of 0.5[m/s]}{fig3}
+
+\subsubsection{Results with bluff-body }
+Since the aim is to find the influence of a bluff-body on the mixing quality, a bluff-body is added in the previously described geometry and varied in size. In order to look at the influence of a bluff-body in a flow, it is important to look at the velocity magnitude. Figure \ref{fig:VelmagBluffBod} shows the velocity magnitude field, the influence of the bluff-body is clear. The bluff-body forces the fluid over the bluff body, creating a recirculation zone at the end of the bluff body.
+
+\InsFig{VelmagBluffBod}{Velocity field with inlet velocity of 1[m/s]}{VelmagBluffBod}
+
+The size of the bluff-body is changed, while changing the size, the turbulence entrance intensity is kept constant at 1\%. For every bluff-body size, the same velocities are simulated as done in the cases without bluff-body.
+
+\InsFig{Velocity_Ti0_01_15_20_30_50}{mixture fraction at constant turbulent intensity of 1 \%, with large bluff-body}{fig4}
+\InsFig{Velocity_Ti0_01_15_20_35_45}{mixture fraction at constant turbulent intensity of 1 \%, with medium bluff-body}{fig5}
+\InsFig{Velocity_Ti0_01_15_20_37_43}{mixture fraction at constant turbulent intensity of 1 \%, with small bluff-body}{fig6}
+Figure \ref{fig:fig4} shows the results for the first bluff-body, with $h/D=0.25 $. Again, the mixture fraction is analysed at the outlet of the geometry. The graph indicates once more that for this bluff-body the inlet velocity  of 0.5[m/s] accounts for the best mixing quality. Another important remark to Figure \ref{fig:fig4} regards to the case without bluff-body. When looking at the quality of mixing, the case with bluff-body shows an significant increase in mixing quality. Also, the inlet velocity seems to have less influence on the mixing. This can be explained by the velocity magnitude as shown in Figure \ref{fig:VelmagBluffBod}. The bluff-body introduces a recirculation zone, which accounts for a large amount of mixing of the fractions. This circulation zone is present for all inlet velocities. Consequently, the fractions will be mixed.\\
+When the bluff-body is decreased to a size of $h/D=0.125$, similar results are obtained see Figure \ref{fig:fig5}. However, compared to the large bluff-body in Figure \ref{fig:fig4} the quality of mixing is lower. Again the mixing is enhanced by the insertion of the bluff-body. The influence of the bluff-body has decreased since the recirculation zone reduces with respect to the bluff-body size. Therefore, the influence of the mixing due to the recirculation behind the bluff-body reduces and thus mixing quality will be lower for smaller bluff-bodies.\\
+The smallest bluff-body has a size of $h/D=0.075$ and its results are displayed in Figure \ref{fig:fig6}. The results of the smallest bluff-body contradict the expectations. It was expected that the mixing quality decreased with respect to the medium and large bluff-body. This is expected due to the fact that the recirculation zone gets smaller as the bluff-body size decreases. However, the smallest bluff-body shows the best quality of mixing at the outlet. Analysing the results point out some inaccuracies in the velocity field. Since the bluff-body is placed in the middle of the height, the velocity field is expected to be symmetrical. However The results show an asymmetrical velocity field (see Figure \ref{fig:AsymVel}). The asymmetrical velocity field is most likely cause by a numerical imprecision. The imprecision is introduced at the boundary of the bluff-body. The imprecision may be present in the other bluff-bodies as well. However, due to the fact that the other bluff-bodies are larger the influence vanishes and the velocity profile is still symmetrical.\\
+The result as shown in Figure \ref{fig:fig6} shows that the mixing quality for the smallest bluff-body is high. However, this is caused by the asymmetric velocity field which is possibly the result of a numerical imprecision. The asymmetric velocity field enhances the mixing, causing the quality at the outlet to be increased with respect to the larger bluff-bodies.
+\InsFig{AsymVel}{Velocity field with smallest bluff body}{AsymVel}
+\newline
+Now that the influence of inlet velocity, turbulence intensity and bluff body size are known it is interesting to look at the influence of the diffusion coefficient. Increasing the diffusion coefficient would enhance mixing. Figure \ref{fig:diffusioncoeff} shows the graph of the fractions at the outlet of the geometry for different values of the diffusion coefficient. The figure shows that increasing the diffusion coefficient positively influences the mixing quality. This can be explained by the Pe number, since the fraction of transport by diffusion increases, the mixing quality is increased. Note however, that the diffusion coefficient in practice is a variable not to be manually chosen. In this study it is only chosen to change the diffusion coefficient to give an impression on the importance of the parameter itself. Figure \ref{fig:diffusioncoeff} indicates that defining the diffusion in a correct manner is highly important since it can greatly influence the outcome of the simulation.
+
+
+\InsFig{Diff_noBluff}{influence of diffusion coefficient on the mixing}{diffusioncoeff}
+
+
+\section{Conclusion}
+The goal of this study is to find the influence of a bluff-body in a turbulent flow on the quality of mixing. The mixing of fractions 0 and 1 entering at the top and bottom half of the geometry respectively is studied. The quality of mixing is evaluated at the outlet of the domain.  The results of the cases with bluff-body and without bluff-body are analysed by changing important parameters such as the inlet velocity, turbulence intensity and diffusion coefficient.\\
+Regarded the case without bluff-body, it is shown in the results that the quality of mixing is mostly influenced by the inlet velocity. A decrease in velocity would lead to the largest increase of mixing quality. This is explained by the Pe number, which decreases linearly with the inlet velocity. A lower Pe number means that the influence of turbulent transport increases with respect to the transport of the flow.\\
+The turbulence entrance intensity which is changed for a constant inlet velocity shows little to none influence on the quality of mixing at the outlet of the geometry. This is mostly due to the fact that the turbulence entrance intensity only affects the inlet of the domain and the high Peclet number. Therefore, influences at the outlet are hardly visible.\\
+The last parameter is the diffusion coefficient. Which appears to have an influence on the mixing quality. The smaller the diffusion coefficient the higher the quality of mixing at the outlet of the domain. However, in normal practices the diffusion coefficient is not to be altered. The diffusion coefficient is a property of a fluid of gas and thus known in prior. In this study it is changed in order to show its influence and importance on the results of the simulations.\\
+After introducing the bluff-body into the domain the bluff-body is ranged in size from $h/D=0.25 $ to $h/D=0.125 $ and $h/D=0.075$. For every bluff-body, the inlet velocity is increased in the same increments as done for the case without bluff-body (u=0.5[m/s], u=1 [m/s] and u =10 [m/s]). Comparing the overall mixing quality for all cases with and without bluff-body it becomes clear that the bluff-body enhances the quality of mixing significantly. The quality of mixing is enhanced due to the recirculation zone introduced by the bluff-body. Since the recirculation zone decreases as the size of the bluff-body gets smaller the quality of mixing is expected to drop. This can indeed be confirmed when looking at the large and medium bluff-body. However, the smallest bluff-body seems to enhance the mixing when compared to the larger bluff-bodies. This is most likely caused by a numerical imprecision causing the velocity field to become asymmetric.
+
+\section{Discussion}
+For further numerical research it is highly recommended to investigate the cause of the imprecision at the border of the bluff-body. 
+Besides numerical investigation, it is also advised to validate the results by means of experiments.
+When time dependence is desired it is suggested to changed the model to LES or DNS instead of Reynolds averaging. 
+%% %---------------------------
+%% %BIBLIOGRAPHY
+%% %---------------------------
+%The bibliography is created using BiBTeX
+\bibliographystyle{CFD2017}
+\bibliography{References}
+
+
+%\newpage
+%\section{Appendix A}
+%Give any additional information here.
+
+\end{document} 

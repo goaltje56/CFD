@@ -1,0 +1,956 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2017.12.20)  19 APR 2018 23:40
+entering extended mode
+**./0811762_Meijer_0885992_vanGool_CFD.tex
+(0811762_Meijer_0885992_vanGool_CFD.tex
+LaTeX2e <2017-04-15>
+Babel <3.15> and hyphenation patterns for 75 language(s) loaded.
+(CFD2017.cls
+Document Class: CFD2017 2017/01/01 Prepared for the CFD2017 conference in Trond
+heim
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\size10.clo"
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 147.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
+File: pdftex.def 2017/06/24 v1.0g Graphics/color driver for pdftex
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\mathptm.sty"
+Package: mathptm 2005/04/12 PSNFSS-v9.2a Times w/ Math (SPQR, WaS) 
+
+
+Package mathptm Warning: This package is to be regarded as obsolete.
+(mathptm)                See the PSNFSS documentation.
+
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 31.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/ptmcm/m/n on input line 31.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/ptmcm/m/n on input line 31.
+LaTeX Font Info:    Redeclaring symbol font `letters' on input line 32.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/ptmcm/m/it on input line 32.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/ptmcm/m/it on input line 32.
+LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 33.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/pzccm/m/n on input line 33.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/pzccm/m/n on input line 33.
+LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 34.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/psycm/m/n on input line 34.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/psycm/m/n on input line 34.
+\symbold=\mathgroup4
+\symitalic=\mathgroup5
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 37.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 38.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/ptm/m/it on input line 38.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 38.
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\times.sty"
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\helvet.sty"
+Package: helvet 2005/04/12 PSNFSS-v9.2a (WaS) 
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
+Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip43
+\f@nch@O@elh=\skip44
+\f@nch@O@erh=\skip45
+\f@nch@O@olh=\skip46
+\f@nch@O@orh=\skip47
+\f@nch@O@elf=\skip48
+\f@nch@O@erf=\skip49
+\f@nch@O@olf=\skip50
+\f@nch@O@orf=\skip51
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\natbib\natbib.sty"
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip52
+\bibsep=\skip53
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count87
+)
+\firstindex=\count88
+\firstoutindex=\count89
+\@temptokenb=\toks15
+\temptotal=\count90
+\authortotal=\count91
+\authorindex=\count92
+\addressnumberindex=\count93
+\emailnumberindex=\count94
+\emailtotal=\count95
+\emailindex=\count96
+\addresstotal=\count97
+\addressindex=\count98
+) (CFD2017.sty
+Package: CFD2017 2017/01/01 Prepared for the CFD2017 conference in Trondheim
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\array.sty"
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen103
+\extrarowheight=\dimen104
+\NC@list=\toks16
+\extratabsurround=\skip54
+\backup@length=\skip55
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\units\nicefrac.sty"
+Package: nicefrac 1998/08/04 v0.9b Nice fractions
+\L@UnitsRaiseDisplaystyle=\skip56
+\L@UnitsRaiseTextstyle=\skip57
+\L@UnitsRaiseScriptstyle=\skip58
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\savesym\savesym.sty"
+Package: savesym 2013/09/02 v1.2 Saves and restores symbols (JG)
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+)
+\Gin@req@height=\dimen105
+\Gin@req@width=\dimen106
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf.sty"
+Package: epstopdf 2016/05/15 v2.6 Conversion with epstopdf on the fly (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty"
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)))
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
+Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\nomencl\nomencl.sty"
+Package: nomencl 2005/09/22 v4.2 Nomenclature package (LN)
+\nomlabelwidth=\dimen107
+\nom@tempdim=\dimen108
+\nomitemsep=\skip59
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+Package: amsmath 2017/09/02 v2.17a AMS math features
+\@mathmargin=\skip60
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks17
+\ex@=\dimen109
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen110
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count99
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count100
+\leftroot@=\count101
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count102
+\DOTSCASE@=\count103
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen111
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count104
+\c@MaxMatrixCols=\count105
+\dotsspace@=\muskip10
+\c@parentequation=\count106
+\dspbrk@lvl=\count107
+\tag@help=\toks18
+\row@=\count108
+\column@=\count109
+\maxfields@=\count110
+\andhelp@=\toks19
+\eqnshift@=\dimen112
+\alignsep@=\dimen113
+\tagshift@=\dimen114
+\tagwidth@=\dimen115
+\totwidth@=\dimen116
+\lineht@=\dimen117
+\@envbody=\toks20
+\multlinegap=\skip61
+\multlinetaggap=\skip62
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\url\url.sty"
+\Urlmuskip=\muskip11
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\bm.sty"
+Package: bm 2017/01/16 v1.2c Bold Symbol Support (DPC/FMi)
+LaTeX Info: Redefining \bm on input line 207.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\preprint\balance.sty"
+Package: balance 1999/02/23 4.3 (PWD)
+\oldvsize=\dimen118
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+Package: hyperref 2017/03/14 v6.85a Hypertext links for LaTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package hobsub Info: Skipping package `ifluatex' (already loaded).
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package hobsub Info: Skipping package `etexcmds' (already loaded).
+Package hobsub Info: Skipping package `kvsetkeys' (already loaded).
+Package hobsub Info: Skipping package `kvdefinekeys' (already loaded).
+Package hobsub Info: Skipping package `pdftexcmds' (already loaded).
+Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO
+)
+Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
+Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
+Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
+Package: xcolor-patch 2016/05/16 xcolor patch
+Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
+Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
+)
+\@linkdim=\dimen119
+\Hy@linkcounter=\count111
+\Hy@pagecounter=\count112
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+File: pd1enc.def 2017/03/14 v6.85a Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count113
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Option `bookmarks' set `true' on input line 4374.
+Package hyperref Info: Option `colorlinks' set `true' on input line 4374.
+Package hyperref Info: Option `hypertexnames' set `false' on input line 4374.
+Package hyperref Info: Hyper figures OFF on input line 4498.
+Package hyperref Info: Link nesting OFF on input line 4503.
+Package hyperref Info: Hyper index ON on input line 4506.
+Package hyperref Info: Plain pages OFF on input line 4513.
+Package hyperref Info: Backreferencing OFF on input line 4518.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4751.
+\c@Hy@tempcnt=\count114
+LaTeX Info: Redefining \url on input line 5104.
+\XeTeXLinkMargin=\dimen120
+\Fld@menulength=\count115
+\Field@Width=\dimen121
+\Fld@charsize=\dimen122
+Package hyperref Info: Hyper figures OFF on input line 6358.
+Package hyperref Info: Link nesting OFF on input line 6363.
+Package hyperref Info: Hyper index ON on input line 6366.
+Package hyperref Info: backreferencing OFF on input line 6373.
+Package hyperref Info: Link coloring ON on input line 6376.
+Package hyperref Info: Link coloring with OCG OFF on input line 6383.
+Package hyperref Info: PDF/A mode OFF on input line 6388.
+LaTeX Info: Redefining \ref on input line 6428.
+LaTeX Info: Redefining \pageref on input line 6432.
+\Hy@abspage=\count116
+\c@Item=\count117
+\c@Hfootnote=\count118
+)
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+File: hpdftex.def 2017/03/14 v6.85a Hyperref driver for pdfTeX
+\Fld@listcount=\count119
+\c@bookmark@seq@number=\count120
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip63
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\caption\caption.sty"
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\caption\caption3.sty"
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen123
+\captionmargin@=\dimen124
+\captionwidth=\dimen125
+\caption@tempdima=\dimen126
+\caption@indent=\dimen127
+\caption@parindent=\dimen128
+\caption@hangindent=\dimen129
+)
+\c@ContinuedFloat=\count121
+Package caption Info: hyperref package is loaded.
+))
+(0811762_Meijer_0885992_vanGool_CFD.aux)
+\openout1 = `0811762_Meijer_0885992_vanGool_CFD.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 48.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\t1ptm.fd"
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count122
+\scratchdimen=\dimen130
+\scratchbox=\box28
+\nofMPsegments=\count123
+\nofMParguments=\count124
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count125
+\MPscratchDim=\dimen131
+\MPnumerator=\count126
+\makeMPintoPDFobject=\count127
+\everyMPtoPDFconversion=\toks23
+)
+\AtBeginShipoutBox=\box29
+Package hyperref Info: Link coloring ON on input line 48.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
+)
+\c@section@level=\count128
+)
+LaTeX Info: Redefining \ref on input line 48.
+LaTeX Info: Redefining \pageref on input line 48.
+LaTeX Info: Redefining \nameref on input line 48.
+
+(0811762_Meijer_0885992_vanGool_CFD.out)
+(0811762_Meijer_0885992_vanGool_CFD.out)
+\@outlinefile=\write3
+\openout3 = `0811762_Meijer_0885992_vanGool_CFD.out'.
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 50.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\t1phv.fd"
+File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Try loading font information for OT1+ptmcm on input line 50
+.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1ptmcm.fd"
+File: ot1ptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ptmcm.
+)
+LaTeX Font Info:    Try loading font information for OML+ptmcm on input line 50
+.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omlptmcm.fd"
+File: omlptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ptmcm.
+)
+LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 50
+.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omspzccm.fd"
+File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
+)
+LaTeX Font Info:    Try loading font information for OMX+psycm on input line 50
+.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omxpsycm.fd"
+File: omxpsycm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/psycm.
+)
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 50.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1ptm.fd"
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+\templength=\skip64
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+
+No file 0811762_Meijer_0885992_vanGool_CFD.nls.
+
+Underfull \hbox (badness 1102) in paragraph at lines 75--80
+[]\T1/ptm/m/n/10 Computational Fluid Dy-nam-ics (CFD) is used to solve
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 75--80
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (28.45274pt): 
+ Make it at least 30.50192pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+LaTeX Font Info:    Try loading font information for T1+times on input line 80.
+
+LaTeX Font Info:    No file T1times.fd. on input line 80.
+
+LaTeX Font Warning: Font shape `T1/times/m/n' undefined
+(Font)              using `T1/cmr/m/n' instead on input line 80.
+
+[1{C:/Users/s137280/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+
+
+]
+
+Package mathptm Warning: There are no bold math fonts on input line 123.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 124--127
+
+ []
+
+
+Underfull \hbox (badness 1565) in paragraph at lines 124--127
+\T1/ptm/m/n/10 the convection-diffusion and con-ser-va-tion equa-tions are
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 150.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\kappa' on input line 150.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\epsilon' on input line 150.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 150.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--159
+
+ []
+
+[2]
+Overfull \hbox (4.00328pt too wide) detected at line 187
+\OML/ptmcm/m/it/10 C[] \OT1/ptmcm/m/n/10 = 0\OML/ptmcm/m/it/10 :\OT1/ptmcm/m/n/
+10 09 \OML/ptmcm/m/it/10 [] \OT1/ptmcm/m/n/10 = 1\OML/ptmcm/m/it/10 :\OT1/ptmc
+m/m/n/10 00 \OML/ptmcm/m/it/10 [] \OT1/ptmcm/m/n/10 = 1\OML/ptmcm/m/it/10 :\OT
+1/ptmcm/m/n/10 30 \OML/ptmcm/m/it/10 C[] \OT1/ptmcm/m/n/10 = 1\OML/ptmcm/m/it/1
+0 :\OT1/ptmcm/m/n/10 44 \OML/ptmcm/m/it/10 C[] \OT1/ptmcm/m/n/10 = 1\OML/ptmcm/
+m/it/10 :\OT1/ptmcm/m/n/10 92[]
+ []
+
+(coefficients.tex
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 4.
+) [3]
+<FlowGeometry.pdf, id=156, pagebox=cropbox, 397.485pt x 181.67876pt>
+File: FlowGeometry.pdf Graphic file (type pdf)
+<use FlowGeometry.pdf>
+Package pdftex.def Info: FlowGeometry.pdf  used on input line 223. on input lin
+e 223.
+Package pdftex.def Info: Requested size: 241.84842pt x 110.54387pt on input lin
+e 223.
+Package epstopdf Info: Source file: <InletBC.eps>
+(epstopdf)                    date: 2018-04-12 10:53:24
+(epstopdf)                    size: 55726 bytes
+(epstopdf)             Output file: <InletBC-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-04-13 20:48:23
+(epstopdf)                    size: 18830 bytes
+(epstopdf)             Command: <epstopdf --outfile=InletBC-eps-converted-to.pd
+f InletBC.eps>
+(epstopdf)             \includegraphics on input line 240.
+Package epstopdf Info: Output file is already uptodate.
+<InletBC-eps-converted-to.pdf, id=162, pagebox=cropbox, 421.575pt x 316.18124pt
+>
+File: InletBC-eps-converted-to.pdf Graphic file (type pdf)
+<use InletBC-eps-converted-to.pdf>
+Package pdftex.def Info: InletBC-eps-converted-to.pdf  used on input line 240. 
+on input line 240.
+Package pdftex.def Info: Requested size: 241.84842pt x 181.38788pt on input lin
+e 240.
+
+Underfull \hbox (badness 10000) in paragraph at lines 248--251
+
+ []
+
+[4 <./FlowGeometry.pdf> <./InletBC-eps-converted-to.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 283--284
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--288
+
+ []
+
+Package epstopdf Info: Source file: <GridConv.eps>
+(epstopdf)                    date: 2018-04-18 17:22:35
+(epstopdf)                    size: 17046 bytes
+(epstopdf)             Output file: <GridConv-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-04-18 17:22:41
+(epstopdf)                    size: 3827 bytes
+(epstopdf)             Command: <epstopdf --outfile=GridConv-eps-converted-to.p
+df GridConv.eps>
+(epstopdf)             \includegraphics on input line 291.
+Package epstopdf Info: Output file is already uptodate.
+<GridConv-eps-converted-to.pdf, id=192, pagebox=cropbox, 421.575pt x 316.18124p
+t>
+File: GridConv-eps-converted-to.pdf Graphic file (type pdf)
+<use GridConv-eps-converted-to.pdf>
+Package pdftex.def Info: GridConv-eps-converted-to.pdf  used on input line 291.
+ on input line 291.
+Package pdftex.def Info: Requested size: 241.84842pt x 181.38788pt on input lin
+e 291.
+Package epstopdf Info: Source file: <mixtfrac.eps>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 67831 bytes
+(epstopdf)             Output file: <mixtfrac-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 52384 bytes
+(epstopdf)             Command: <epstopdf --outfile=mixtfrac-eps-converted-to.p
+df mixtfrac.eps>
+(epstopdf)             \includegraphics on input line 301.
+Package epstopdf Info: Output file is already uptodate.
+<mixtfrac-eps-converted-to.pdf, id=196, pagebox=cropbox, 742.775pt x 252.945pt>
+
+File: mixtfrac-eps-converted-to.pdf Graphic file (type pdf)
+<use mixtfrac-eps-converted-to.pdf>
+Package pdftex.def Info: mixtfrac-eps-converted-to.pdf  used on input line 301.
+ on input line 301.
+Package pdftex.def Info: Requested size: 241.84842pt x 82.35667pt on input line
+ 301.
+Package epstopdf Info: Source file: <mixtfracBluffbod.eps>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 113111 bytes
+(epstopdf)             Output file: <mixtfracBluffbod-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 82997 bytes
+(epstopdf)             Command: <epstopdf --outfile=mixtfracBluffbod-eps-conver
+ted-to.pdf mixtfracBluffbod.eps>
+(epstopdf)             \includegraphics on input line 302.
+Package epstopdf Info: Output file is already uptodate.
+<mixtfracBluffbod-eps-converted-to.pdf, id=197, pagebox=cropbox, 735.74875pt x 
+265.99374pt>
+File: mixtfracBluffbod-eps-converted-to.pdf Graphic file (type pdf)
+<use mixtfracBluffbod-eps-converted-to.pdf>
+Package pdftex.def Info: mixtfracBluffbod-eps-converted-to.pdf  used on input l
+ine 302. on input line 302.
+Package pdftex.def Info: Requested size: 241.84842pt x 87.43321pt on input line
+ 302.
+[5 <./GridConv-eps-converted-to.pdf> <./mixtfrac-eps-converted-to.pdf> <./mixtf
+racBluffbod-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <Velocity_Ti0_01_noBluff.eps>
+(epstopdf)                    date: 2018-04-18 19:35:22
+(epstopdf)                    size: 21467 bytes
+(epstopdf)             Output file: <Velocity_Ti0_01_noBluff-eps-converted-to.p
+df>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 4883 bytes
+(epstopdf)             Command: <epstopdf --outfile=Velocity_Ti0_01_noBluff-eps
+-converted-to.pdf Velocity_Ti0_01_noBluff.eps>
+(epstopdf)             \includegraphics on input line 307.
+Package epstopdf Info: Output file is already uptodate.
+<Velocity_Ti0_01_noBluff-eps-converted-to.pdf, id=224, pagebox=cropbox, 421.575
+pt x 316.18124pt>
+File: Velocity_Ti0_01_noBluff-eps-converted-to.pdf Graphic file (type pdf)
+<use Velocity_Ti0_01_noBluff-eps-converted-to.pdf>
+Package pdftex.def Info: Velocity_Ti0_01_noBluff-eps-converted-to.pdf  used on 
+input line 307. on input line 307.
+Package pdftex.def Info: Requested size: 241.84842pt x 181.38788pt on input lin
+e 307.
+Package epstopdf Info: Source file: <Peclet.eps>
+(epstopdf)                    date: 2018-04-19 22:58:38
+(epstopdf)                    size: 204070 bytes
+(epstopdf)             Output file: <Peclet-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-04-19 22:59:18
+(epstopdf)                    size: 17342 bytes
+(epstopdf)             Command: <epstopdf --outfile=Peclet-eps-converted-to.pdf
+ Peclet.eps>
+(epstopdf)             \includegraphics on input line 312.
+Package epstopdf Info: Output file is already uptodate.
+<Peclet-eps-converted-to.pdf, id=228, pagebox=cropbox, 421.575pt x 316.18124pt>
+
+File: Peclet-eps-converted-to.pdf Graphic file (type pdf)
+<use Peclet-eps-converted-to.pdf>
+Package pdftex.def Info: Peclet-eps-converted-to.pdf  used on input line 312. o
+n input line 312.
+Package pdftex.def Info: Requested size: 241.84842pt x 181.38788pt on input lin
+e 312.
+Package epstopdf Info: Source file: <Turbulence_u1_noBluff.eps>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 20794 bytes
+(epstopdf)             Output file: <Turbulence_u1_noBluff-eps-converted-to.pdf
+>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 4784 bytes
+(epstopdf)             Command: <epstopdf --outfile=Turbulence_u1_noBluff-eps-c
+onverted-to.pdf Turbulence_u1_noBluff.eps>
+(epstopdf)             \includegraphics on input line 315.
+Package epstopdf Info: Output file is already uptodate.
+<Turbulence_u1_noBluff-eps-converted-to.pdf, id=229, pagebox=cropbox, 421.575pt
+ x 316.18124pt>
+File: Turbulence_u1_noBluff-eps-converted-to.pdf Graphic file (type pdf)
+<use Turbulence_u1_noBluff-eps-converted-to.pdf>
+Package pdftex.def Info: Turbulence_u1_noBluff-eps-converted-to.pdf  used on in
+put line 315. on input line 315.
+Package pdftex.def Info: Requested size: 241.84842pt x 181.38788pt on input lin
+e 315.
+Package epstopdf Info: Source file: <Turbulence_u0_5_noBluff.eps>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 20930 bytes
+(epstopdf)             Output file: <Turbulence_u0_5_noBluff-eps-converted-to.p
+df>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 4988 bytes
+(epstopdf)             Command: <epstopdf --outfile=Turbulence_u0_5_noBluff-eps
+-converted-to.pdf Turbulence_u0_5_noBluff.eps>
+(epstopdf)             \includegraphics on input line 317.
+Package epstopdf Info: Output file is already uptodate.
+<Turbulence_u0_5_noBluff-eps-converted-to.pdf, id=230, pagebox=cropbox, 421.575
+pt x 316.18124pt>
+File: Turbulence_u0_5_noBluff-eps-converted-to.pdf Graphic file (type pdf)
+<use Turbulence_u0_5_noBluff-eps-converted-to.pdf>
+Package pdftex.def Info: Turbulence_u0_5_noBluff-eps-converted-to.pdf  used on 
+input line 317. on input line 317.
+Package pdftex.def Info: Requested size: 241.84842pt x 181.38788pt on input lin
+e 317.
+
+Underfull \vbox (badness 1895) has occurred while \output is active []
+
+ [6 <./Velocity_Ti0_01_noBluff-eps-converted-to.pdf> <./Peclet-eps-converted-to
+.pdf> <./Turbulence_u1_noBluff-eps-converted-to.pdf> <./Turbulence_u0_5_noBluff
+-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <VelmagBluffBod.eps>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 207737 bytes
+(epstopdf)             Output file: <VelmagBluffBod-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 125226 bytes
+(epstopdf)             Command: <epstopdf --outfile=VelmagBluffBod-eps-converte
+d-to.pdf VelmagBluffBod.eps>
+(epstopdf)             \includegraphics on input line 322.
+Package epstopdf Info: Output file is already uptodate.
+<VelmagBluffBod-eps-converted-to.pdf, id=258, pagebox=cropbox, 742.775pt x 266.
+9975pt>
+File: VelmagBluffBod-eps-converted-to.pdf Graphic file (type pdf)
+<use VelmagBluffBod-eps-converted-to.pdf>
+Package pdftex.def Info: VelmagBluffBod-eps-converted-to.pdf  used on input lin
+e 322. on input line 322.
+Package pdftex.def Info: Requested size: 241.84842pt x 86.93204pt on input line
+ 322.
+Package epstopdf Info: Source file: <Velocity_Ti0_01_15_20_30_50.eps>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 37664 bytes
+(epstopdf)             Output file: <Velocity_Ti0_01_15_20_30_50-eps-converted-
+to.pdf>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 5186 bytes
+(epstopdf)             Command: <epstopdf --outfile=Velocity_Ti0_01_15_20_30_50
+-eps-converted-to.pdf Velocity_Ti0_01_15_20_30_50.eps>
+(epstopdf)             \includegraphics on input line 326.
+Package epstopdf Info: Output file is already uptodate.
+<Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf, id=259, pagebox=cropbox, 421
+.575pt x 316.18124pt>
+File: Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf Graphic file (type pdf)
+<use Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf>
+Package pdftex.def Info: Velocity_Ti0_01_15_20_30_50-eps-converted-to.pdf  used
+ on input line 326. on input line 326.
+Package pdftex.def Info: Requested size: 241.84842pt x 181.38788pt on input lin
+e 326.
+Package epstopdf Info: Source file: <Velocity_Ti0_01_15_20_35_45.eps>
+(epstopdf)                    date: 2018-04-19 19:11:33
+(epstopdf)                    size: 21613 bytes
+(epstopdf)             Output file: <Velocity_Ti0_01_15_20_35_45-eps-converted-
+to.pdf>
+(epstopdf)                    date: 2018-04-19 19:34:46
+(epstopdf)                    size: 5035 bytes
+(epstopdf)             Command: <epstopdf --outfile=Velocity_Ti0_01_15_20_35_45
+-eps-converted-to.pdf Velocity_Ti0_01_15_20_35_45.eps>
+(epstopdf)             \includegraphics on input line 327.
+Package epstopdf Info: Output file is already uptodate.
+<Velocity_Ti0_01_15_20_35_45-eps-converted-to.pdf, id=260, pagebox=cropbox, 421
+.575pt x 316.18124pt>
+File: Velocity_Ti0_01_15_20_35_45-eps-converted-to.pdf Graphic file (type pdf)
+<use Velocity_Ti0_01_15_20_35_45-eps-converted-to.pdf>
+Package pdftex.def Info: Velocity_Ti0_01_15_20_35_45-eps-converted-to.pdf  used
+ on input line 327. on input line 327.
+Package pdftex.def Info: Requested size: 241.84842pt x 181.38788pt on input lin
+e 327.
+Package epstopdf Info: Source file: <Velocity_Ti0_01_15_20_37_43.eps>
+(epstopdf)                    date: 2018-04-19 19:13:32
+(epstopdf)                    size: 21770 bytes
+(epstopdf)             Output file: <Velocity_Ti0_01_15_20_37_43-eps-converted-
+to.pdf>
+(epstopdf)                    date: 2018-04-19 19:34:47
+(epstopdf)                    size: 5302 bytes
+(epstopdf)             Command: <epstopdf --outfile=Velocity_Ti0_01_15_20_37_43
+-eps-converted-to.pdf Velocity_Ti0_01_15_20_37_43.eps>
+(epstopdf)             \includegraphics on input line 328.
+Package epstopdf Info: Output file is already uptodate.
+<Velocity_Ti0_01_15_20_37_43-eps-converted-to.pdf, id=261, pagebox=cropbox, 421
+.575pt x 316.18124pt>
+File: Velocity_Ti0_01_15_20_37_43-eps-converted-to.pdf Graphic file (type pdf)
+<use Velocity_Ti0_01_15_20_37_43-eps-converted-to.pdf>
+Package pdftex.def Info: Velocity_Ti0_01_15_20_37_43-eps-converted-to.pdf  used
+ on input line 328. on input line 328.
+Package pdftex.def Info: Requested size: 241.84842pt x 181.38788pt on input lin
+e 328.
+Package epstopdf Info: Source file: <AsymVel.eps>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 210954 bytes
+(epstopdf)             Output file: <AsymVel-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-04-19 17:30:50
+(epstopdf)                    size: 17897 bytes
+(epstopdf)             Command: <epstopdf --outfile=AsymVel-eps-converted-to.pd
+f AsymVel.eps>
+(epstopdf)             \includegraphics on input line 333.
+Package epstopdf Info: Output file is already uptodate.
+<AsymVel-eps-converted-to.pdf, id=270, pagebox=cropbox, 611.28375pt x 203.76125
+pt>
+File: AsymVel-eps-converted-to.pdf Graphic file (type pdf)
+<use AsymVel-eps-converted-to.pdf>
+Package pdftex.def Info: AsymVel-eps-converted-to.pdf  used on input line 333. 
+on input line 333.
+Package pdftex.def Info: Requested size: 241.84842pt x 80.61383pt on input line
+ 333.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [7 <./VelmagBluffBod-eps-converted-to.pdf> <./Velocity_Ti0_01_15_20_30_50-eps-
+converted-to.pdf> <./Velocity_Ti0_01_15_20_35_45-eps-converted-to.pdf> <./Veloc
+ity_Ti0_01_15_20_37_43-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <Diff_noBluff.eps>
+(epstopdf)                    date: 2018-04-19 19:02:30
+(epstopdf)                    size: 23022 bytes
+(epstopdf)             Output file: <Diff_noBluff-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-04-19 19:18:12
+(epstopdf)                    size: 5488 bytes
+(epstopdf)             Command: <epstopdf --outfile=Diff_noBluff-eps-converted-
+to.pdf Diff_noBluff.eps>
+(epstopdf)             \includegraphics on input line 338.
+Package epstopdf Info: Output file is already uptodate.
+<Diff_noBluff-eps-converted-to.pdf, id=301, pagebox=cropbox, 421.575pt x 316.18
+124pt>
+File: Diff_noBluff-eps-converted-to.pdf Graphic file (type pdf)
+<use Diff_noBluff-eps-converted-to.pdf>
+Package pdftex.def Info: Diff_noBluff-eps-converted-to.pdf  used on input line 
+338. on input line 338.
+Package pdftex.def Info: Requested size: 241.84842pt x 181.38788pt on input lin
+e 338.
+ (0811762_Meijer_0885992_vanGool_CFD.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 364.
+
+[8 <./AsymVel-eps-converted-to.pdf> <./Diff_noBluff-eps-converted-to.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 364.
+
+(0811762_Meijer_0885992_vanGool_CFD.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 364.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 364.
+Package rerunfilecheck Info: File `0811762_Meijer_0885992_vanGool_CFD.out' has 
+not changed.
+(rerunfilecheck)             Checksum: A76D31C59D3F5130A95C1961A5E1CB9C;916.
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 364.
+ ) 
+Here is how much of TeX's memory you used:
+ 8164 strings out of 493312
+ 122498 string characters out of 3138892
+ 223288 words of memory out of 3000000
+ 11438 multiletter control sequences out of 15000+200000
+ 67253 words of font info for 104 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 49i,19n,45p,1427b,437s stack positions out of 5000i,500n,10000p,200000b,50000s
+pdfTeX warning (dest): name{section*.55} has been referenced but does not exi
+st, replaced by a fixed one
+
+pdfTeX warning (dest): name{section*.54} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{section*.36} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{section*.24} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{section*.2} has been referenced but does not exist,
+ replaced by a fixed one
+
+pdfTeX warning (dest): name{section*.1} has been referenced but does not exist,
+ replaced by a fixed one
+
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc} <C:\Users\s137280\App
+Data\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm0900.pk><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/he
+lvetic/uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.
+pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fo
+nts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/tim
+es/utmri8a.pfb>
+Output written on 0811762_Meijer_0885992_vanGool_CFD.pdf (8 pages, 519015 bytes
+).
+PDF statistics:
+ 378 PDF objects out of 1000 (max. 8388607)
+ 67 named destinations out of 1000 (max. 500000)
+ 196 words of extra memory for PDF output out of 10000 (max. 10000000)
+
